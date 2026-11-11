@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automatech - Automazione Industriale</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; margin: 0; padding: 0; color: #1a1a1a; background-color: #ffffff; }
+        
+        /* Navbar stile Squarespace */
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 60px; background-color: #ffffff; width: 100%; position: relative; z-index: 10; border-bottom: 1px solid #f0f0f0; }
+        .logo-img { height: 50px; width: auto; object-fit: contain; }
+        .nav-links { display: flex; gap: 35px; list-style: none; margin: 0; padding: 0; align-items: center; }
+        .nav-links a { text-decoration: none; color: #4a4a4a; font-size: 14px; font-weight: 500; transition: color 0.2s ease; letter-spacing: 0.5px; }
+        .nav-links a:hover { color: #000000; }
+
+        /* Copertina Hero Grande (Sfondo ufficio reale) */
+        .hero { background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('ufficio.jpg') no-repeat center center/cover; height: 75vh; min-height: 450px; display: flex; justify-content: center; align-items: center; text-align: center; padding: 0 20px; }
+        /* Alternativa se l'immagine dell'ufficio è png, il sistema proverà a caricarla */
+        .hero:not([style]) { background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('ufficio.png'); }
+        .hero h1 { color: #ffffff; font-size: 3.2em; font-weight: 400; font-style: italic; margin: 0; letter-spacing: -0.5px; text-shadow: 1px 1px 10px rgba(0,0,0,0.3); max-width: 900px; }
+
+        /* Contenitore Sezioni */
+        .container { max-width: 1100px; margin: 0 auto; padding: 80px 40px; }
+        .intro-section { display: grid; grid-template-columns: 1fr; gap: 30px; }
+        
+        h2 { font-size: 28px; font-weight: 600; color: #111111; margin-top: 0; margin-bottom: 25px; letter-spacing: -0.5px; }
+        p { font-size: 16px; color: #4a4a4a; margin-bottom: 25px; line-height: 1.7; }
+        p strong { color: #111111; font-weight: 600; }
+
+        /* Griglia Servizi */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-top: 30px; }
+        .card { background: #ffffff; padding: 0px; border-radius: 0px; }
+        .card h3 { font-size: 20px; font-weight: 600; color: #111111; margin-top: 0; margin-bottom: 12px; }
+        .card p { font-size: 15px; color: #666666; margin: 0; }
+
+        /* Griglia Loghi Partner (I tuoi file del desktop) */
+        .tech-section { background-color: #f9f9f9; padding: 80px 40px; }
+        .tech-container { max-width: 1100px; margin: 0 auto; }
+        .logo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 30px; align-items: center; justify-items: center; margin-top: 40px; }
+        .partner-logo { max-height: 45px; max-width: 130px; object-fit: contain; filter: grayscale(20%); transition: filter 0.3s; }
+        .partner-logo:hover { filter: grayscale(0%); }
+
+        /* Footer con contatti disposti in tre colonne */
+        footer { background-color: #ffffff; border-top: 1px solid #eeeeee; padding: 60px 40px 40px 40px; }
+        .footer-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; }
+        .footer-col h4 { font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-top: 0; margin-bottom: 20px; color: #111111; }
+        .footer-col p { font-size: 14px; color: #666666; margin: 0 0 10px 0; }
+        .footer-bottom { max-width: 1100px; margin: 40px auto 0 auto; padding-top: 20px; border-top: 1px solid #eeeeee; font-size: 12px; color: #999999; }
+
+        @media (max-width: 768px) {
+            nav { flex-direction: column; gap: 20px; padding: 20px; }
+            .hero h1 { font-size: 2.2em; }
+            .container { padding: 40px 20px; }
+            .tech-section { padding: 40px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Menu superiore in stile Squarespace con il tuo vero LOGO -->
+    <nav>
+        <a href="#">
+            <!-- Carica LOGO AUTOMATECH.png o .jpg su GitHub -->
+            <img src="LOGO AUTOMATECH.png" alt="Automatech Logo" class="logo-img" onerror="this.src='LOGO AUTOMATECH.jpg'">
+        </a>
+        <ul class="nav-links">
+            <li><a href="#chi-siamo">Chi Siamo</a></li>
+            <li><a href="#servizi">Servizi</a></li>
+            <li><a href="#tecnologie">Tecnologie</a></li>
+            <li><a href="#contatti">Contatti</a></li>
+        </ul>
+    </nav>
+
+    <!-- Copertina Hero che usa il tuo file "ufficio" come sfondo -->
+    <section class="hero">
+        <h1>Automazione intelligente per la tua fabbrica</h1>
+    </section>
+
+    <!-- Sezione Chi Siamo -->
+    <div class="container" id="chi-siamo">
+        <div class="intro-section">
+            <div>
+                <h2>Chi Siamo</h2>
+                <p><strong>Automatech nasce dall’unione di tecnici specializzati con un’esperienza ventennale nel settore dell’automazione industriale.</strong> Siamo un punto di riferimento all'avanguardia per la fornitura e l'integrazione di sistemi di automazione, robotica e supervisione.</p>
+                <p>Il nostro approccio è completo e "chiavi in mano": seguiamo l'intero ciclo di vita del progetto, dalla definizione iniziale e condivisione con il cliente fino allo startup finale del sistema. Ci occupiamo direttamente di dimensionamento hardware/software, sviluppo di sistemi e software, progettazione di schemi elettrici, installazione e test di qualifica IQ e OQ.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sezione Servizi -->
+    <div class="container" style="border-top: 1px solid #f0f0f0;" id="servizi">
+        <h2>Servizi</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Quadri di Automazione & PLC</h3>
+                <p>Progettazione e sviluppo di sistemi di automazione basati su hardware PLC per nuove installazioni o revamping completi di impianti industriali.</p>
+            </div>
+            <div class="card">
+                <h3>Software HMI & SCADA</h3>
+                <p>Implementazione di applicazioni software dedicate alla supervisione dei flussi di lavoro, controllo dati e telecontrollo avanzato d'impianto.</p>
+            </div>
+            <div class="card">
+                <h3>Robotica Industriale</h3>
+                <p>Integrazione e sviluppo software per Robot antropomorfi e isole robotizzate destinate a ottimizzare i cicli di fabbrica complessi.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sezione Tecnologie con i tuoi loghi reali del desktop -->
+    <section class="tech-section" id="tecnologie">
+        <div class="tech-container">
+            <h2>Le Nostre Tecnologie</h2>
+            <p>Sviluppiamo soluzioni su misura integrando le piattaforme dei migliori marchi presenti sul tuo desktop:</p>
+            
+            <div class="logo-grid">
+                <img src="logo siemens.png" alt="Siemens" class="partner-logo" onerror="this.onerror=null; this.src='logo siemens.jpg';">
+                <img src="LOGO OMRON.png" alt="Omron" class="partner-logo" onerror="this.onerror=null; this.src='LOGO OMRON.jpg';">
+                <img src="LOGO SCHNEIDER.png" alt="Schneider" class="partner-logo" onerror="this.onerror=null; this.src='LOGO SCHNEIDER.jpg';">
+                <img src="ALLEN BRADLEY LOGO.png" alt="Allen Bradley" class="partner-logo" onerror="this.onerror=null; this.src='ALLEN BRADLEY LOGO.jpg';">
+                <img src="LOHO HUNDAI.png" alt="Hyundai" class="partner-logo" onerror="this.onerror=null; this.src='LOHO HUNDAI.jpg';">
+                <img src="denso logo.png" alt="Denso" class="partner-logo" onerror="this.onerror=null; this.src='denso logo.jpg';">
+            </div>
+        </div>
+    </section>
+
+    <!-- Piè di pagina -->
+    <footer id="contatti">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Posizione</h4>
+                <p>Italia</p>
+                <p>Interventi tecnici su tutto il territorio nazionale</p>
+            </div>
+            <div class="footer-col">
+                <h4>Orari</h4>
+                <p>Lunedì - Venerdì</p>
+                <p>08:30 - 18:00</p>
+            </div>
+            <div class="footer-col">
+                <h4>Contatti</h4>
+                <p>Email: info@automatech.org</p>
+                <p>Web: www.automatech.org</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Automatech. Tutti i diritti riservati.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
