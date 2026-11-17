@@ -37,9 +37,10 @@
         
         h2 { font-size: 28px; font-weight: 600; color: #111111; margin-top: 0; margin-bottom: 25px; letter-spacing: -0.5px; position: relative; padding-bottom: 10px; }
         h2::after { content: ''; position: absolute; bottom: 0; left: 0; width: 45px; height: 3px; background-color: #D61A1A; }
-       #chi-siamo h2, #servizi h2 { margin-bottom: 0px; }
-       #chi-siamo h2::after, #servizi h2::after { background-color: #141414; width: 44px; height: 3.5px; }
-       #chi-siamo h2::before, #servizi h2::before { content: ''; position: absolute; bottom: 0; left: 0; width: 0px; height: 3.5px; background-color: #16A34A; box-shadow: 0 0 6px rgba(34, 197, 94, 0.8); z-index: 2; animation: riempiTitolo 3.2s ease-in-out infinite; }
+       #chi-siamo h2, #servizi h2, #tecnologie h2 { margin-bottom: 0px; }
+       #chi-siamo h2::after, #servizi h2::after, #tecnologie h2::after { background-color: #141414; width: 44px; height: 3.5px; }
+       #chi-siamo h2::before, #servizi h2::before, #tecnologie h2::before { content: ''; position: absolute; bottom: 0; left: 0; width: 0px; height: 3.5px; background-color: #16A34A; box-shadow: 0 0 6px rgba(34, 197, 94, 0.8); z-index: 2; animation: riempiTitolo 3.2s ease-in-out infinite; }
+
 
         
         @keyframes riempiTitolo {
@@ -120,6 +121,29 @@
             55%, 85% { border-top-color: #16A34A; box-shadow: 0 -4px 16px rgba(34, 197, 94, 0.35), 0 4px 10px rgba(34, 197, 94, 0.12); }
             95%, 100% { border-top-color: #141414; box-shadow: 0 4px 6px rgba(0,0,0,0.03); }
         }
+        /* Sezione Tecnologie Stile TIA Portal Online */
+        .tech-grid { margin-top: -2px !important; }
+        .tech-item { border-left: 4px solid #141414; }
+        .tech-1 { animation: accendiTech1 3.2s ease-in-out infinite; }
+        .tech-2 { animation: accendiTech2 3.2s ease-in-out infinite; }
+        .tech-3 { animation: accendiTech3 3.2s ease-in-out infinite; }
+        
+        @keyframes accendiTech1 {
+            0%, 15% { border-left-color: #141414; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+            25%, 85% { border-left-color: #16A34A; box-shadow: -4px 0 14px rgba(34, 197, 94, 0.35), 0 2px 6px rgba(34, 197, 94, 0.12); }
+            95%, 100% { border-left-color: #141414; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        }
+        @keyframes accendiTech2 {
+            0%, 30% { border-left-color: #141414; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+            40%, 85% { border-left-color: #16A34A; box-shadow: -4px 0 14px rgba(34, 197, 94, 0.35), 0 2px 6px rgba(34, 197, 94, 0.12); }
+            95%, 100% { border-left-color: #141414; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        }
+        @keyframes accendiTech3 {
+            0%, 45% { border-left-color: #141414; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+            55%, 85% { border-left-color: #16A34A; box-shadow: -4px 0 14px rgba(34, 197, 94, 0.35), 0 2px 6px rgba(34, 197, 94, 0.12); }
+            95%, 100% { border-left-color: #141414; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        }
+
 
    
                 @media (max-width: 768px) {
@@ -217,23 +241,35 @@
     <!-- Sezione Tecnologie con Box Testuali Minimali -->
     <section class="tech-section" id="tecnologie">
         <div class="tech-container">
-            <h2>Le Nostre Tecnologie</h2>
-            <p>Sviluppiamo soluzioni integrate collaborando con i marchi leader dell'automazione industriale:</p>
-            
-            <ul class="tech-list">
-                <li>
-                    <strong>PLC & Hardware</strong>
-                    Siemens, Omron, Schneider, Allen Bradley, Fanuc
-                </li>
-                <li>
-                    <strong>SCADA / HMI</strong>
-                    Proficy iFix, Progea Movicon, Siemens WINCC
-                </li>
-                <li>
-                    <strong>Robotica</strong>
-                    Denso, Adept / Omron, Hyundai
-                </li>
-            </ul>
+                    <h2>Le Nostre Tecnologie</h2>
+
+        <!-- Ramificazione Digitale Tecnologie Stile TIA Portal -->
+        <svg class="circuit-connector" viewBox="0 0 1000 65" preserveAspectRatio="none">
+            <path class="circuit-line" d="M 22 0 L 22 25 L 840 25" />
+            <path class="circuit-line" d="M 160 25 L 160 65" />
+            <path class="circuit-line" d="M 500 25 L 500 65" />
+            <path class="circuit-line" d="M 840 25 L 840 65" />
+
+            <path class="circuit-pulse" d="M 22 0 L 22 25 L 160 25 L 160 65" />
+            <path class="circuit-pulse" d="M 22 0 L 22 25 L 500 25 L 500 65" />
+            <path class="circuit-pulse" d="M 22 0 L 22 25 L 840 25 L 840 65" />
+        </svg>
+
+        <ul class="tech-list">
+            <li class="tech-1">
+                <strong>PLC & Hardware</strong>
+                Siemens, Omron, Schneider, Allen Bradley, Fanuc
+            </li>
+            <li class="tech-2">
+                <strong>SCADA / HMI</strong>
+                Proficy iFix, Progea Movicon, Siemens WINCC
+            </li>
+            <li class="tech-3">
+                <strong>Robotica</strong>
+                Denso, Adept / Omron, Hyundai
+            </li>
+        </ul>
+
             <div class="logo-grid">
                 <img src="logo siemens.png" alt="Siemens" class="partner-logo" onerror="this.onerror=null; this.src='logo siemens.jpg';">
                 <img src="LOGO OMRON.png" alt="Omron" class="partner-logo">
