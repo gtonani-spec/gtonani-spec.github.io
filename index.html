@@ -164,20 +164,21 @@
             /* Nasconde i circuiti orizzontali su mobile */
             .circuit-connector { display: none; }
 
-                       /* Dorsale verticale automatica TIA Portal per Servizi e Tecnologie */
+             /* Dorsale verticale automatica TIA Portal per Servizi e Tecnologie */
             .grid, .tech-list { position: relative; padding-left: 24px !important; margin-top: 0 !important; padding-top: 25px !important; }
             
-            /* Raccordo iniziale che parte da sotto il titolo */
-            .grid::before, .tech-list::before { content: ''; position: absolute; left: 8px; top: 0; height: 25px; width: 3px; background: #16A34A; box-shadow: 0 0 6px rgba(34, 197, 94, 0.7); }
+             /* Raccordo iniziale che parte da sotto il titolo e si salda al primo tratto */
+            .grid::before, .tech-list::before { content: ''; position: absolute; left: 8px; top: 0; height: 32px; width: 3px; background: #16A34A; box-shadow: 0 0 6px rgba(34, 197, 94, 0.7); }
 
-            /* Tratto verticale su ogni scheda (si ferma a 31px sull'ultima scheda chiudendo la L) */
+            /* Tratto verticale continuo su ogni scheda (parte da -6px per coprire il bordo nero) */
             .card, .tech-list li { position: relative; overflow: visible; }
-            .card::before, .tech-list li::before { content: ''; position: absolute; left: -16px; top: 0; bottom: -40px; width: 3px; background: #16A34A; box-shadow: 0 0 6px rgba(34, 197, 94, 0.7); }
-            .card:last-child::before, .tech-list li:last-child::before { bottom: auto; height: 31px; border-bottom-left-radius: 2px; }
+            .card::before, .tech-list li::before { content: ''; position: absolute; left: -16px; top: -6px; bottom: -50px; width: 3px; background: #16A34A; box-shadow: 0 0 6px rgba(34, 197, 94, 0.7); }
+            .card:last-child::before, .tech-list li:last-child::before { top: -6px; bottom: auto; height: 37px; border-bottom-left-radius: 2px; }
 
             /* Raccordo orizzontale verso ciascuna scheda */
             .card::after, .tech-list li::after { content: ''; position: absolute; left: -16px; top: 28px; width: 16px; height: 3px; background-color: #16A34A; box-shadow: 0 0 6px rgba(34, 197, 94, 0.7); }
         }
+
 
 
 
