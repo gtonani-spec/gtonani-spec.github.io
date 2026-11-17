@@ -167,44 +167,70 @@
              /* Dorsale verticale automatica TIA Portal per Servizi e Tecnologie */
             .grid, .tech-list { position: relative; padding-left: 24px !important; margin-top: 0 !important; padding-top: 25px !important; }
             
-                       /* Raccordo iniziale animato */
-            .grid::before, .tech-list::before { content: ''; position: absolute; left: 8px; top: 0; height: 32px; width: 3px; background: linear-gradient(to bottom, #16A34A 50%, #d1d5db 50%); background-size: 100% 200%; animation: scendiBus 3.2s ease-in-out infinite; }
+                         /* Raccordo iniziale che si riempie per primo (8% -> 16%) */
+            .grid::before, .tech-list::before { content: ''; position: absolute; left: 8px; top: 0; height: 32px; width: 3px; background: linear-gradient(to bottom, #16A34A 50%, #d1d5db 50%); background-size: 100% 200%; animation: scendiRaccordo 3.2s linear infinite; }
 
-            /* Tratto verticale continuo animato */
+            /* Tratti verticali delle singole schede sincronizzati in sequenza */
             .card, .tech-list li { position: relative; overflow: visible; }
-            .card::before, .tech-list li::before { content: ''; position: absolute; left: -16px; top: -6px; bottom: -50px; width: 3px; background: linear-gradient(to bottom, #16A34A 50%, #d1d5db 50%); background-size: 100% 200%; animation: scendiBus 3.2s ease-in-out infinite; }
-            .card:last-child::before, .tech-list li:last-child::before { top: -6px; bottom: auto; height: 37px; border-bottom-left-radius: 2px; }
+            .card::before, .tech-list li::before { content: ''; position: absolute; left: -16px; top: -6px; bottom: -50px; width: 3px; background: linear-gradient(to bottom, #16A34A 50%, #d1d5db 50%); background-size: 100% 200%; }
+            
+            .card:nth-child(1)::before, .tech-list li:nth-child(1)::before { animation: scendiTratto1 3.2s linear infinite; }
+            .card:nth-child(2)::before, .tech-list li:nth-child(2)::before { animation: scendiTratto2 3.2s linear infinite; }
+            .card:nth-child(3)::before, .tech-list li:nth-child(3)::before { top: -6px; bottom: auto; height: 37px; border-bottom-left-radius: 2px; animation: scendiTratto3 3.2s linear infinite; }
 
-            /* Raccordi orizzontali che si accendono all'arrivo del segnale */
-            .card::after, .tech-list li::after { content: ''; position: absolute; left: -16px; top: 28px; width: 16px; height: 3px; background-color: #d1d5db; transition: background-color 0.3s; }
+            /* Raccordi orizzontali che si accendono al passaggio del segnale */
+            .card::after, .tech-list li::after { content: ''; position: absolute; left: -16px; top: 28px; width: 16px; height: 3px; background-color: #d1d5db; }
             .card:nth-child(1)::after, .tech-list li:nth-child(1)::after { animation: accendiRamo1 3.2s ease-in-out infinite; }
             .card:nth-child(2)::after, .tech-list li:nth-child(2)::after { animation: accendiRamo2 3.2s ease-in-out infinite; }
             .card:nth-child(3)::after, .tech-list li:nth-child(3)::after { animation: accendiRamo3 3.2s ease-in-out infinite; }
         }
 
-        @keyframes scendiBus {
-            0%, 8% { background-position: 0% 100%; box-shadow: none; }
-            50%, 85% { background-position: 0% 0%; box-shadow: 0 0 6px rgba(34, 197, 94, 0.7); }
-            95%, 100% { background-position: 0% 100%; box-shadow: none; }
+        /* 1. Scende dal titolo al primo riquadro */
+        @keyframes scendiRaccordo {
+            0%, 8% { background-position: 0% 100%; }
+            15%, 85% { background-position: 0% 0%; }
+            95%, 100% { background-position: 0% 100%; }
+        }
+
+        /* 2. Scende lungo il primo riquadro (accende Ramo 1 a metà percorso) */
+        @keyframes scendiTratto1 {
+            0%, 15% { background-position: 0% 100%; }
+            30%, 85% { background-position: 0% 0%; }
+            95%, 100% { background-position: 0% 100%; }
+        }
+
+        /* 3. Scende lungo il secondo riquadro (accende Ramo 2 a metà percorso) */
+        @keyframes scendiTratto2 {
+            0%, 30% { background-position: 0% 100%; }
+            45%, 85% { background-position: 0% 0%; }
+            95%, 100% { background-position: 0% 100%; }
+        }
+
+        /* 4. Scende fino all'ultimo angolo (accende Ramo 3 alla fine) */
+        @keyframes scendiTratto3 {
+            0%, 45% { background-position: 0% 100%; }
+            52%, 85% { background-position: 0% 0%; }
+            95%, 100% { background-position: 0% 100%; }
         }
 
         @keyframes accendiRamo1 {
-            0%, 14% { background-color: #d1d5db; box-shadow: none; }
+            0%, 17% { background-color: #d1d5db; box-shadow: none; }
             22%, 85% { background-color: #16A34A; box-shadow: 0 0 6px rgba(34, 197, 94, 0.8); }
             95%, 100% { background-color: #d1d5db; box-shadow: none; }
         }
 
         @keyframes accendiRamo2 {
-            0%, 29% { background-color: #d1d5db; box-shadow: none; }
+            0%, 32% { background-color: #d1d5db; box-shadow: none; }
             37%, 85% { background-color: #16A34A; box-shadow: 0 0 6px rgba(34, 197, 94, 0.8); }
             95%, 100% { background-color: #d1d5db; box-shadow: none; }
         }
 
         @keyframes accendiRamo3 {
-            0%, 44% { background-color: #d1d5db; box-shadow: none; }
-            52%, 85% { background-color: #16A34A; box-shadow: 0 0 6px rgba(34, 197, 94, 0.8); }
+            0%, 49% { background-color: #d1d5db; box-shadow: none; }
+            54%, 85% { background-color: #16A34A; box-shadow: 0 0 6px rgba(34, 197, 94, 0.8); }
             95%, 100% { background-color: #d1d5db; box-shadow: none; }
         }
+
 
 
 
