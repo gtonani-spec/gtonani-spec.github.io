@@ -186,32 +186,38 @@
         }
 
         /* 1. Scende dal titolo al primo riquadro */
+               /* 1. Scende dal titolo al primo riquadro e poi dissolve */
         @keyframes scendiRaccordo {
-            0%, 8% { background-position: 0% 100%; }
-            15%, 85% { background-position: 0% 0%; }
-            95%, 100% { background-position: 0% 100%; }
+            0%, 8% { background-position: 0% 100%; opacity: 1; }
+            15%, 85% { background-position: 0% 0%; opacity: 1; }
+            95% { background-position: 0% 0%; opacity: 0; }
+            96%, 100% { background-position: 0% 100%; opacity: 0; }
         }
 
-        /* 2. Scende lungo il primo riquadro (accende Ramo 1 a metà percorso) */
+        /* 2. Scende lungo il primo riquadro e poi dissolve */
         @keyframes scendiTratto1 {
-            0%, 15% { background-position: 0% 100%; }
-            30%, 85% { background-position: 0% 0%; }
-            95%, 100% { background-position: 0% 100%; }
+            0%, 15% { background-position: 0% 100%; opacity: 1; }
+            30%, 85% { background-position: 0% 0%; opacity: 1; }
+            95% { background-position: 0% 0%; opacity: 0; }
+            96%, 100% { background-position: 0% 100%; opacity: 0; }
         }
 
-        /* 3. Scende lungo il secondo riquadro (accende Ramo 2 a metà percorso) */
+        /* 3. Scende lungo il secondo riquadro e poi dissolve */
         @keyframes scendiTratto2 {
-            0%, 30% { background-position: 0% 100%; }
-            45%, 85% { background-position: 0% 0%; }
-            95%, 100% { background-position: 0% 100%; }
+            0%, 30% { background-position: 0% 100%; opacity: 1; }
+            45%, 85% { background-position: 0% 0%; opacity: 1; }
+            95% { background-position: 0% 0%; opacity: 0; }
+            96%, 100% { background-position: 0% 100%; opacity: 0; }
         }
 
-        /* 4. Scende fino all'ultimo angolo (accende Ramo 3 alla fine) */
+        /* 4. Scende fino all'ultimo angolo e poi dissolve */
         @keyframes scendiTratto3 {
-            0%, 45% { background-position: 0% 100%; }
-            52%, 85% { background-position: 0% 0%; }
-            95%, 100% { background-position: 0% 100%; }
+            0%, 45% { background-position: 0% 100%; opacity: 1; }
+            52%, 85% { background-position: 0% 0%; opacity: 1; }
+            95% { background-position: 0% 0%; opacity: 0; }
+            96%, 100% { background-position: 0% 100%; opacity: 0; }
         }
+
 
         @keyframes accendiRamo1 {
             0%, 17% { background-color: #d1d5db; box-shadow: none; }
