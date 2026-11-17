@@ -68,10 +68,21 @@
 
                  /* Ramificazione Digitale Sezione Servizi */
         .circuit-connector { width: 100%; height: 65px; display: block; margin-top: -10px; margin-bottom: -5px; }
-        .circuit-line { fill: none; stroke: #d1d5db; stroke-width: 2.5; stroke-linecap: round; }
-        .circuit-pulse { fill: none; stroke: #D61A1A; stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 60 300; animation: flussoDati 3s linear infinite; }
-        .circuit-node-red { fill: #D61A1A; }
-        .circuit-node-green { fill: #16A34A; }
+         .circuit-line { fill: none; stroke: #bbf7d0; stroke-width: 3; stroke-linecap: round; }
+        .circuit-pulse { fill: none; stroke: #16A34A; stroke-width: 3.5; stroke-linecap: round; stroke-dasharray: 900; stroke-dashoffset: 900; filter: drop-shadow(0 0 4px rgba(34, 197, 94, 0.75)); animation: tiaOnline 3.2s ease-in-out infinite; }
+        .circuit-node-online { fill: #16A34A; filter: drop-shadow(0 0 4px rgba(34, 197, 94, 0.8)); }
+
+        @keyframes tiaOnline {
+            0% { stroke-dashoffset: 900; opacity: 0.4; }
+            50% { stroke-dashoffset: 0; opacity: 1; }
+            85% { stroke-dashoffset: 0; opacity: 1; }
+            100% { stroke-dashoffset: 0; opacity: 0.3; }
+        }
+
+        .card-plc { animation: accendiCard1 3.2s ease-in-out infinite; }
+        .card-hmi { animation: accendiCard2 3.2s ease-in-out infinite; }
+        .card-robot { animation: accendiCard3 3.2s ease-in-out infinite; }
+
 
          @keyframes accendiCard1 {
             0%, 15% { border-top-color: #141414; box-shadow: 0 4px 6px rgba(0,0,0,0.03); }
@@ -144,6 +155,7 @@
     <div class="container" style="border-top: 1px solid #f0f0f0;" id="servizi">
         <h2>Servizi</h2>
                 <!-- Ramificazione Digitale Animata -->
+                <!-- Ramificazione Digitale Stile TIA Portal Online -->
         <svg class="circuit-connector" viewBox="0 0 1000 65" preserveAspectRatio="none">
             <path class="circuit-line" d="M 20 0 L 20 25 L 840 25" />
             <path class="circuit-line" d="M 160 25 L 160 65" />
@@ -154,30 +166,31 @@
             <path class="circuit-pulse" d="M 20 0 L 20 25 L 500 25 L 500 65" />
             <path class="circuit-pulse" d="M 20 0 L 20 25 L 840 25 L 840 65" />
 
-            <circle class="circuit-node-red" cx="20" cy="25" r="4.5" />
-            <circle class="circuit-node-green" cx="160" cy="25" r="4" />
-            <circle class="circuit-node-green" cx="500" cy="25" r="4" />
-            <circle class="circuit-node-red" cx="840" cy="25" r="4" />
+            <circle class="circuit-node-online" cx="20" cy="25" r="4.5" />
+            <circle class="circuit-node-online" cx="160" cy="25" r="4" />
+            <circle class="circuit-node-online" cx="500" cy="25" r="4" />
+            <circle class="circuit-node-online" cx="840" cy="25" r="4" />
             
-            <circle class="circuit-node-red" cx="160" cy="61" r="4.5" />
-            <circle class="circuit-node-red" cx="500" cy="61" r="4.5" />
-            <circle class="circuit-node-red" cx="840" cy="61" r="4.5" />
+            <circle class="circuit-node-online" cx="160" cy="61" r="4.5" />
+            <circle class="circuit-node-online" cx="500" cy="61" r="4.5" />
+            <circle class="circuit-node-online" cx="840" cy="61" r="4.5" />
         </svg>
 
         <div class="grid">
-            <div class="card">
+            <div class="card card-plc">
                 <h3>PLC</h3>
                 <p>Progettazione e sviluppo di sistemi di automazione basati su hardware PLC per nuove installazioni o revamping completi di impianti industriali.</p>
             </div>
-            <div class="card">
+            <div class="card card-hmi">
                 <h3>Software HMI & SCADA</h3>
                 <p>Implementazione di applicazioni software dedicate alla supervisione dei flussi di lavoro, controllo dati e telecontrollo avanzato d'impianto.</p>
             </div>
-            <div class="card">
+            <div class="card card-robot">
                 <h3>Robotica Industriale</h3>
                 <p>Integrazione e sviluppo software per Robot antropomorfi e isole robotizzate destinate a ottimizzare i cicli di fabbrica complessi.</p>
             </div>
         </div>
+
     </div>
 
     <!-- Sezione Tecnologie con Box Testuali Minimali -->
