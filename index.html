@@ -66,8 +66,21 @@
         .footer-col p { font-size: 14px; color: #666666; margin: 0 0 10px 0; }
         .footer-bottom { max-width: 1100px; margin: 40px auto 0 auto; padding-top: 20px; border-top: 1px solid #eeeeee; font-size: 12px; color: #999999; }
 
-         @media (max-width: 768px) {
+                 /* Ramificazione Digitale Sezione Servizi */
+        .circuit-connector { width: 100%; height: 65px; display: block; margin-top: -10px; margin-bottom: -5px; }
+        .circuit-line { fill: none; stroke: #d1d5db; stroke-width: 2.5; stroke-linecap: round; }
+        .circuit-pulse { fill: none; stroke: #D61A1A; stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 60 300; animation: flussoDati 3s linear infinite; }
+        .circuit-node-red { fill: #D61A1A; }
+        .circuit-node-green { fill: #16A34A; }
+
+        @keyframes flussoDati {
+            0% { stroke-dashoffset: 360; }
+            100% { stroke-dashoffset: 0; }
+   
+                @media (max-width: 768px) {
+            .circuit-connector { display: none; }
             html, body { width: 100%; overflow-x: hidden; margin: 0; padding: 0; }
+
             nav { flex-direction: column; gap: 12px; padding: 15px 5px; width: 100%; }
             .logo-img { height: 70px; }
             .nav-links { display: flex; flex-wrap: nowrap; justify-content: center; gap: 4px; width: 100%; padding: 0; margin: 0; }
@@ -115,6 +128,27 @@
     <!-- Sezione Servizi -->
     <div class="container" style="border-top: 1px solid #f0f0f0;" id="servizi">
         <h2>Servizi</h2>
+                <!-- Ramificazione Digitale Animata -->
+        <svg class="circuit-connector" viewBox="0 0 1000 65" preserveAspectRatio="none">
+            <path class="circuit-line" d="M 20 0 L 20 25 L 840 25" />
+            <path class="circuit-line" d="M 160 25 L 160 65" />
+            <path class="circuit-line" d="M 500 25 L 500 65" />
+            <path class="circuit-line" d="M 840 25 L 840 65" />
+
+            <path class="circuit-pulse" d="M 20 0 L 20 25 L 160 25 L 160 65" />
+            <path class="circuit-pulse" d="M 20 0 L 20 25 L 500 25 L 500 65" />
+            <path class="circuit-pulse" d="M 20 0 L 20 25 L 840 25 L 840 65" />
+
+            <circle class="circuit-node-red" cx="20" cy="25" r="4.5" />
+            <circle class="circuit-node-green" cx="160" cy="25" r="4" />
+            <circle class="circuit-node-green" cx="500" cy="25" r="4" />
+            <circle class="circuit-node-red" cx="840" cy="25" r="4" />
+            
+            <circle class="circuit-node-red" cx="160" cy="61" r="4.5" />
+            <circle class="circuit-node-red" cx="500" cy="61" r="4.5" />
+            <circle class="circuit-node-red" cx="840" cy="61" r="4.5" />
+        </svg>
+
         <div class="grid">
             <div class="card">
                 <h3>PLC</h3>
