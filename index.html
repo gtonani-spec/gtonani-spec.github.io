@@ -414,6 +414,26 @@ function googleTranslateElementInit() {
     autoDisplay: false
   }, 'google_translate_element');
 }
+// Aggiunge automaticamente le bandiere alle 5 lingue
+setInterval(function() {
+    var select = document.querySelector('#google_translate_element select');
+    if (select && select.options.length > 0) {
+        var bandiere = {
+            'it': '🇮🇹 Italiano',
+            'en': '🇬🇧 English',
+            'de': '🇩🇪 Deutsch',
+            'es': '🇪🇸 Español',
+            'fr': '🇫🇷 Français'
+        };
+        for (var i = 0; i < select.options.length; i++) {
+            var opt = select.options[i];
+            if (bandiere[opt.value] && opt.text !== bandiere[opt.value]) {
+                opt.text = bandiere[opt.value];
+            }
+        }
+    }
+}, 500);
+
 </script>
 
 <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
