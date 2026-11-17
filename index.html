@@ -41,6 +41,9 @@
        #chi-siamo h2::after, #servizi h2::after, #tecnologie h2::after { background-color: #141414; width: 44px; height: 3.5px; }
        #chi-siamo h2::before, #servizi h2::before, #tecnologie h2::before { content: ''; position: absolute; bottom: 0; left: 0; width: 0px; height: 3.5px; background-color: #16A34A; box-shadow: 0 0 6px rgba(34, 197, 94, 0.8); z-index: 2; animation: riempiTitolo 3.2s ease-in-out infinite; }
 
+        .chi-siamo-box { background: #f9f9f9; padding: 30px; border-radius: 6px; border-top: 4px solid #141414; box-shadow: 0 4px 6px rgba(0,0,0,0.03); margin-top: -2px; animation: accendiChiSiamo 3.2s ease-in-out infinite; transition: transform 0.2s ease; }
+        .chi-siamo-box:hover { transform: translateY(-5px); }
+
 
         
         @keyframes riempiTitolo {
@@ -64,6 +67,9 @@
         .tech-list { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 30px; }
         .tech-list li { font-size: 15px; color: #333333; background: #ffffff; padding: 20px; border-radius: 4px; border-left: 4px solid #16A34A; box-shadow: 0 2px 4px rgba(0,0,0,0.03); }
         .tech-list li strong { color: #111111; display: block; margin-bottom: 5px; font-size: 16px; }
+        .tech-list li { border-left: none !important; border-top: 4px solid #141414; transition: transform 0.2s ease; }
+        .tech-list li:hover { transform: translateY(-5px); }
+
 
         /* Griglia Loghi e Animazione Hover Fluida */
         .logo-grid { display: flex; justify-content: center; align-items: center; gap: 35px; flex-wrap: wrap; margin-top: 40px; }
