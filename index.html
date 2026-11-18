@@ -530,6 +530,7 @@ setInterval(function() {
 <!-- Logica Interattiva Alimentazione Riquadri al Passaggio del Cursore -->
 <!-- Motore Interattivo Ricarica UPS (Tieni premuto per caricare, rilascia per scaricare) -->
 <!-- Motore Interattivo Carica/Scarica UPS al Passaggio del Cursore -->
+<!-- Motore Interattivo Carica/Scarica UPS a Cascata (Titolo si scarica dopo il Riquadro) -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     var riquadri = [];
@@ -539,7 +540,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var sec = document.getElementById(sezioneId);
         if (!sec) return;
         var h2 = sec.querySelector('h2');
-        sezioni.push({ id: sezioneId, sec: sec, h2: h2 });
+        sezioni.push({ id: sezioneId, sec: sec, h2: h2, caricaTitolo: 0 });
 
         sec.querySelectorAll(selettore).forEach(function(el, idx) {
             riquadri.push({
@@ -557,7 +558,6 @@ document.addEventListener('DOMContentLoaded', function() {
     registraSezione('tecnologie', '.tech-list li');
 
     riquadri.forEach(function(item) {
-        // Entrando col cursore inizia la carica
         item.el.addEventListener('mouseenter', function() {
             riquadri.forEach(function(altro) {
                 if (altro !== item) altro.attivo = false;
@@ -568,12 +568,10 @@ document.addEventListener('DOMContentLoaded', function() {
             if (item.ramo) item.sec.classList.add('active-' + item.ramo);
         });
 
-        // Uscendo col cursore inizia subito la scarica
         item.el.addEventListener('mouseleave', function() {
             item.attivo = false;
         });
 
-        // Supporto tocco su smartphone
         item.el.addEventListener('click', function(e) {
             e.stopPropagation();
             var eraAttivo = item.attivo;
@@ -591,13 +589,13 @@ document.addEventListener('DOMContentLoaded', function() {
         riquadri.forEach(function(item) { item.attivo = false; });
     });
 
-    // Aggiornamento continuo a 60fps per carica e scarica simultanea
     function aggiornaUPS() {
+        // 1. Aggiorna carica e scarica dei singoli riquadri
         riquadri.forEach(function(item) {
             if (item.attivo) {
                 item.carica = Math.min(100, item.carica + 1.5);
             } else if (item.carica > 0) {
-                item.carica = Math.max(0, item.carica - 1.5);
+                item.carica = Math.max(0, item.carica - 1.8);
             }
 
             item.el.style.setProperty('--charge', item.carica + '%');
@@ -609,19 +607,32 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Sincronizza la carica di ciascun Titolo con il riquadro attivo della sua sezione
+        // 2. Aggiorna il Titolo: si carica insieme al riquadro, ma si scarica SOLO dopo che i riquadri sono a 0%
         sezioni.forEach(function(s) {
-            var maxCarica = 0;
+            var maxCaricaRiquadri = 0;
+            var qualcheRiquadroAttivo = false;
+
             riquadri.forEach(function(r) {
-                if (r.sec === s.sec && r.carica > maxCarica) {
-                    maxCarica = r.carica;
+                if (r.sec === s.sec) {
+                    if (r.carica > maxCaricaRiquadri) maxCaricaRiquadri = r.carica;
+                    if (r.attivo) qualcheRiquadroAttivo = true;
                 }
             });
 
-            if (s.h2) {
-                s.h2.style.setProperty('--title-charge', maxCarica + '%');
+            if (qualcheRiquadroAttivo) {
+                // Mentre un riquadro è attivo, il titolo sale fino al suo livello di carica
+                s.caricaTitolo = Math.max(s.caricaTitolo, maxCaricaRiquadri);
+            } else if (maxCaricaRiquadri === 0 && s.caricaTitolo > 0) {
+                // Solo quando tutti i riquadri della sezione sono tornati a 0%, il titolo inizia a scaricarsi
+                s.caricaTitolo = Math.max(0, s.caricaTitolo - 1.8);
             }
-            if (maxCarica === 0) {
+
+            if (s.h2) {
+                s.h2.style.setProperty('--title-charge', s.caricaTitolo + '%');
+            }
+
+            // Spegne il LED dell'alimentatore e la linea solo quando anche il titolo è completamente scarico
+            if (maxCaricaRiquadri === 0 && s.caricaTitolo === 0) {
                 s.sec.classList.remove('section-active', 'active-1', 'active-2', 'active-3');
             }
         });
@@ -631,6 +642,7 @@ document.addEventListener('DOMContentLoaded', function() {
     requestAnimationFrame(aggiornaUPS);
 });
 </script>
+
 
 
 
