@@ -347,6 +347,7 @@
         #conveyor-belt.attivo { opacity: 1; transform: scaleX(1); }
 
         /* Cinghia superiore dentata che scorre fisicamente */
+                /* Cinghia superiore dentata in rosso Automatech che scorre fisicamente */
         #conveyor-belt::before {
             content: '';
             position: absolute;
@@ -356,8 +357,8 @@
             height: 3.5px;
             background: repeating-linear-gradient(
                 90deg,
-                #16A34A 0px,
-                #16A34A 12px,
+                #dc2626 0px,
+                #dc2626 12px,
                 #141414 12px,
                 #141414 24px
             );
@@ -370,7 +371,7 @@
             to { transform: translateX(24px); }
         }
 
-        /* Rulli interni rotanti del nastro */
+        /* Rulli interni rotanti del nastro con bagliore rosso */
         .belt-roller {
             width: 6px;
             height: 6px;
@@ -382,12 +383,9 @@
         }
         #conveyor-belt.in-marcia .belt-roller {
             animation: giraRullo 0.4s linear infinite;
-            box-shadow: 0 0 4px rgba(34, 197, 94, 0.7);
+            box-shadow: 0 0 4px rgba(220, 38, 38, 0.8);
         }
-        @keyframes giraRullo {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
+
               
                 /* Scatola Industriale appoggiata a contatto diretto sul nastro */
         .delivery-box {
