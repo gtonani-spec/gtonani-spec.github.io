@@ -305,20 +305,20 @@
             transform: translateY(0) scale(1);
         }
 
-        #tech-builder {
+         #tech-builder {
             position: absolute;
-            bottom: 8px;
+            bottom: 4px;
             left: 40px;
-            width: 38px;
-            height: 48px;
+            width: 46px;
+            height: 50px;
             z-index: 5;
             pointer-events: none;
             transition: left 0.55s cubic-bezier(0.45, 0.05, 0.55, 0.95), transform 0.2s ease, opacity 0.3s ease;
         }
-        #tech-builder.cammina .gamba-sx { animation: passoSx 0.28s infinite alternate; transform-origin: 18px 31px; }
-        #tech-builder.cammina .gamba-dx { animation: passoDx 0.28s infinite alternate; transform-origin: 22px 31px; }
-        #tech-builder.lavora .braccio-dx { animation: saldaBraccio 0.16s infinite alternate; transform-origin: 22px 20px; }
-        #tech-builder .scintilla { opacity: 0; }
+        #tech-builder.cammina .gamba-sx { animation: passoSx 0.26s infinite alternate; transform-origin: 22.7px 37px; }
+        #tech-builder.cammina .gamba-dx { animation: passoDx 0.26s infinite alternate; transform-origin: 27.7px 37px; }
+        #tech-builder.lavora .braccio-dx { animation: saldaBraccio 0.16s infinite alternate; transform-origin: 26px 25px; }
+
         #tech-builder.lavora .scintilla { animation: flashScintilla 0.14s infinite alternate; }
 
         @keyframes passoSx { from { transform: rotate(-22deg); } to { transform: rotate(22deg); } }
@@ -405,31 +405,59 @@
             <img src="LOGO AUTOMATECH.jpeg" alt="Automatech Logo" class="logo-img">
         </a>
                 <!-- Tecnico Stilizzato Automatech -->
-        <svg id="tech-builder" viewBox="0 0 44 52">
-            <!-- Caschetto da tecnico -->
-            <path d="M13 13 C13 7, 27 7, 27 13 Z" fill="#16A34A" />
-            <rect x="11" y="12" width="18" height="2.5" rx="1" fill="#141414" />
-            <!-- Testa -->
-            <circle cx="20" cy="16" r="4" fill="#141414" />
-            <!-- Busto -->
-            <line x1="20" y1="20" x2="20" y2="33" stroke="#141414" stroke-width="3.2" stroke-linecap="round" />
-            <!-- Braccio sinistro -->
-            <line x1="20" y1="22" x2="14" y2="28" stroke="#141414" stroke-width="2.5" stroke-linecap="round" />
-            <!-- Braccio destro con strumento -->
-            <g class="braccio-dx">
-                <line x1="20" y1="22" x2="29" y2="21" stroke="#141414" stroke-width="2.5" stroke-linecap="round" />
-                <line x1="29" y1="21" x2="34" y2="18" stroke="#dc2626" stroke-width="2.2" stroke-linecap="round" />
+               <!-- Mini-Robot Antropomorfo Automatech -->
+        <svg id="tech-builder" viewBox="0 0 56 60" style="width: 46px; height: 50px;">
+            <!-- Gamba Sinistra (dietro) -->
+            <g class="gamba-sx">
+                <rect x="20" y="37" width="5.5" height="12" rx="2.5" fill="#374151" stroke="#141414" stroke-width="1.2" />
+                <circle cx="22.7" cy="43" r="2" fill="#9ca3af" />
+                <path d="M18 49 L27 49 L28 53 L18 53 Z" rx="1.5" fill="#141414" />
             </g>
-            <!-- Gambe -->
-            <line class="gamba-sx" x1="20" y1="33" x2="15" y2="46" stroke="#141414" stroke-width="2.8" stroke-linecap="round" />
-            <line class="gamba-dx" x1="20" y1="33" x2="25" y2="46" stroke="#141414" stroke-width="2.8" stroke-linecap="round" />
-            <!-- Scintilla verde di installazione -->
-            <g class="scintilla" transform="translate(35, 17)">
-                <circle cx="0" cy="0" r="3" fill="#22C55E" />
-                <line x1="-5" y1="0" x2="5" y2="0" stroke="#22C55E" stroke-width="1.5" />
-                <line x1="0" y1="-5" x2="0" y2="5" stroke="#22C55E" stroke-width="1.5" />
+
+            <!-- Gamba Destra (avanti) -->
+            <g class="gamba-dx">
+                <rect x="25" y="37" width="5.5" height="12" rx="2.5" fill="#4b5563" stroke="#141414" stroke-width="1.2" />
+                <circle cx="27.7" cy="43" r="2" fill="#22C55E" />
+                <path d="M23 49 L32 49 L33 53 L23 53 Z" rx="1.5" fill="#141414" />
+            </g>
+
+            <!-- Busto Corazzato -->
+            <rect x="17" y="21" width="16" height="17" rx="4" fill="#141414" />
+            <!-- Pettorale tecnico con LED di stato -->
+            <rect x="20" y="24" width="10" height="8" rx="2" fill="#262626" stroke="#374151" stroke-width="1" />
+            <circle cx="23" cy="28" r="1.5" fill="#22C55E" />
+            <rect x="26" y="27" width="3" height="2" rx="0.5" fill="#dc2626" />
+
+            <!-- Collo e Testa Antropomorfa -->
+            <rect x="23" y="18" width="4" height="3" fill="#4b5563" />
+            <rect x="16" y="6" width="18" height="13" rx="4.5" fill="#141414" />
+            <!-- Antenna -->
+            <line x1="25" y1="6" x2="25" y2="2" stroke="#141414" stroke-width="2" stroke-linecap="round" />
+            <circle cx="25" cy="2" r="2" fill="#dc2626" />
+            <!-- Visiera Luminosa Verde TIA Portal -->
+            <rect x="20" y="9" width="12" height="6" rx="2.5" fill="#0a0a0a" stroke="#16A34A" stroke-width="1" />
+            <circle cx="24" cy="12" r="1.3" fill="#22C55E" />
+            <circle cx="29" cy="12" r="1.3" fill="#22C55E" />
+
+            <!-- Braccio Robotico Articolato con Emettitore Laser -->
+            <g class="braccio-dx">
+                <!-- Spalla -->
+                <circle cx="26" cy="25" r="3.5" fill="#16A34A" stroke="#141414" stroke-width="1.2" />
+                <!-- Avambraccio -->
+                <rect x="26" y="23" width="13" height="4.5" rx="2" fill="#374151" stroke="#141414" stroke-width="1.2" />
+                <!-- Pinza / Testa Laser -->
+                <rect x="38" y="22.5" width="5" height="5.5" rx="1" fill="#dc2626" />
+            </g>
+
+            <!-- Scintilla / Raggio Laser di Costruzione -->
+            <g class="scintilla" transform="translate(47, 25)">
+                <circle cx="0" cy="0" r="3.5" fill="#22C55E" />
+                <circle cx="0" cy="0" r="6.5" fill="none" stroke="#22C55E" stroke-width="1" opacity="0.7" />
+                <line x1="-7" y1="0" x2="7" y2="0" stroke="#22C55E" stroke-width="1.5" />
+                <line x1="0" y1="-7" x2="0" y2="7" stroke="#22C55E" stroke-width="1.5" />
             </g>
         </svg>
+
 
         <ul class="nav-links">
             <li><a href="#chi-siamo">Chi Siamo</a></li>
