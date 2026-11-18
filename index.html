@@ -323,14 +323,15 @@
 
         /* Nastro Trasportatore Industriale */
                /* Nastro Trasportatore Industriale con Cinghia che gira */
+                /* Nastro Trasportatore Industriale più robusto */
         #conveyor-belt {
             position: absolute;
-            bottom: 10px;
-            height: 13px;
+            bottom: 8px;
+            height: 18px;
             background: #1a1a1a;
             border: 1.5px solid #141414;
-            border-radius: 6px;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.18);
+            border-radius: 8px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
             z-index: 12;
             pointer-events: none;
             opacity: 0;
@@ -339,9 +340,10 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 6px;
+            padding: 0 8px;
             overflow: hidden;
         }
+
         #conveyor-belt.attivo { opacity: 1; transform: scaleX(1); }
 
         /* Cinghia superiore dentata che scorre fisicamente */
@@ -385,6 +387,71 @@
         @keyframes giraRullo {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
+        }
+              
+                /* Scatola Industriale appoggiata a contatto diretto sul nastro */
+        .delivery-box {
+            position: absolute;
+            top: 64%;
+            left: 50%;
+            width: calc(100% + 14px);
+            height: 36px;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(180deg, #d97706 0%, #b45309 100%);
+            border: 1.5px solid #141414;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.35);
+            z-index: 30;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Nastro adesivo verde Automatech sulla scatola */
+        .delivery-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 6px;
+            background: #16A34A;
+            border-left: 1px solid #141414;
+            border-right: 1px solid #141414;
+        }
+        /* Linea orizzontale di apertura coperchio */
+        .delivery-box::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 1.5px;
+            background: rgba(20, 20, 20, 0.5);
+        }
+
+        /* Animazione esplosione della scatola */
+        .delivery-box.esplodi {
+            animation: boxBoom 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes boxBoom {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            40% { transform: translate(-50%, -50%) scale(1.45); background: #22C55E; box-shadow: 0 0 18px #22C55E; opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1.9); opacity: 0; }
+        }
+
+        /* Frammenti / Scintille che schizzano fuori all'esplosione */
+        .box-shard {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 1.5px;
+            z-index: 35;
+            pointer-events: none;
+            animation: shardFly 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes shardFly {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 1; }
+            100% { transform: translate(var(--dx), var(--dy)) scale(0.2) rotate(180deg); opacity: 0; }
         }
 
 
@@ -788,6 +855,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 <!-- Regia Automazione: Braccio "A" carica le voci sul Nastro Trasportatore -->
+<!-- Regia Automazione: Scatole sul Nastro che Esplodono a Destinazione -->
 <script>
 window.addEventListener('load', function() {
     if (window.innerWidth <= 768) return;
@@ -802,20 +870,34 @@ window.addEventListener('load', function() {
         return new Promise(function(resolve) { setTimeout(resolve, ms); });
     }
 
+    // Genera 8 frammenti (cartone + scintille verdi) quando la scatola esplode
+    function creaEsplosione(parentEl) {
+        var colori = ['#d97706', '#22C55E', '#16A34A', '#b45309', '#141414'];
+        for (var p = 0; p < 8; p++) {
+            var shard = document.createElement('span');
+            shard.className = 'box-shard';
+            var angolo = (p / 8) * Math.PI * 2;
+            var distanza = 22 + Math.random() * 18;
+            shard.style.setProperty('--dx', Math.cos(angolo) * distanza + 'px');
+            shard.style.setProperty('--dy', Math.sin(angolo) * distanza + 'px');
+            shard.style.background = colori[p % colori.length];
+            shard.style.left = '50%';
+            shard.style.top = '50%';
+            parentEl.appendChild(shard);
+            setTimeout(function(el) { el.remove(); }, 460, shard);
+        }
+    }
+
     async function lineaProduzioneMenu() {
         var navRect = nav.getBoundingClientRect();
         var logoRect = logo.getBoundingClientRect();
         var lastLinkRect = links[links.length - 1].getBoundingClientRect();
 
-        // Posizione originale sopra la "A" del logo
         var homeX = (logoRect.left - navRect.left) + 2;
-        // Postazione di carico appena a destra del logo
         var loadX = (logoRect.right - navRect.left) + 28;
-        // Punto di inizio e lunghezza del nastro trasportatore
         var beltStart = loadX + 24;
         var beltWidth = (lastLinkRect.right - navRect.left) - beltStart + 15;
 
-        // Crea i rulli dentro il nastro trasportatore
         var numRulli = Math.max(6, Math.floor(beltWidth / 28));
         belt.innerHTML = '';
         for (var r = 0; r < numRulli; r++) {
@@ -826,12 +908,11 @@ window.addEventListener('load', function() {
         belt.style.left = beltStart + 'px';
         belt.style.width = beltWidth + 'px';
 
-        // Posiziona il braccio sul logo prima di iniziare
         builder.style.transition = 'none';
         builder.style.left = homeX + 'px';
         await pausa(300);
 
-        // 1. Il braccio esce dal logo e si porta in postazione di lavoro; appare il nastro
+        // 1. Esce il braccio "A" e compare il nastro trasportatore
         builder.style.transition = 'left 0.45s cubic-bezier(0.45, 0.05, 0.55, 0.95), opacity 0.25s ease';
         builder.style.opacity = '1';
         belt.classList.add('attivo');
@@ -839,22 +920,26 @@ window.addEventListener('load', function() {
         builder.style.left = loadX + 'px';
         await pausa(500);
 
-        // 2. Ciclo di prelievo e trasporto per ogni voce del menu (partendo dall'ultima a destra per non ostacolarsi)
+        // 2. Ciclo per ogni voce: viaggia chiusa nella scatola e poi esplode
         for (var i = links.length - 1; i >= 0; i--) {
             var link = links[i];
             var linkRect = link.getBoundingClientRect();
             var distanzaDalNastro = (beltStart + 8) - (linkRect.left - navRect.left);
 
-            // Il braccio ruota indietro per prelevare la parola da sinistra
+            // Crea la scatola che nasconde la scritta durante il viaggio
+            var box = document.createElement('div');
+            box.className = 'delivery-box';
+            link.appendChild(box);
+
+            // Il braccio preleva la scatola
             builder.classList.add('preleva');
             await pausa(220);
 
-            // Posiziona la parola all'inizio del nastro trasportatore e la rende visibile
             link.style.transition = 'none';
             link.style.transform = 'translateX(' + distanzaDalNastro + 'px) translateY(8px)';
             link.style.opacity = '1';
 
-            // Il braccio ruota in avanti e appoggia la parola sul nastro
+            // Appoggia la scatola sul nastro
             builder.classList.remove('preleva');
             builder.classList.add('posa');
             await pausa(180);
@@ -862,18 +947,23 @@ window.addEventListener('load', function() {
             await pausa(150);
             builder.classList.remove('posa');
 
-            // Il nastro parte (rulli verdi) e trasporta la parola fino alla sua posizione finale!
-             belt.classList.add('in-marcia');
+            // Parte il nastro trasportatore con la scatola sopra
+            belt.classList.add('in-marcia');
             link.style.transition = 'transform 1.15s linear';
             link.style.transform = 'translateX(0px) translateY(0px)';
 
-            await pausa(1180);
+            await pausa(1160);
             belt.classList.remove('in-marcia');
-            await pausa(180);
 
+            // Arrivata a destinazione: la scatola esplode rivelando la parola!
+            box.classList.add('esplodi');
+            creaEsplosione(link);
+            await pausa(340);
+            box.remove();
+            await pausa(100);
         }
 
-        // 3. Finito il lavoro: il braccio torna al logo e il nastro trasportatore sparisce
+        // 3. Fine ciclo: rientra il braccio e sparisce il nastro
         belt.classList.remove('attivo');
         builder.style.left = homeX + 'px';
         await pausa(520);
