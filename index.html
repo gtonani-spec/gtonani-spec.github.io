@@ -292,17 +292,14 @@
         }
 
         }
-                /* Tecnico Stilizzato che costruisce il menu di navigazione */
+               /* Linea di Produzione: Braccio "A" + Nastro Trasportatore */
         nav { position: relative; overflow: visible; }
         .logo-img { position: relative; z-index: 10; background: #ffffff; }
         .nav-links li a {
+            position: relative;
+            display: inline-block;
             opacity: 0;
-            transform: translateY(10px) scale(0.9);
-            transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s ease;
-        }
-        .nav-links li a.costruito {
-            opacity: 1;
-            transform: translateY(0) scale(1);
+            transition: color 0.2s ease;
         }
 
         #tech-builder {
@@ -312,26 +309,61 @@
             left: 20px;
             width: 56px;
             height: 50px;
-            z-index: 15;
+            z-index: 20;
             pointer-events: none;
             opacity: 0;
-            transition: left 0.55s cubic-bezier(0.45, 0.05, 0.55, 0.95), opacity 0.25s ease;
+            transition: left 0.45s cubic-bezier(0.45, 0.05, 0.55, 0.95), opacity 0.25s ease;
         }
-        #tech-builder.lavora .braccio-dx { animation: saldaBraccio 0.16s infinite alternate; transform-origin: 50px 47px; }
+        #tech-builder .braccio-dx {
+            transform-origin: 50px 47px;
+            transition: transform 0.22s ease-in-out;
+        }
+        #tech-builder.preleva .braccio-dx { transform: rotate(22deg); }
+        #tech-builder.posa .braccio-dx { transform: rotate(-18deg); }
 
+        /* Nastro Trasportatore Industriale */
+        #conveyor-belt {
+            position: absolute;
+            bottom: 10px;
+            height: 12px;
+            background: #1a1a1a;
+            border: 1.5px solid #141414;
+            border-top: 2.5px solid #16A34A;
+            border-radius: 6px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.18);
+            z-index: 12;
+            pointer-events: none;
+            opacity: 0;
+            transform: scaleX(0.95);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6px;
+            overflow: hidden;
+        }
+        #conveyor-belt.attivo { opacity: 1; transform: scaleX(1); }
 
-        #tech-builder.lavora .scintilla { animation: flashScintilla 0.14s infinite alternate; }
-
-        @keyframes passoSx { from { transform: rotate(-22deg); } to { transform: rotate(22deg); } }
-        @keyframes passoDx { from { transform: rotate(22deg); } to { transform: rotate(-22deg); } }
-        @keyframes saldaBraccio { from { transform: rotate(-35deg); } to { transform: rotate(15deg); } }
-        @keyframes flashScintilla { from { opacity: 0.2; transform: scale(0.7); } to { opacity: 1; transform: scale(1.3); } }
+        /* Rulli interni rotanti del nastro */
+        .belt-roller {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #9ca3af;
+            border: 1px solid #141414;
+            flex-shrink: 0;
+        }
+        #conveyor-belt.in-marcia .belt-roller {
+            background: #22C55E;
+            box-shadow: 0 0 4px #22C55E;
+        }
 
         /* Su smartphone il menu resta subito visibile senza animazione */
         @media (max-width: 768px) {
-            #tech-builder { display: none !important; }
+            #tech-builder, #conveyor-belt { display: none !important; }
             .nav-links li a { opacity: 1 !important; transform: none !important; }
         }
+
 
         /* Su smartphone lasciamo visibile la dorsale laterale fuori dal bordo */
         @media (max-width: 768px) {
@@ -408,22 +440,16 @@
                 <!-- Tecnico Stilizzato Automatech -->
                <!-- Mini-Robot Antropomorfo Automatech -->
                 <!-- Braccio Robotico Identitario della "A" di Automatech -->
+                <!-- Braccio Robotico Identitario della "A" di Automatech -->
         <svg id="tech-builder" viewBox="0 0 70 60" style="width: 56px; height: 50px;">
-            <!-- Piedistallo sinistro della "A" -->
             <path d="M 10 54 L 10 50 Q 10 46 15 46 L 23 46 Q 28 46 28 50 L 28 54 Z" fill="#141414" />
-
-            <!-- Primo segmento inclinato -->
             <line x1="19" y1="48" x2="34" y2="12" stroke="#141414" stroke-width="6.5" stroke-linecap="round" />
-
-            <!-- Secondo segmento inclinato -->
             <line x1="34" y1="12" x2="50" y2="47" stroke="#141414" stroke-width="6.5" stroke-linecap="round" />
-
-            <!-- Giunto circolare superiore -->
             <circle cx="34" cy="12" r="6" fill="#141414" stroke="#ffffff" stroke-width="1.8" />
             <circle cx="34" cy="12" r="1.3" fill="#ffffff" />
 
-            <!-- Terzo segmento articolato con Pinza a rombo -->
-            <g class="braccio-dx" style="transform-origin: 50px 47px;">
+            <!-- Braccio articolato con Pinza a rombo -->
+            <g class="braccio-dx">
                 <line x1="50" y1="47" x2="17" y2="27" stroke="#141414" stroke-width="5.5" stroke-linecap="round" />
                 <circle cx="17" cy="27" r="4.8" fill="#141414" stroke="#ffffff" stroke-width="1.5" />
                 <circle cx="17" cy="27" r="1.1" fill="#ffffff" />
@@ -431,18 +457,13 @@
                 <polygon points="17,35.5 13.5,41 17,46.5 20.5,41" fill="none" stroke="#141414" stroke-width="1.8" stroke-linejoin="round" />
             </g>
 
-            <!-- Giunto circolare inferiore destro -->
             <circle cx="50" cy="47" r="6.5" fill="#141414" stroke="#ffffff" stroke-width="2" />
-            <circle cx="50" cy="47" r="1.4" fill="#ffffff" />
-
-            <!-- Scintilla laser verde alla punta della pinza -->
-            <g class="scintilla" transform="translate(17, 46.5)">
-                <circle cx="0" cy="0" r="3.5" fill="#22C55E" />
-                <circle cx="0" cy="0" r="6.5" fill="none" stroke="#22C55E" stroke-width="1.2" opacity="0.7" />
-                <line x1="-7" y1="0" x2="7" y2="0" stroke="#22C55E" stroke-width="1.5" />
-                <line x1="0" y1="-7" x2="0" y2="7" stroke="#22C55E" stroke-width="1.5" />
-            </g>
+            <circle cx="50" cy="47" r="1.4" fill="#22C55E" />
         </svg>
+
+        <!-- Nastro Trasportatore -->
+        <div id="conveyor-belt"></div>
+
 
 
 
@@ -736,65 +757,102 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 
-<!-- Regia Braccio "A" Automatech che parte dal Logo e torna al suo posto -->
+<!-- Regia Automazione: Braccio "A" carica le voci sul Nastro Trasportatore -->
 <script>
 window.addEventListener('load', function() {
     if (window.innerWidth <= 768) return;
     var builder = document.getElementById('tech-builder');
+    var belt = document.getElementById('conveyor-belt');
     var nav = document.querySelector('nav');
     var logo = document.querySelector('.logo-img');
     var links = document.querySelectorAll('.nav-links li a');
-    if (!builder || !nav || !logo || links.length === 0) return;
+    if (!builder || !belt || !nav || !logo || links.length === 0) return;
 
     function pausa(ms) {
         return new Promise(function(resolve) { setTimeout(resolve, ms); });
     }
 
-    async function costruisciMenu() {
+    async function lineaProduzioneMenu() {
         var navRect = nav.getBoundingClientRect();
         var logoRect = logo.getBoundingClientRect();
-        // Posizione esatta sopra la "A" sinistra del logo Automatech
-        var homeX = (logoRect.left - navRect.left) + 2;
+        var lastLinkRect = links[links.length - 1].getBoundingClientRect();
 
-        // Posiziona il braccio esattamente sopra il logo prima di partire
+        // Posizione originale sopra la "A" del logo
+        var homeX = (logoRect.left - navRect.left) + 2;
+        // Postazione di carico appena a destra del logo
+        var loadX = (logoRect.right - navRect.left) + 28;
+        // Punto di inizio e lunghezza del nastro trasportatore
+        var beltStart = loadX + 24;
+        var beltWidth = (lastLinkRect.right - navRect.left) - beltStart + 15;
+
+        // Crea i rulli dentro il nastro trasportatore
+        var numRulli = Math.max(6, Math.floor(beltWidth / 28));
+        belt.innerHTML = '';
+        for (var r = 0; r < numRulli; r++) {
+            var rullo = document.createElement('span');
+            rullo.className = 'belt-roller';
+            belt.appendChild(rullo);
+        }
+        belt.style.left = beltStart + 'px';
+        belt.style.width = beltWidth + 'px';
+
+        // Posiziona il braccio sul logo prima di iniziare
         builder.style.transition = 'none';
         builder.style.left = homeX + 'px';
         await pausa(300);
 
-        // Riattiva la fluidità e rende visibile il braccio che si stacca dal logo
-        builder.style.transition = 'left 0.55s cubic-bezier(0.45, 0.05, 0.55, 0.95), opacity 0.25s ease';
+        // 1. Il braccio esce dal logo e si porta in postazione di lavoro; appare il nastro
+        builder.style.transition = 'left 0.45s cubic-bezier(0.45, 0.05, 0.55, 0.95), opacity 0.25s ease';
         builder.style.opacity = '1';
-        await pausa(250);
+        belt.classList.add('attivo');
+        await pausa(150);
+        builder.style.left = loadX + 'px';
+        await pausa(500);
 
-        for (var i = 0; i < links.length; i++) {
-            var linkRect = links[i].getBoundingClientRect();
-            // Allinea la pinza a rombo (x=17) proprio sopra la voce del menu da costruire
-            var targetX = (linkRect.left - navRect.left) - 10;
+        // 2. Ciclo di prelievo e trasporto per ogni voce del menu (partendo dall'ultima a destra per non ostacolarsi)
+        for (var i = links.length - 1; i >= 0; i--) {
+            var link = links[i];
+            var linkRect = link.getBoundingClientRect();
+            var distanzaDalNastro = (beltStart + 8) - (linkRect.left - navRect.left);
 
-            builder.classList.remove('lavora');
-            builder.style.left = targetX + 'px';
+            // Il braccio ruota indietro per prelevare la parola da sinistra
+            builder.classList.add('preleva');
+            await pausa(220);
+
+            // Posiziona la parola all'inizio del nastro trasportatore e la rende visibile
+            link.style.transition = 'none';
+            link.style.transform = 'translateX(' + distanzaDalNastro + 'px) translateY(8px)';
+            link.style.opacity = '1';
+
+            // Il braccio ruota in avanti e appoggia la parola sul nastro
+            builder.classList.remove('preleva');
+            builder.classList.add('posa');
+            await pausa(180);
+            link.style.transform = 'translateX(' + distanzaDalNastro + 'px) translateY(0px)';
+            await pausa(150);
+            builder.classList.remove('posa');
+
+            // Il nastro parte (rulli verdi) e trasporta la parola fino alla sua posizione finale!
+            belt.classList.add('in-marcia');
+            link.style.transition = 'transform 0.55s cubic-bezier(0.25, 0.8, 0.25, 1)';
+            link.style.transform = 'translateX(0px) translateY(0px)';
 
             await pausa(580);
-
-            // Aziona il braccio e la scintilla verde per costruire la voce
-            builder.classList.add('lavora');
-            await pausa(280);
-            links[i].classList.add('costruito');
-            await pausa(220);
+            belt.classList.remove('in-marcia');
+            await pausa(120);
         }
 
-        // Finito il lavoro, torna esattamente nella posizione originale sul logo senza capovolgersi
-        builder.classList.remove('lavora');
+        // 3. Finito il lavoro: il braccio torna al logo e il nastro trasportatore sparisce
+        belt.classList.remove('attivo');
         builder.style.left = homeX + 'px';
-
-        await pausa(700);
-        // Si reincastra perfettamente nel logo
+        await pausa(520);
         builder.style.opacity = '0';
     }
 
-    costruisciMenu();
+    lineaProduzioneMenu();
 });
 </script>
+
 
 
 </body>
