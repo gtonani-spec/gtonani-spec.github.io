@@ -182,6 +182,51 @@
         #google_translate_element { height: 32px; overflow: hidden; }
 
 
+                    /* Stato Base Offline e Accensione al Passaggio del Cursore su Computer */
+        @media (min-width: 769px) {
+            #chi-siamo h2::before, #servizi h2::before, #tecnologie h2::before {
+                animation: none !important; width: 0px; transition: width 0.25s ease-out;
+            }
+            .circuit-pulse {
+                animation: none !important; stroke-dasharray: 1000; stroke-dashoffset: 1000;
+                opacity: 0; transition: stroke-dashoffset 0.45s ease-out, opacity 0.15s ease;
+            }
+            .card, .chi-siamo-box, .tech-list li {
+                animation: none !important;
+                transition: transform 0.2s ease, border-top-color 0.25s ease 0.25s, box-shadow 0.25s ease 0.25s !important;
+            }
+
+            /* Accensione dinamica al passaggio del cursore (Hover) */
+            .section-active h2::before { width: 44px; }
+            
+            /* Chi Siamo attivo */
+            #chi-siamo.section-active .circuit-pulse { stroke-dashoffset: 0; opacity: 1; }
+            #chi-siamo.section-active .chi-siamo-box {
+                border-top-color: #16A34A;
+                box-shadow: 0 -4px 16px rgba(34, 197, 94, 0.35), 0 4px 10px rgba(34, 197, 94, 0.12);
+            }
+
+            /* Ramo 1 attivo (PLC o PLC & Hardware) */
+            .active-1 .pulse-1 { stroke-dashoffset: 0; opacity: 1; }
+            .active-1 .card:nth-child(1), .active-1 .tech-list li:nth-child(1) {
+                border-top-color: #16A34A !important;
+                box-shadow: 0 -4px 16px rgba(34, 197, 94, 0.35), 0 4px 10px rgba(34, 197, 94, 0.12) !important;
+            }
+
+            /* Ramo 2 attivo (HMI & SCADA) */
+            .active-2 .pulse-2 { stroke-dashoffset: 0; opacity: 1; }
+            .active-2 .card:nth-child(2), .active-2 .tech-list li:nth-child(2) {
+                border-top-color: #16A34A !important;
+                box-shadow: 0 -4px 16px rgba(34, 197, 94, 0.35), 0 4px 10px rgba(34, 197, 94, 0.12) !important;
+            }
+
+            /* Ramo 3 attivo (Robotica) */
+            .active-3 .pulse-3 { stroke-dashoffset: 0; opacity: 1; }
+            .active-3 .card:nth-child(3), .active-3 .tech-list li:nth-child(3) {
+                border-top-color: #16A34A !important;
+                box-shadow: 0 -4px 16px rgba(34, 197, 94, 0.35), 0 4px 10px rgba(34, 197, 94, 0.12) !important;
+            }
+        }
 
    
             @media (max-width: 768px) {
@@ -324,9 +369,10 @@
         <path class="circuit-line" d="M 500 25 L 500 65" />
         <path class="circuit-line" d="M 840 25 L 840 65" />
     
-        <path class="circuit-pulse" d="M 22 0 L 22 25 L 160 25 L 160 65" />
-        <path class="circuit-pulse" d="M 22 0 L 22 25 L 500 25 L 500 65" />
-        <path class="circuit-pulse" d="M 22 0 L 22 25 L 840 25 L 840 65" />
+        <path class="circuit-pulse pulse-1" d="M 22 0 L 22 25 L 160 25 L 160 65" />
+        <path class="circuit-pulse pulse-2" d="M 22 0 L 22 25 L 500 25 L 500 65" />
+        <path class="circuit-pulse pulse-3" d="M 22 0 L 22 25 L 840 25 L 840 65" />
+
      </svg>
 
 
@@ -359,9 +405,10 @@
             <path class="circuit-line" d="M 500 25 L 500 65" />
             <path class="circuit-line" d="M 840 25 L 840 65" />
 
-            <path class="circuit-pulse" d="M 22 0 L 22 25 L 160 25 L 160 65" />
-            <path class="circuit-pulse" d="M 22 0 L 22 25 L 500 25 L 500 65" />
-            <path class="circuit-pulse" d="M 22 0 L 22 25 L 840 25 L 840 65" />
+            <path class="circuit-pulse pulse-1" d="M 22 0 L 22 25 L 160 25 L 160 65" />
+            <path class="circuit-pulse pulse-2" d="M 22 0 L 22 25 L 500 25 L 500 65" />
+            <path class="circuit-pulse pulse-3" d="M 22 0 L 22 25 L 840 25 L 840 65" />
+
         </svg>
 
         <ul class="tech-list">
@@ -437,6 +484,37 @@ setInterval(function() {
 </script>
 
 <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<!-- Logica Interattiva Alimentazione Riquadri al Passaggio del Cursore -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Interazione per Chi Siamo
+    var chiSiamoBox = document.querySelector('.chi-siamo-box');
+    var chiSiamoSec = document.getElementById('chi-siamo');
+    if (chiSiamoBox && chiSiamoSec) {
+        chiSiamoBox.addEventListener('mouseenter', function() { chiSiamoSec.classList.add('section-active'); });
+        chiSiamoBox.addEventListener('mouseleave', function() { chiSiamoSec.classList.remove('section-active'); });
+    }
+
+    // Interazione per i 3 riquadri di Servizi e i 3 di Tecnologie
+    function attivaRami(sezioneId, selettoreCard) {
+        var sezione = document.getElementById(sezioneId);
+        if (!sezione) return;
+        var cards = sezione.querySelectorAll(selettoreCard);
+        cards.forEach(function(card, index) {
+            var numRamo = index + 1;
+            card.addEventListener('mouseenter', function() {
+                sezione.classList.add('section-active', 'active-' + numRamo);
+            });
+            card.addEventListener('mouseleave', function() {
+                sezione.classList.remove('section-active', 'active-' + numRamo);
+            });
+        });
+    }
+
+    attivaRami('servizi', '.card');
+    attivaRami('tecnologie', '.tech-list li');
+});
+</script>
 
 
 </body>
