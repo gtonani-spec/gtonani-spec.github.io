@@ -232,9 +232,10 @@
                 animation: none !important;
                 stroke-dasharray: 1000;
                 stroke-dashoffset: 1000;
-                opacity: 0;
-                transition: stroke-dashoffset 0.45s ease-out, opacity 0.15s ease;
+                opacity: 1;
+                transition: stroke-dashoffset 0.5s ease-in-out !important;
             }
+
             .card, .chi-siamo-box, .tech-list li {
                 animation: none !important;
                 transition: transform 0.2s ease !important;
@@ -532,6 +533,7 @@ setInterval(function() {
 <!-- Motore Interattivo Carica/Scarica UPS al Passaggio del Cursore -->
 <!-- Motore Interattivo Carica/Scarica UPS a Cascata (Titolo si scarica dopo il Riquadro) -->
 <!-- Motore Interattivo Carica/Scarica UPS a 3 Fasi (Riquadro -> Cavo -> Titolo) -->
+<!-- Motore Interattivo Carica/Scarica UPS a 3 Fasi (Riquadro -> Ritiro Cavo -> Titolo) -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     var riquadri = [];
@@ -541,7 +543,6 @@ document.addEventListener('DOMContentLoaded', function() {
         var sec = document.getElementById(sezioneId);
         if (!sec) return;
         var h2 = sec.querySelector('h2');
-        // caricoCavo tiene traccia dell'energia residua nel collegamento (0..100)
         sezioni.push({ id: sezioneId, sec: sec, h2: h2, caricaTitolo: 0, caricoCavo: 0 });
 
         sec.querySelectorAll(selettore).forEach(function(el, idx) {
@@ -609,7 +610,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // 2. Fase 2 e Fase 3: Prima si esaurisce il Cavo, poi si scarica il Titolo
+        // 2. Fase 2 e Fase 3: Prima si ritira il Cavo, poi si scarica il Titolo
         sezioni.forEach(function(s) {
             var maxCaricaRiquadri = 0;
             var qualcheRiquadroAttivo = false;
@@ -622,19 +623,17 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             if (qualcheRiquadroAttivo) {
-                // Mentre un riquadro è attivo: il cavo è carico (100) e il titolo sale
                 s.caricoCavo = 100;
                 s.caricaTitolo = Math.max(s.caricaTitolo, maxCaricaRiquadri);
             } else if (maxCaricaRiquadri === 0) {
+                // Appena il riquadro tocca lo 0%, comanda alla linea verde di ritirarsi fisicamente verso l'alto
+                s.sec.classList.remove('active-1', 'active-2', 'active-3');
+                
                 if (s.caricoCavo > 0) {
-                    // Fase 2: Il riquadro è a 0%, ora si sta esaurendo il collegamento (cavo)
-                    s.caricoCavo = Math.max(0, s.caricoCavo - 3.5);
-                    if (s.caricoCavo === 0) {
-                        // Cavo esaurito: spegne la linea verde
-                        s.sec.classList.remove('active-1', 'active-2', 'active-3');
-                    }
+                    // Attende i 0.5 secondi esatti del percorso inverso del cavo
+                    s.caricoCavo = Math.max(0, s.caricoCavo - 3.3);
                 } else if (s.caricaTitolo > 0) {
-                    // Fase 3: Anche il cavo è esaurito, ora inizia a scaricarsi il titolo
+                    // Solo quando il cavo è rientrato del tutto nell'alimentatore, si scarica il titolo
                     s.caricaTitolo = Math.max(0, s.caricaTitolo - 1.8);
                 }
             }
@@ -654,6 +653,7 @@ document.addEventListener('DOMContentLoaded', function() {
     requestAnimationFrame(aggiornaUPS);
 });
 </script>
+
 
 
 
