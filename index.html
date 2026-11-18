@@ -322,13 +322,13 @@
         #tech-builder.posa .braccio-dx { transform: rotate(-18deg); }
 
         /* Nastro Trasportatore Industriale */
+               /* Nastro Trasportatore Industriale con Cinghia che gira */
         #conveyor-belt {
             position: absolute;
             bottom: 10px;
-            height: 12px;
+            height: 13px;
             background: #1a1a1a;
             border: 1.5px solid #141414;
-            border-top: 2.5px solid #16A34A;
             border-radius: 6px;
             box-shadow: 0 3px 8px rgba(0,0,0,0.18);
             z-index: 12;
@@ -344,19 +344,49 @@
         }
         #conveyor-belt.attivo { opacity: 1; transform: scaleX(1); }
 
+        /* Cinghia superiore dentata che scorre fisicamente */
+        #conveyor-belt::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -24px;
+            right: 0;
+            height: 3.5px;
+            background: repeating-linear-gradient(
+                90deg,
+                #16A34A 0px,
+                #16A34A 12px,
+                #141414 12px,
+                #141414 24px
+            );
+        }
+        #conveyor-belt.in-marcia::before {
+            animation: scorriCinghia 0.35s linear infinite;
+        }
+        @keyframes scorriCinghia {
+            from { transform: translateX(0px); }
+            to { transform: translateX(24px); }
+        }
+
         /* Rulli interni rotanti del nastro */
         .belt-roller {
             width: 6px;
             height: 6px;
             border-radius: 50%;
-            background: #9ca3af;
+            background: repeating-conic-gradient(#9ca3af 0deg 90deg, #4b5563 90deg 180deg);
             border: 1px solid #141414;
             flex-shrink: 0;
+            margin-top: 2px;
         }
         #conveyor-belt.in-marcia .belt-roller {
-            background: #22C55E;
-            box-shadow: 0 0 4px #22C55E;
+            animation: giraRullo 0.4s linear infinite;
+            box-shadow: 0 0 4px rgba(34, 197, 94, 0.7);
         }
+        @keyframes giraRullo {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
 
         /* Su smartphone il menu resta subito visibile senza animazione */
         @media (max-width: 768px) {
@@ -833,13 +863,14 @@ window.addEventListener('load', function() {
             builder.classList.remove('posa');
 
             // Il nastro parte (rulli verdi) e trasporta la parola fino alla sua posizione finale!
-            belt.classList.add('in-marcia');
-            link.style.transition = 'transform 0.55s cubic-bezier(0.25, 0.8, 0.25, 1)';
+             belt.classList.add('in-marcia');
+            link.style.transition = 'transform 1.15s linear';
             link.style.transform = 'translateX(0px) translateY(0px)';
 
-            await pausa(580);
+            await pausa(1180);
             belt.classList.remove('in-marcia');
-            await pausa(120);
+            await pausa(180);
+
         }
 
         // 3. Finito il lavoro: il braccio torna al logo e il nastro trasportatore sparisce
