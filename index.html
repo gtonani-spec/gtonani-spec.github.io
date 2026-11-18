@@ -37,52 +37,9 @@
         
         h2 { font-size: 28px; font-weight: 600; color: #111111; margin-top: 0; margin-bottom: 25px; letter-spacing: -0.5px; position: relative; padding-bottom: 10px; }
         h2::after { content: ''; position: absolute; bottom: 0; left: 0; width: 45px; height: 3px; background-color: #D61A1A; }
-               /* Titoli trasformati in Blocchi Alimentatore (senza targhette) */
-        #chi-siamo h2, #servizi h2, #tecnologie h2 {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            background: linear-gradient(180deg, #222222 0%, #141414 100%);
-            color: #ffffff;
-            padding: 10px 20px;
-            border-radius: 6px;
-            border: 1.5px solid #333333;
-            border-bottom: 4px solid #141414;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.12);
-            font-size: 22px;
-            margin-bottom: 0px;
-            position: relative;
-            transition: border-color 0.25s ease, box-shadow 0.25s ease;
-        }
-
-        /* Rimuove la vecchia barretta piatta */
-        #chi-siamo h2::after, #servizi h2::after, #tecnologie h2::after { display: none !important; }
-
-        /* LED di stato dell'alimentatore a sinistra del titolo */
-        #chi-siamo h2::before, #servizi h2::before, #tecnologie h2::before {
-            content: '';
-            position: static;
-            width: 11px;
-            height: 11px;
-            border-radius: 50%;
-            background-color: #4b5563;
-            border: 1.5px solid #111111;
-            box-shadow: inset 0 1px 2px rgba(0,0,0,0.6);
-            transition: all 0.25s ease;
-            flex-shrink: 0;
-        }
-
-        /* Stato ONLINE: al passaggio del cursore su un riquadro, il LED e la base diventano verdi */
-        .section-active h2 {
-            border-bottom-color: #16A34A !important;
-            box-shadow: 0 4px 16px rgba(34, 197, 94, 0.25) !important;
-        }
-        .section-active h2::before {
-            width: 11px !important;
-            background-color: #22C55E !important;
-            box-shadow: 0 0 8px #22C55E, 0 0 14px rgba(34, 197, 94, 0.8) !important;
-        }
-
+       #chi-siamo h2, #servizi h2, #tecnologie h2 { margin-bottom: 0px; }
+       #chi-siamo h2::after, #servizi h2::after, #tecnologie h2::after { background-color: #141414; width: 44px; height: 3.5px; }
+       #chi-siamo h2::before, #servizi h2::before, #tecnologie h2::before { content: ''; position: absolute; bottom: 0; left: 0; width: 0px; height: 3.5px; background-color: #16A34A; box-shadow: 0 0 6px rgba(34, 197, 94, 0.8); z-index: 2; animation: riempiTitolo 3.2s ease-in-out infinite; }
 
         .chi-siamo-box { background: #f9f9f9; padding: 30px; border-radius: 6px; border-top: 4px solid #141414; box-shadow: 0 4px 6px rgba(0,0,0,0.03); margin-top: -2px; animation: accendiChiSiamo 3.2s ease-in-out infinite; transition: transform 0.2s ease; }
         .chi-siamo-box:hover { transform: translateY(-5px); }
@@ -225,246 +182,8 @@
         #google_translate_element { height: 32px; overflow: hidden; }
 
 
-                    /* Stato Base Offline e Accensione al Passaggio del Cursore su Computer */
-                /* Stato Base Offline e Accensione Cavi su Computer */
-        @media (min-width: 769px) {
-            .circuit-pulse {
-                animation: none !important;
-                stroke-dasharray: 1000;
-                stroke-dashoffset: 1000;
-                opacity: 1;
-                transition: stroke-dashoffset 0.5s ease-in-out !important;
-            }
 
-            .card, .chi-siamo-box, .tech-list li {
-                animation: none !important;
-                transition: transform 0.2s ease !important;
-            }
-
-            /* Accensione dinamica dei soli cavi al passaggio del cursore */
-            #chi-siamo.section-active .circuit-pulse { stroke-dashoffset: 0; opacity: 1; }
-            .active-1 .pulse-1 { stroke-dashoffset: 0; opacity: 1; }
-            .active-2 .pulse-2 { stroke-dashoffset: 0; opacity: 1; }
-            .active-3 .pulse-3 { stroke-dashoffset: 0; opacity: 1; }
-        }
-
-        /* Effetto Carica Batteria UPS sincronizzato su Titolo e Riquadri */
-        #chi-siamo h2, #servizi h2, #tecnologie h2 {
-            position: relative;
-            overflow: visible !important;
-            border-bottom-color: #141414 !important;
-        }
-        /* Barra verde sotto il titolo che si riempie e si scarica */
-        #chi-siamo h2::after, #servizi h2::after, #tecnologie h2::after {
-            content: '' !important;
-            display: block !important;
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            height: 4px;
-            width: var(--title-charge, 0%) !important;
-            background: linear-gradient(90deg, #16A34A, #22C55E) !important;
-            box-shadow: 0 0 10px rgba(34, 197, 94, 0.9);
-            transition: none !important;
-            border-bottom-left-radius: 4px;
-            border-bottom-right-radius: 4px;
-        }
-
-        .chi-siamo-box, .card, .tech-list li {
-            position: relative;
-            overflow: visible !important;
-            cursor: pointer;
-        }
-        /* Barra superiore verde sul riquadro che si riempie e si scarica */
-        .chi-siamo-box::before, .card::before, .tech-list li::before {
-            content: '';
-            position: absolute;
-            top: -4px;
-            left: 0;
-            height: 4px;
-            width: var(--charge, 0%);
-            background: linear-gradient(90deg, #16A34A, #22C55E);
-            box-shadow: 0 0 10px rgba(34, 197, 94, 0.9);
-            z-index: 5;
-            pointer-events: none;
-            border-top-left-radius: 4px;
-            border-top-right-radius: 4px;
-        }
-
-        }
-               /* Linea di Produzione: Braccio "A" + Nastro Trasportatore */
-        nav { position: relative; overflow: visible; }
-        .logo-img { position: relative; z-index: 10; background: #ffffff; }
-        .nav-links li a {
-            position: relative;
-            display: inline-block;
-            opacity: 0;
-            transition: color 0.2s ease;
-        }
-
-        #tech-builder {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-54%);
-            left: 20px;
-            width: 56px;
-            height: 50px;
-            z-index: 20;
-            pointer-events: none;
-            opacity: 0;
-            transition: left 0.45s cubic-bezier(0.45, 0.05, 0.55, 0.95), opacity 0.25s ease;
-        }
-        #tech-builder .braccio-dx {
-            transform-origin: 50px 47px;
-            transition: transform 0.22s ease-in-out;
-        }
-        #tech-builder.preleva .braccio-dx { transform: rotate(22deg); }
-        #tech-builder.posa .braccio-dx { transform: rotate(-18deg); }
-
-        /* Nastro Trasportatore Industriale */
-               /* Nastro Trasportatore Industriale con Cinghia che gira */
-                /* Nastro Trasportatore Industriale più robusto */
-        #conveyor-belt {
-            position: absolute;
-            bottom: 8px;
-            height: 18px;
-            background: #1a1a1a;
-            border: 1.5px solid #141414;
-            border-radius: 8px;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
-            z-index: 12;
-            pointer-events: none;
-            opacity: 0;
-            transform: scaleX(0.95);
-            transition: opacity 0.35s ease, transform 0.35s ease;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 8px;
-            overflow: hidden;
-        }
-
-        #conveyor-belt.attivo { opacity: 1; transform: scaleX(1); }
-
-        /* Cinghia superiore dentata che scorre fisicamente */
-                /* Cinghia superiore dentata in rosso Automatech che scorre fisicamente */
-        #conveyor-belt::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -24px;
-            right: 0;
-            height: 3.5px;
-            background: repeating-linear-gradient(
-                90deg,
-                #dc2626 0px,
-                #dc2626 12px,
-                #141414 12px,
-                #141414 24px
-            );
-        }
-        #conveyor-belt.in-marcia::before {
-            animation: scorriCinghia 0.35s linear infinite;
-        }
-        @keyframes scorriCinghia {
-            from { transform: translateX(0px); }
-            to { transform: translateX(24px); }
-        }
-
-        /* Rulli interni rotanti del nastro con bagliore rosso */
-        .belt-roller {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: repeating-conic-gradient(#9ca3af 0deg 90deg, #4b5563 90deg 180deg);
-            border: 1px solid #141414;
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-        #conveyor-belt.in-marcia .belt-roller {
-            animation: giraRullo 0.4s linear infinite;
-            box-shadow: 0 0 4px rgba(220, 38, 38, 0.8);
-        }
-
-              
-                /* Scatola Industriale appoggiata a contatto diretto sul nastro */
-        .delivery-box {
-            position: absolute;
-            top: 64%;
-            left: 50%;
-            width: calc(100% + 14px);
-            height: 36px;
-            transform: translate(-50%, -50%);
-            background: linear-gradient(180deg, #d97706 0%, #b45309 100%);
-            border: 1.5px solid #141414;
-            border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.35);
-            z-index: 30;
-            pointer-events: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Nastro adesivo verde Automatech sulla scatola */
-        .delivery-box::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 6px;
-            background: #16A34A;
-            border-left: 1px solid #141414;
-            border-right: 1px solid #141414;
-        }
-        /* Linea orizzontale di apertura coperchio */
-        .delivery-box::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            right: 0;
-            height: 1.5px;
-            background: rgba(20, 20, 20, 0.5);
-        }
-
-        /* Animazione esplosione della scatola */
-        .delivery-box.esplodi {
-            animation: boxBoom 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        @keyframes boxBoom {
-            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-            40% { transform: translate(-50%, -50%) scale(1.45); background: #22C55E; box-shadow: 0 0 18px #22C55E; opacity: 1; }
-            100% { transform: translate(-50%, -50%) scale(1.9); opacity: 0; }
-        }
-
-        /* Frammenti / Scintille che schizzano fuori all'esplosione */
-        .box-shard {
-            position: absolute;
-            width: 6px;
-            height: 6px;
-            border-radius: 1.5px;
-            z-index: 35;
-            pointer-events: none;
-            animation: shardFly 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        @keyframes shardFly {
-            0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 1; }
-            100% { transform: translate(var(--dx), var(--dy)) scale(0.2) rotate(180deg); opacity: 0; }
-        }
-
-
-        /* Su smartphone il menu resta subito visibile senza animazione */
-        @media (max-width: 768px) {
-            #tech-builder, #conveyor-belt { display: none !important; }
-            .nav-links li a { opacity: 1 !important; transform: none !important; }
-        }
-
-
-        /* Su smartphone lasciamo visibile la dorsale laterale fuori dal bordo */
-        @media (max-width: 768px) {
-            .card, .tech-list li { overflow: visible !important; }
-        }
-
+   
             @media (max-width: 768px) {
             html, body { width: 100%; overflow-x: hidden; margin: 0; padding: 0; }
             nav { flex-direction: column; gap: 12px; padding: 15px 5px; width: 100%; }
@@ -483,44 +202,69 @@
              /* Dorsale verticale automatica TIA Portal per Servizi e Tecnologie */
             .grid, .tech-list { position: relative; padding-left: 24px !important; margin-top: 0 !important; padding-top: 25px !important; }
             
-                        /* Stato base Offline su smartphone (si accende al tocco) */
-            .card, .chi-siamo-box, .tech-list li {
-                animation: none !important;
-                transition: transform 0.2s ease, border-top-color 0.25s ease 0.2s, box-shadow 0.25s ease 0.2s !important;
-            }
+                        /* Raccordo iniziale (resta grigio di base, si illumina di verde per primo) */
+            .grid::before, .tech-list::before { content: ''; position: absolute; left: 8px; top: 0; height: 32px; width: 3px; background-color: #d1d5db; animation: illuminaRaccordo 3.2s ease-in-out infinite; }
 
-            /* Dorsale verticale mobile (Offline di base, Online quando tocchi un riquadro) */
-            .grid::before, .tech-list::before { content: ''; position: absolute; left: 8px; top: 0; height: 32px; width: 3px; background-color: #d1d5db; transition: background-color 0.25s ease, box-shadow 0.25s ease; }
+            /* Tratti verticali delle singole schede (restano grigi di base, si illuminano in sequenza) */
             .card, .tech-list li { position: relative; overflow: visible; }
-            .card::before, .tech-list li::before { content: ''; position: absolute; left: -16px; top: -6px; bottom: -50px; width: 3px; background-color: #d1d5db; transition: background-color 0.25s ease, box-shadow 0.25s ease; }
-            .card:last-child::before, .tech-list li:last-child::before { top: -6px; bottom: auto; height: 37px; border-bottom-left-radius: 2px; }
-            .card::after, .tech-list li::after { content: ''; position: absolute; left: -16px; top: 28px; width: 16px; height: 3px; background-color: #d1d5db; transition: background-color 0.25s ease 0.15s, box-shadow 0.25s ease 0.15s; }
+            .card::before, .tech-list li::before { content: ''; position: absolute; left: -16px; top: -6px; bottom: -50px; width: 3px; background-color: #d1d5db; }
+            
+            .card:nth-child(1)::before, .tech-list li:nth-child(1)::before { animation: illuminaTratto1 3.2s ease-in-out infinite; }
+            .card:nth-child(2)::before, .tech-list li:nth-child(2)::before { animation: illuminaTratto2 3.2s ease-in-out infinite; }
+            .card:nth-child(3)::before, .tech-list li:nth-child(3)::before { top: -6px; bottom: auto; height: 37px; border-bottom-left-radius: 2px; animation: illuminaTratto3 3.2s ease-in-out infinite; }
 
-            /* Chi Siamo al tocco su mobile */
-            #chi-siamo .circuit-pulse { animation: none !important; stroke-dasharray: 1000; stroke-dashoffset: 1000; opacity: 0; transition: stroke-dashoffset 0.4s ease-out, opacity 0.15s ease; }
-            #chi-siamo.section-active .circuit-pulse { stroke-dashoffset: 0; opacity: 1; }
-            #chi-siamo.section-active .chi-siamo-box { border-top-color: #16A34A !important; box-shadow: 0 -4px 16px rgba(34, 197, 94, 0.35), 0 4px 10px rgba(34, 197, 94, 0.12) !important; }
-
-            /* Accensione ramo 1 al tocco su mobile */
-            .active-1 .grid::before, .active-1 .tech-list::before,
-            .active-1 .card:nth-child(1)::before, .active-1 .tech-list li:nth-child(1)::before,
-            .active-1 .card:nth-child(1)::after, .active-1 .tech-list li:nth-child(1)::after { background-color: #16A34A; box-shadow: 0 0 6px rgba(34, 197, 94, 0.8); }
-            .active-1 .card:nth-child(1), .active-1 .tech-list li:nth-child(1) { border-top-color: #16A34A !important; box-shadow: 0 -4px 16px rgba(34, 197, 94, 0.35) !important; }
-
-            /* Accensione ramo 2 al tocco su mobile */
-            .active-2 .grid::before, .active-2 .tech-list::before,
-            .active-2 .card:nth-child(1)::before, .active-2 .tech-list li:nth-child(1)::before,
-            .active-2 .card:nth-child(2)::before, .active-2 .tech-list li:nth-child(2)::before,
-            .active-2 .card:nth-child(2)::after, .active-2 .tech-list li:nth-child(2)::after { background-color: #16A34A; box-shadow: 0 0 6px rgba(34, 197, 94, 0.8); }
-            .active-2 .card:nth-child(2), .active-2 .tech-list li:nth-child(2) { border-top-color: #16A34A !important; box-shadow: 0 -4px 16px rgba(34, 197, 94, 0.35) !important; }
-
-            /* Accensione ramo 3 al tocco su mobile */
-            .active-3 .grid::before, .active-3 .tech-list::before,
-            .active-3 .card::before, .active-3 .tech-list li::before,
-            .active-3 .card:nth-child(3)::after, .active-3 .tech-list li:nth-child(3)::after { background-color: #16A34A; box-shadow: 0 0 6px rgba(34, 197, 94, 0.8); }
-            .active-3 .card:nth-child(3), .active-3 .tech-list li:nth-child(3) { border-top-color: #16A34A !important; box-shadow: 0 -4px 16px rgba(34, 197, 94, 0.35) !important; }
+            /* Raccordi orizzontali che si accendono al passaggio del segnale */
+            .card::after, .tech-list li::after { content: ''; position: absolute; left: -16px; top: 28px; width: 16px; height: 3px; background-color: #d1d5db; }
+            .card:nth-child(1)::after, .tech-list li:nth-child(1)::after { animation: accendiRamo1 3.2s ease-in-out infinite; }
+            .card:nth-child(2)::after, .tech-list li:nth-child(2)::after { animation: accendiRamo2 3.2s ease-in-out infinite; }
+            .card:nth-child(3)::after, .tech-list li:nth-child(3)::after { animation: accendiRamo3 3.2s ease-in-out infinite; }
         }
 
+        /* 1. Raccordo iniziale: si accende per primo e poi sfuma tornando grigio */
+        @keyframes illuminaRaccordo {
+            0%, 8% { background-color: #d1d5db; box-shadow: none; }
+            15%, 85% { background-color: #16A34A; box-shadow: 0 0 6px rgba(34, 197, 94, 0.8); }
+            95%, 100% { background-color: #d1d5db; box-shadow: none; }
+        }
+
+        /* 2. Primo tratto verticale: si accende dopo il raccordo e poi sfuma tornando grigio */
+        @keyframes illuminaTratto1 {
+            0%, 15% { background-color: #d1d5db; box-shadow: none; }
+            25%, 85% { background-color: #16A34A; box-shadow: 0 0 6px rgba(34, 197, 94, 0.8); }
+            95%, 100% { background-color: #d1d5db; box-shadow: none; }
+        }
+
+        /* 3. Secondo tratto verticale: si accende in sequenza e poi sfuma tornando grigio */
+        @keyframes illuminaTratto2 {
+            0%, 28% { background-color: #d1d5db; box-shadow: none; }
+            38%, 85% { background-color: #16A34A; box-shadow: 0 0 6px rgba(34, 197, 94, 0.8); }
+            95%, 100% { background-color: #d1d5db; box-shadow: none; }
+        }
+
+        /* 4. Terzo tratto verticale: chiude l'angolo e poi sfuma tornando grigio */
+        @keyframes illuminaTratto3 {
+            0%, 42% { background-color: #d1d5db; box-shadow: none; }
+            52%, 85% { background-color: #16A34A; box-shadow: 0 0 6px rgba(34, 197, 94, 0.8); }
+            95%, 100% { background-color: #d1d5db; box-shadow: none; }
+        }
+
+        @keyframes accendiRamo1 {
+            0%, 17% { background-color: #d1d5db; box-shadow: none; }
+            22%, 85% { background-color: #16A34A; box-shadow: 0 0 6px rgba(34, 197, 94, 0.8); }
+            95%, 100% { background-color: #d1d5db; box-shadow: none; }
+        }
+
+        @keyframes accendiRamo2 {
+            0%, 32% { background-color: #d1d5db; box-shadow: none; }
+            37%, 85% { background-color: #16A34A; box-shadow: 0 0 6px rgba(34, 197, 94, 0.8); }
+            95%, 100% { background-color: #d1d5db; box-shadow: none; }
+        }
+
+        @keyframes accendiRamo3 {
+            0%, 49% { background-color: #d1d5db; box-shadow: none; }
+            54%, 85% { background-color: #16A34A; box-shadow: 0 0 6px rgba(34, 197, 94, 0.8); }
+            95%, 100% { background-color: #d1d5db; box-shadow: none; }
+        }
 
 
     </style>
@@ -532,36 +276,6 @@
         <a href="#" class="logo-link">
             <img src="LOGO AUTOMATECH.jpeg" alt="Automatech Logo" class="logo-img">
         </a>
-                <!-- Tecnico Stilizzato Automatech -->
-               <!-- Mini-Robot Antropomorfo Automatech -->
-                <!-- Braccio Robotico Identitario della "A" di Automatech -->
-                <!-- Braccio Robotico Identitario della "A" di Automatech -->
-        <svg id="tech-builder" viewBox="0 0 70 60" style="width: 56px; height: 50px;">
-            <path d="M 10 54 L 10 50 Q 10 46 15 46 L 23 46 Q 28 46 28 50 L 28 54 Z" fill="#141414" />
-            <line x1="19" y1="48" x2="34" y2="12" stroke="#141414" stroke-width="6.5" stroke-linecap="round" />
-            <line x1="34" y1="12" x2="50" y2="47" stroke="#141414" stroke-width="6.5" stroke-linecap="round" />
-            <circle cx="34" cy="12" r="6" fill="#141414" stroke="#ffffff" stroke-width="1.8" />
-            <circle cx="34" cy="12" r="1.3" fill="#ffffff" />
-
-            <!-- Braccio articolato con Pinza a rombo -->
-            <g class="braccio-dx">
-                <line x1="50" y1="47" x2="17" y2="27" stroke="#141414" stroke-width="5.5" stroke-linecap="round" />
-                <circle cx="17" cy="27" r="4.8" fill="#141414" stroke="#ffffff" stroke-width="1.5" />
-                <circle cx="17" cy="27" r="1.1" fill="#ffffff" />
-                <polygon points="17,31.5 15,35.5 19,35.5" fill="#141414" />
-                <polygon points="17,35.5 13.5,41 17,46.5 20.5,41" fill="none" stroke="#141414" stroke-width="1.8" stroke-linejoin="round" />
-            </g>
-
-            <circle cx="50" cy="47" r="6.5" fill="#141414" stroke="#ffffff" stroke-width="2" />
-            <circle cx="50" cy="47" r="1.4" fill="#22C55E" />
-        </svg>
-
-        <!-- Nastro Trasportatore -->
-        <div id="conveyor-belt"></div>
-
-
-
-
         <ul class="nav-links">
             <li><a href="#chi-siamo">Chi Siamo</a></li>
             <li><a href="#servizi">Servizi</a></li>
@@ -610,10 +324,9 @@
         <path class="circuit-line" d="M 500 25 L 500 65" />
         <path class="circuit-line" d="M 840 25 L 840 65" />
     
-        <path class="circuit-pulse pulse-1" d="M 22 0 L 22 25 L 160 25 L 160 65" />
-        <path class="circuit-pulse pulse-2" d="M 22 0 L 22 25 L 500 25 L 500 65" />
-        <path class="circuit-pulse pulse-3" d="M 22 0 L 22 25 L 840 25 L 840 65" />
-
+        <path class="circuit-pulse" d="M 22 0 L 22 25 L 160 25 L 160 65" />
+        <path class="circuit-pulse" d="M 22 0 L 22 25 L 500 25 L 500 65" />
+        <path class="circuit-pulse" d="M 22 0 L 22 25 L 840 25 L 840 65" />
      </svg>
 
 
@@ -646,10 +359,9 @@
             <path class="circuit-line" d="M 500 25 L 500 65" />
             <path class="circuit-line" d="M 840 25 L 840 65" />
 
-            <path class="circuit-pulse pulse-1" d="M 22 0 L 22 25 L 160 25 L 160 65" />
-            <path class="circuit-pulse pulse-2" d="M 22 0 L 22 25 L 500 25 L 500 65" />
-            <path class="circuit-pulse pulse-3" d="M 22 0 L 22 25 L 840 25 L 840 65" />
-
+            <path class="circuit-pulse" d="M 22 0 L 22 25 L 160 25 L 160 65" />
+            <path class="circuit-pulse" d="M 22 0 L 22 25 L 500 25 L 500 65" />
+            <path class="circuit-pulse" d="M 22 0 L 22 25 L 840 25 L 840 65" />
         </svg>
 
         <ul class="tech-list">
@@ -725,253 +437,6 @@ setInterval(function() {
 </script>
 
 <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-<!-- Logica Interattiva Alimentazione Riquadri al Passaggio del Cursore -->
-<!-- Motore Interattivo Ricarica UPS (Tieni premuto per caricare, rilascia per scaricare) -->
-<!-- Motore Interattivo Carica/Scarica UPS al Passaggio del Cursore -->
-<!-- Motore Interattivo Carica/Scarica UPS a Cascata (Titolo si scarica dopo il Riquadro) -->
-<!-- Motore Interattivo Carica/Scarica UPS a 3 Fasi (Riquadro -> Cavo -> Titolo) -->
-<!-- Motore Interattivo Carica/Scarica UPS a 3 Fasi (Riquadro -> Ritiro Cavo -> Titolo) -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    var riquadri = [];
-    var sezioni = [];
-
-    function registraSezione(sezioneId, selettore) {
-        var sec = document.getElementById(sezioneId);
-        if (!sec) return;
-        var h2 = sec.querySelector('h2');
-        sezioni.push({ id: sezioneId, sec: sec, h2: h2, caricaTitolo: 0, caricoCavo: 0 });
-
-        sec.querySelectorAll(selettore).forEach(function(el, idx) {
-            riquadri.push({
-                el: el,
-                sec: sec,
-                ramo: selettore === '.chi-siamo-box' ? null : idx + 1,
-                carica: 0,
-                attivo: false
-            });
-        });
-    }
-
-    registraSezione('chi-siamo', '.chi-siamo-box');
-    registraSezione('servizi', '.card');
-    registraSezione('tecnologie', '.tech-list li');
-
-    riquadri.forEach(function(item) {
-        item.el.addEventListener('mouseenter', function() {
-            riquadri.forEach(function(altro) {
-                if (altro !== item) altro.attivo = false;
-            });
-            item.attivo = true;
-            item.sec.classList.remove('active-1', 'active-2', 'active-3');
-            item.sec.classList.add('section-active');
-            if (item.ramo) item.sec.classList.add('active-' + item.ramo);
-        });
-
-        item.el.addEventListener('mouseleave', function() {
-            item.attivo = false;
-        });
-
-        item.el.addEventListener('click', function(e) {
-            e.stopPropagation();
-            var eraAttivo = item.attivo;
-            riquadri.forEach(function(altro) { altro.attivo = false; });
-            if (!eraAttivo) {
-                item.attivo = true;
-                item.sec.classList.remove('active-1', 'active-2', 'active-3');
-                item.sec.classList.add('section-active');
-                if (item.ramo) item.sec.classList.add('active-' + item.ramo);
-            }
-        });
-    });
-
-    document.addEventListener('click', function() {
-        riquadri.forEach(function(item) { item.attivo = false; });
-    });
-
-    function aggiornaUPS() {
-        // 1. Fase 1: Aggiorna carica e scarica dei singoli riquadri
-        riquadri.forEach(function(item) {
-            if (item.attivo) {
-                item.carica = Math.min(100, item.carica + 1.5);
-            } else if (item.carica > 0) {
-                item.carica = Math.max(0, item.carica - 1.8);
-            }
-
-            item.el.style.setProperty('--charge', item.carica + '%');
-            if (item.carica > 0) {
-                var intensita = (item.carica / 100) * 0.4;
-                item.el.style.boxShadow = '0 -4px 16px rgba(34, 197, 94, ' + intensita + '), 0 4px 10px rgba(34, 197, 94, ' + (intensita * 0.4) + ')';
-            } else {
-                item.el.style.boxShadow = '';
-            }
-        });
-
-        // 2. Fase 2 e Fase 3: Prima si ritira il Cavo, poi si scarica il Titolo
-        sezioni.forEach(function(s) {
-            var maxCaricaRiquadri = 0;
-            var qualcheRiquadroAttivo = false;
-
-            riquadri.forEach(function(r) {
-                if (r.sec === s.sec) {
-                    if (r.carica > maxCaricaRiquadri) maxCaricaRiquadri = r.carica;
-                    if (r.attivo) qualcheRiquadroAttivo = true;
-                }
-            });
-
-            if (qualcheRiquadroAttivo) {
-                s.caricoCavo = 100;
-                s.caricaTitolo = Math.max(s.caricaTitolo, maxCaricaRiquadri);
-            } else if (maxCaricaRiquadri === 0) {
-                // Appena il riquadro tocca lo 0%, comanda alla linea verde di ritirarsi fisicamente verso l'alto
-                s.sec.classList.remove('active-1', 'active-2', 'active-3');
-                
-                if (s.caricoCavo > 0) {
-                    // Attende i 0.5 secondi esatti del percorso inverso del cavo
-                    s.caricoCavo = Math.max(0, s.caricoCavo - 3.3);
-                } else if (s.caricaTitolo > 0) {
-                    // Solo quando il cavo è rientrato del tutto nell'alimentatore, si scarica il titolo
-                    s.caricaTitolo = Math.max(0, s.caricaTitolo - 1.8);
-                }
-            }
-
-            if (s.h2) {
-                s.h2.style.setProperty('--title-charge', s.caricaTitolo + '%');
-            }
-
-            // Spegne anche il LED dell'alimentatore quando tutto è completamente scarico
-            if (maxCaricaRiquadri === 0 && s.caricoCavo === 0 && s.caricaTitolo === 0) {
-                s.sec.classList.remove('section-active');
-            }
-        });
-
-        requestAnimationFrame(aggiornaUPS);
-    }
-    requestAnimationFrame(aggiornaUPS);
-});
-</script>
-
-
-<!-- Regia Automazione: Braccio "A" carica le voci sul Nastro Trasportatore -->
-<!-- Regia Automazione: Scatole sul Nastro che Esplodono a Destinazione -->
-<script>
-window.addEventListener('load', function() {
-    if (window.innerWidth <= 768) return;
-    var builder = document.getElementById('tech-builder');
-    var belt = document.getElementById('conveyor-belt');
-    var nav = document.querySelector('nav');
-    var logo = document.querySelector('.logo-img');
-    var links = document.querySelectorAll('.nav-links li a');
-    if (!builder || !belt || !nav || !logo || links.length === 0) return;
-
-    function pausa(ms) {
-        return new Promise(function(resolve) { setTimeout(resolve, ms); });
-    }
-
-    // Genera 8 frammenti (cartone + scintille verdi) quando la scatola esplode
-    function creaEsplosione(parentEl) {
-        var colori = ['#d97706', '#22C55E', '#16A34A', '#b45309', '#141414'];
-        for (var p = 0; p < 8; p++) {
-            var shard = document.createElement('span');
-            shard.className = 'box-shard';
-            var angolo = (p / 8) * Math.PI * 2;
-            var distanza = 22 + Math.random() * 18;
-            shard.style.setProperty('--dx', Math.cos(angolo) * distanza + 'px');
-            shard.style.setProperty('--dy', Math.sin(angolo) * distanza + 'px');
-            shard.style.background = colori[p % colori.length];
-            shard.style.left = '50%';
-            shard.style.top = '50%';
-            parentEl.appendChild(shard);
-            setTimeout(function(el) { el.remove(); }, 460, shard);
-        }
-    }
-
-    async function lineaProduzioneMenu() {
-        var navRect = nav.getBoundingClientRect();
-        var logoRect = logo.getBoundingClientRect();
-        var lastLinkRect = links[links.length - 1].getBoundingClientRect();
-
-        var homeX = (logoRect.left - navRect.left) + 2;
-        var loadX = (logoRect.right - navRect.left) + 28;
-        var beltStart = loadX + 24;
-        var beltWidth = (lastLinkRect.right - navRect.left) - beltStart + 15;
-
-        var numRulli = Math.max(6, Math.floor(beltWidth / 28));
-        belt.innerHTML = '';
-        for (var r = 0; r < numRulli; r++) {
-            var rullo = document.createElement('span');
-            rullo.className = 'belt-roller';
-            belt.appendChild(rullo);
-        }
-        belt.style.left = beltStart + 'px';
-        belt.style.width = beltWidth + 'px';
-
-        builder.style.transition = 'none';
-        builder.style.left = homeX + 'px';
-        await pausa(300);
-
-        // 1. Esce il braccio "A" e compare il nastro trasportatore
-        builder.style.transition = 'left 0.45s cubic-bezier(0.45, 0.05, 0.55, 0.95), opacity 0.25s ease';
-        builder.style.opacity = '1';
-        belt.classList.add('attivo');
-        await pausa(150);
-        builder.style.left = loadX + 'px';
-        await pausa(500);
-
-        // 2. Ciclo per ogni voce: viaggia chiusa nella scatola e poi esplode
-        for (var i = links.length - 1; i >= 0; i--) {
-            var link = links[i];
-            var linkRect = link.getBoundingClientRect();
-            var distanzaDalNastro = (beltStart + 8) - (linkRect.left - navRect.left);
-
-            // Crea la scatola che nasconde la scritta durante il viaggio
-            var box = document.createElement('div');
-            box.className = 'delivery-box';
-            link.appendChild(box);
-
-            // Il braccio preleva la scatola
-            builder.classList.add('preleva');
-            await pausa(220);
-
-            link.style.transition = 'none';
-            link.style.transform = 'translateX(' + distanzaDalNastro + 'px) translateY(8px)';
-            link.style.opacity = '1';
-
-            // Appoggia la scatola sul nastro
-            builder.classList.remove('preleva');
-            builder.classList.add('posa');
-            await pausa(180);
-            link.style.transform = 'translateX(' + distanzaDalNastro + 'px) translateY(0px)';
-            await pausa(150);
-            builder.classList.remove('posa');
-
-            // Parte il nastro trasportatore con la scatola sopra
-            belt.classList.add('in-marcia');
-            link.style.transition = 'transform 1.15s linear';
-            link.style.transform = 'translateX(0px) translateY(0px)';
-
-            await pausa(1160);
-            belt.classList.remove('in-marcia');
-
-            // Arrivata a destinazione: la scatola esplode rivelando la parola!
-            box.classList.add('esplodi');
-            creaEsplosione(link);
-            await pausa(340);
-            box.remove();
-            await pausa(100);
-        }
-
-        // 3. Fine ciclo: rientra il braccio e sparisce il nastro
-        belt.classList.remove('attivo');
-        builder.style.left = homeX + 'px';
-        await pausa(520);
-        builder.style.opacity = '0';
-    }
-
-    lineaProduzioneMenu();
-});
-</script>
-
 
 
 </body>
