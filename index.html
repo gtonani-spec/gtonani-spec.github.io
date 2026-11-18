@@ -271,7 +271,33 @@
             }
         }
 
-   
+                   /* Effetto Carica Batteria UPS sui riquadri */
+        .chi-siamo-box, .card, .tech-list li {
+            position: relative;
+            overflow: hidden;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+            cursor: pointer;
+        }
+        /* Barra superiore verde che si riempie progressivamente */
+        .chi-siamo-box::before, .card::before, .tech-list li::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: 0;
+            height: 4px;
+            width: var(--charge, 0%);
+            background: linear-gradient(90deg, #16A34A, #22C55E);
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.9);
+            z-index: 5;
+            pointer-events: none;
+        }
+        /* Su smartphone lasciamo visibile la dorsale laterale fuori dal bordo */
+        @media (max-width: 768px) {
+            .card, .tech-list li { overflow: visible !important; }
+        }
+
             @media (max-width: 768px) {
             html, body { width: 100%; overflow-x: hidden; margin: 0; padding: 0; }
             nav { flex-direction: column; gap: 12px; padding: 15px 5px; width: 100%; }
@@ -503,84 +529,100 @@ setInterval(function() {
 
 <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 <!-- Logica Interattiva Alimentazione Riquadri al Passaggio del Cursore -->
+<!-- Motore Interattivo Ricarica UPS (Tieni premuto per caricare, rilascia per scaricare) -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Interazione per Chi Siamo
+    var riquadri = [];
+
+    // Registra Chi Siamo
     var chiSiamoBox = document.querySelector('.chi-siamo-box');
     var chiSiamoSec = document.getElementById('chi-siamo');
     if (chiSiamoBox && chiSiamoSec) {
-        chiSiamoBox.addEventListener('mouseenter', function() { chiSiamoSec.classList.add('section-active'); });
-        chiSiamoBox.addEventListener('mouseleave', function() { chiSiamoSec.classList.remove('section-active'); });
+        riquadri.push({ el: chiSiamoBox, sec: chiSiamoSec, ramo: null, carica: 0, premuto: false, pieno: false });
     }
 
-    // Interazione per i 3 riquadri di Servizi e i 3 di Tecnologie
-    function attivaRami(sezioneId, selettoreCard) {
-        var sezione = document.getElementById(sezioneId);
-        if (!sezione) return;
-        var cards = sezione.querySelectorAll(selettoreCard);
-        cards.forEach(function(card, index) {
-            var numRamo = index + 1;
-            card.addEventListener('mouseenter', function() {
-                sezione.classList.add('section-active', 'active-' + numRamo);
-            });
-            card.addEventListener('mouseleave', function() {
-                sezione.classList.remove('section-active', 'active-' + numRamo);
-            });
+    // Registra Servizi e Tecnologie
+    function aggiungiSezione(sezioneId, selettore) {
+        var sec = document.getElementById(sezioneId);
+        if (!sec) return;
+        sec.querySelectorAll(selettore).forEach(function(el, idx) {
+            riquadri.push({ el: el, sec: sec, ramo: idx + 1, carica: 0, premuto: false, pieno: false });
         });
     }
+    aggiungiSezione('servizi', '.card');
+    aggiungiSezione('tecnologie', '.tech-list li');
 
-    attivaRami('servizi', '.card');
-    attivaRami('tecnologie', '.tech-list li');
-});
-</script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    var chiSiamoBox = document.querySelector('.chi-siamo-box');
-    var chiSiamoSec = document.getElementById('chi-siamo');
-    if (chiSiamoBox && chiSiamoSec) {
-        chiSiamoBox.addEventListener('mouseenter', function() { chiSiamoSec.classList.add('section-active'); });
-        chiSiamoBox.addEventListener('mouseleave', function() { chiSiamoSec.classList.remove('section-active'); });
-        chiSiamoBox.addEventListener('click', function(e) {
-            e.stopPropagation();
-            chiSiamoSec.classList.toggle('section-active');
-        });
-    }
-
-    function attivaRami(sezioneId, selettoreCard) {
-        var sezione = document.getElementById(sezioneId);
-        if (!sezione) return;
-        var cards = sezione.querySelectorAll(selettoreCard);
-        cards.forEach(function(card, index) {
-            var numRamo = index + 1;
-            card.addEventListener('mouseenter', function() {
-                sezione.classList.remove('active-1', 'active-2', 'active-3');
-                sezione.classList.add('section-active', 'active-' + numRamo);
+    // Gestione pressione (Mouse su PC e Dito su Smartphone)
+    riquadri.forEach(function(item) {
+        function iniziaCarica(e) {
+            if (e.type === 'mousedown' && e.button !== 0) return;
+            // Se era già al 100%, un nuovo tocco lo scarica
+            if (item.pieno) {
+                item.pieno = false;
+                item.premuto = false;
+                return;
+            }
+            // Spegne eventuali altri riquadri
+            riquadri.forEach(function(altro) {
+                if (altro !== item) { altro.premuto = false; altro.pieno = false; }
             });
-            card.addEventListener('mouseleave', function() {
-                sezione.classList.remove('section-active', 'active-' + numRamo);
-            });
-            card.addEventListener('click', function(e) {
-                e.stopPropagation();
-                var giaAttivo = sezione.classList.contains('active-' + numRamo);
-                sezione.classList.remove('section-active', 'active-1', 'active-2', 'active-3');
-                if (!giaAttivo) {
-                    sezione.classList.add('section-active', 'active-' + numRamo);
-                }
-            });
-        });
-    }
+            item.premuto = true;
+            item.sec.classList.remove('active-1', 'active-2', 'active-3');
+            item.sec.classList.add('section-active');
+            if (item.ramo) item.sec.classList.add('active-' + item.ramo);
+        }
 
-    attivaRami('servizi', '.card');
-    attivaRami('tecnologie', '.tech-list li');
+        function fermaCarica() {
+            if (item.carica < 100) {
+                item.premuto = false;
+            }
+        }
 
-    // Toccando lo sfondo vuoto su smartphone si spegne tutto
-    document.addEventListener('click', function() {
-        document.querySelectorAll('.section-active').forEach(function(sec) {
-            sec.classList.remove('section-active', 'active-1', 'active-2', 'active-3');
-        });
+        item.el.addEventListener('mousedown', iniziaCarica);
+        item.el.addEventListener('touchstart', iniziaCarica, { passive: true });
+        item.el.addEventListener('mouseup', fermaCarica);
+        item.el.addEventListener('mouseleave', fermaCarica);
+        item.el.addEventListener('touchend', fermaCarica);
+        item.el.addEventListener('touchcancel', fermaCarica);
     });
+
+    // Ciclo fluido a 60fps per calcolare carica e scarica
+    function aggiornaUPS() {
+        riquadri.forEach(function(item) {
+            if (item.premuto && !item.pieno) {
+                item.carica += 1.4; // Velocità di carica (~1.2 secondi per il 100%)
+                if (item.carica >= 100) {
+                    item.carica = 100;
+                    item.pieno = true;
+                    item.premuto = false;
+                }
+            } else if (!item.premuto && !item.pieno && item.carica > 0) {
+                item.carica -= 1.8; // Si scarica dal punto in cui hai lasciato
+                if (item.carica <= 0) {
+                    item.carica = 0;
+                    // Spegne l'alimentatore e la linea se nessun altro riquadro della sezione è carico
+                    var sezioneAncoraAttiva = riquadri.some(function(r) { return r.sec === item.sec && r.carica > 0; });
+                    if (!sezioneAncoraAttiva) {
+                        item.sec.classList.remove('section-active', 'active-1', 'active-2', 'active-3');
+                    }
+                }
+            }
+
+            // Applica la percentuale di carica al bordo e all'alone luminoso
+            item.el.style.setProperty('--charge', item.carica + '%');
+            if (item.carica > 0) {
+                var intensita = (item.carica / 100) * 0.4;
+                item.el.style.boxShadow = '0 -4px 16px rgba(34, 197, 94, ' + intensita + '), 0 4px 10px rgba(34, 197, 94, ' + (intensita * 0.4) + ')';
+            } else {
+                item.el.style.boxShadow = '';
+            }
+        });
+        requestAnimationFrame(aggiornaUPS);
+    }
+    requestAnimationFrame(aggiornaUPS);
 });
 </script>
+
 
 
 </body>
