@@ -226,61 +226,55 @@
 
 
                     /* Stato Base Offline e Accensione al Passaggio del Cursore su Computer */
+                /* Stato Base Offline e Accensione Cavi su Computer */
         @media (min-width: 769px) {
-            #chi-siamo h2::before, #servizi h2::before, #tecnologie h2::before {
-                animation: none !important; width: 0px; transition: width 0.25s ease-out;
-            }
             .circuit-pulse {
-                animation: none !important; stroke-dasharray: 1000; stroke-dashoffset: 1000;
-                opacity: 0; transition: stroke-dashoffset 0.45s ease-out, opacity 0.15s ease;
+                animation: none !important;
+                stroke-dasharray: 1000;
+                stroke-dashoffset: 1000;
+                opacity: 0;
+                transition: stroke-dashoffset 0.45s ease-out, opacity 0.15s ease;
             }
             .card, .chi-siamo-box, .tech-list li {
                 animation: none !important;
-                transition: transform 0.2s ease, border-top-color 0.25s ease 0.25s, box-shadow 0.25s ease 0.25s !important;
+                transition: transform 0.2s ease !important;
             }
 
-            /* Accensione dinamica al passaggio del cursore (Hover) */
-            .section-active h2::before { width: 44px; }
-            
-            /* Chi Siamo attivo */
+            /* Accensione dinamica dei soli cavi al passaggio del cursore */
             #chi-siamo.section-active .circuit-pulse { stroke-dashoffset: 0; opacity: 1; }
-            #chi-siamo.section-active .chi-siamo-box {
-                border-top-color: #16A34A;
-                box-shadow: 0 -4px 16px rgba(34, 197, 94, 0.35), 0 4px 10px rgba(34, 197, 94, 0.12);
-            }
-
-            /* Ramo 1 attivo (PLC o PLC & Hardware) */
             .active-1 .pulse-1 { stroke-dashoffset: 0; opacity: 1; }
-            .active-1 .card:nth-child(1), .active-1 .tech-list li:nth-child(1) {
-                border-top-color: #16A34A !important;
-                box-shadow: 0 -4px 16px rgba(34, 197, 94, 0.35), 0 4px 10px rgba(34, 197, 94, 0.12) !important;
-            }
-
-            /* Ramo 2 attivo (HMI & SCADA) */
             .active-2 .pulse-2 { stroke-dashoffset: 0; opacity: 1; }
-            .active-2 .card:nth-child(2), .active-2 .tech-list li:nth-child(2) {
-                border-top-color: #16A34A !important;
-                box-shadow: 0 -4px 16px rgba(34, 197, 94, 0.35), 0 4px 10px rgba(34, 197, 94, 0.12) !important;
-            }
-
-            /* Ramo 3 attivo (Robotica) */
             .active-3 .pulse-3 { stroke-dashoffset: 0; opacity: 1; }
-            .active-3 .card:nth-child(3), .active-3 .tech-list li:nth-child(3) {
-                border-top-color: #16A34A !important;
-                box-shadow: 0 -4px 16px rgba(34, 197, 94, 0.35), 0 4px 10px rgba(34, 197, 94, 0.12) !important;
-            }
         }
 
-                   /* Effetto Carica Batteria UPS sui riquadri */
+        /* Effetto Carica Batteria UPS sincronizzato su Titolo e Riquadri */
+        #chi-siamo h2, #servizi h2, #tecnologie h2 {
+            position: relative;
+            overflow: visible !important;
+            border-bottom-color: #141414 !important;
+        }
+        /* Barra verde sotto il titolo che si riempie e si scarica */
+        #chi-siamo h2::after, #servizi h2::after, #tecnologie h2::after {
+            content: '' !important;
+            display: block !important;
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            height: 4px;
+            width: var(--title-charge, 0%) !important;
+            background: linear-gradient(90deg, #16A34A, #22C55E) !important;
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.9);
+            transition: none !important;
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+
         .chi-siamo-box, .card, .tech-list li {
             position: relative;
-            overflow: hidden;
-            user-select: none;
-            -webkit-user-select: none;
-            -webkit-touch-callout: none;
+            overflow: visible !important;
             cursor: pointer;
         }
-        /* Barra superiore verde che si riempie progressivamente */
+        /* Barra superiore verde sul riquadro che si riempie e si scarica */
         .chi-siamo-box::before, .card::before, .tech-list li::before {
             content: '';
             position: absolute;
@@ -292,7 +286,12 @@
             box-shadow: 0 0 10px rgba(34, 197, 94, 0.9);
             z-index: 5;
             pointer-events: none;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
         }
+
+        }
+
         /* Su smartphone lasciamo visibile la dorsale laterale fuori dal bordo */
         @media (max-width: 768px) {
             .card, .tech-list li { overflow: visible !important; }
@@ -530,85 +529,77 @@ setInterval(function() {
 <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 <!-- Logica Interattiva Alimentazione Riquadri al Passaggio del Cursore -->
 <!-- Motore Interattivo Ricarica UPS (Tieni premuto per caricare, rilascia per scaricare) -->
+<!-- Motore Interattivo Carica/Scarica UPS al Passaggio del Cursore -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     var riquadri = [];
+    var sezioni = [];
 
-    // Registra Chi Siamo
-    var chiSiamoBox = document.querySelector('.chi-siamo-box');
-    var chiSiamoSec = document.getElementById('chi-siamo');
-    if (chiSiamoBox && chiSiamoSec) {
-        riquadri.push({ el: chiSiamoBox, sec: chiSiamoSec, ramo: null, carica: 0, premuto: false, pieno: false });
-    }
-
-    // Registra Servizi e Tecnologie
-    function aggiungiSezione(sezioneId, selettore) {
+    function registraSezione(sezioneId, selettore) {
         var sec = document.getElementById(sezioneId);
         if (!sec) return;
+        var h2 = sec.querySelector('h2');
+        sezioni.push({ id: sezioneId, sec: sec, h2: h2 });
+
         sec.querySelectorAll(selettore).forEach(function(el, idx) {
-            riquadri.push({ el: el, sec: sec, ramo: idx + 1, carica: 0, premuto: false, pieno: false });
+            riquadri.push({
+                el: el,
+                sec: sec,
+                ramo: selettore === '.chi-siamo-box' ? null : idx + 1,
+                carica: 0,
+                attivo: false
+            });
         });
     }
-    aggiungiSezione('servizi', '.card');
-    aggiungiSezione('tecnologie', '.tech-list li');
 
-    // Gestione pressione (Mouse su PC e Dito su Smartphone)
+    registraSezione('chi-siamo', '.chi-siamo-box');
+    registraSezione('servizi', '.card');
+    registraSezione('tecnologie', '.tech-list li');
+
     riquadri.forEach(function(item) {
-        function iniziaCarica(e) {
-            if (e.type === 'mousedown' && e.button !== 0) return;
-            // Se era già al 100%, un nuovo tocco lo scarica
-            if (item.pieno) {
-                item.pieno = false;
-                item.premuto = false;
-                return;
-            }
-            // Spegne eventuali altri riquadri
+        // Entrando col cursore inizia la carica
+        item.el.addEventListener('mouseenter', function() {
             riquadri.forEach(function(altro) {
-                if (altro !== item) { altro.premuto = false; altro.pieno = false; }
+                if (altro !== item) altro.attivo = false;
             });
-            item.premuto = true;
+            item.attivo = true;
             item.sec.classList.remove('active-1', 'active-2', 'active-3');
             item.sec.classList.add('section-active');
             if (item.ramo) item.sec.classList.add('active-' + item.ramo);
-        }
+        });
 
-        function fermaCarica() {
-            if (item.carica < 100) {
-                item.premuto = false;
+        // Uscendo col cursore inizia subito la scarica
+        item.el.addEventListener('mouseleave', function() {
+            item.attivo = false;
+        });
+
+        // Supporto tocco su smartphone
+        item.el.addEventListener('click', function(e) {
+            e.stopPropagation();
+            var eraAttivo = item.attivo;
+            riquadri.forEach(function(altro) { altro.attivo = false; });
+            if (!eraAttivo) {
+                item.attivo = true;
+                item.sec.classList.remove('active-1', 'active-2', 'active-3');
+                item.sec.classList.add('section-active');
+                if (item.ramo) item.sec.classList.add('active-' + item.ramo);
             }
-        }
-
-        item.el.addEventListener('mousedown', iniziaCarica);
-        item.el.addEventListener('touchstart', iniziaCarica, { passive: true });
-        item.el.addEventListener('mouseup', fermaCarica);
-        item.el.addEventListener('mouseleave', fermaCarica);
-        item.el.addEventListener('touchend', fermaCarica);
-        item.el.addEventListener('touchcancel', fermaCarica);
+        });
     });
 
-    // Ciclo fluido a 60fps per calcolare carica e scarica
+    document.addEventListener('click', function() {
+        riquadri.forEach(function(item) { item.attivo = false; });
+    });
+
+    // Aggiornamento continuo a 60fps per carica e scarica simultanea
     function aggiornaUPS() {
         riquadri.forEach(function(item) {
-            if (item.premuto && !item.pieno) {
-                item.carica += 1.4; // Velocità di carica (~1.2 secondi per il 100%)
-                if (item.carica >= 100) {
-                    item.carica = 100;
-                    item.pieno = true;
-                    item.premuto = false;
-                }
-            } else if (!item.premuto && !item.pieno && item.carica > 0) {
-                item.carica -= 1.8; // Si scarica dal punto in cui hai lasciato
-                if (item.carica <= 0) {
-                    item.carica = 0;
-                    // Spegne l'alimentatore e la linea se nessun altro riquadro della sezione è carico
-                    var sezioneAncoraAttiva = riquadri.some(function(r) { return r.sec === item.sec && r.carica > 0; });
-                    if (!sezioneAncoraAttiva) {
-                        item.sec.classList.remove('section-active', 'active-1', 'active-2', 'active-3');
-                    }
-                }
+            if (item.attivo) {
+                item.carica = Math.min(100, item.carica + 1.5);
+            } else if (item.carica > 0) {
+                item.carica = Math.max(0, item.carica - 1.5);
             }
 
-            // Applica la percentuale di carica al bordo e all'alone luminoso
             item.el.style.setProperty('--charge', item.carica + '%');
             if (item.carica > 0) {
                 var intensita = (item.carica / 100) * 0.4;
@@ -617,11 +608,30 @@ document.addEventListener('DOMContentLoaded', function() {
                 item.el.style.boxShadow = '';
             }
         });
+
+        // Sincronizza la carica di ciascun Titolo con il riquadro attivo della sua sezione
+        sezioni.forEach(function(s) {
+            var maxCarica = 0;
+            riquadri.forEach(function(r) {
+                if (r.sec === s.sec && r.carica > maxCarica) {
+                    maxCarica = r.carica;
+                }
+            });
+
+            if (s.h2) {
+                s.h2.style.setProperty('--title-charge', maxCarica + '%');
+            }
+            if (maxCarica === 0) {
+                s.sec.classList.remove('section-active', 'active-1', 'active-2', 'active-3');
+            }
+        });
+
         requestAnimationFrame(aggiornaUPS);
     }
     requestAnimationFrame(aggiornaUPS);
 });
 </script>
+
 
 
 
