@@ -19,9 +19,67 @@
         nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 60px; background-color: #ffffff; width: 100%; position: relative; z-index: 10; border-bottom: 1px solid #eeeeee; }
         .logo-link { display: flex; align-items: center; text-decoration: none; }
         .logo-img { height: 90px; width: auto; object-fit: contain; }
-        .nav-links { display: flex; gap: 15px; list-style: none; margin: 0; padding: 0; align-items: center; }
-        .nav-links a { text-decoration: none; color: #1a1a1a; font-size: 17px; font-weight: 600; padding: 10px 20px; border-radius: 50px; transition: all 0.25s ease; letter-spacing: 0.5px; }
-        .nav-links a:hover { background-color: #D61A1A; color: #ffffff; }
+        .nav-links { list-style: none; display: flex; gap: 32px; align-items: center; }
+        .nav-links li { position: relative; }
+        .nav-links a {
+            position: relative;
+            display: inline-block;
+            color: #141414;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 8px 4px 16px 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: color 0.25s ease;
+        }
+        .nav-links a:hover {
+            color: #16A34A;
+        }
+
+        /* Contenitore Microchip + Piste PCB sotto la voce del menu */
+        .nav-chip-circuit {
+            position: absolute;
+            left: 50%;
+            bottom: 0px;
+            transform: translateX(-50%);
+            width: 110px;
+            height: 16px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .nav-links a:hover .nav-chip-circuit {
+            opacity: 1;
+        }
+
+        /* Animazione riempimento progressivo dei rami PCB dal chip verso l'esterno */
+        .nav-chip-circuit .pcb-trace {
+            fill: none;
+            stroke: #22C55E;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 60;
+            stroke-dashoffset: 60;
+            filter: drop-shadow(0 0 3px rgba(34, 197, 94, 0.9));
+            transition: stroke-dashoffset 0.55s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .nav-links a:hover .nav-chip-circuit .pcb-trace {
+            stroke-dashoffset: 0;
+        }
+
+        /* Pallini terminali (piazzole) che si accendono alla fine del percorso */
+        .nav-chip-circuit .pcb-pad {
+            fill: #141414;
+            stroke: #9ca3af;
+            stroke-width: 1;
+            transition: fill 0.2s ease 0.4s, stroke 0.2s ease 0.4s;
+        }
+        .nav-links a:hover .nav-chip-circuit .pcb-pad {
+            fill: #22C55E;
+            stroke: #16A34A;
+        }
 
 
         /* Copertina Hero Nero Robotico con bordo Rosso */
@@ -276,12 +334,94 @@
         <a href="#" class="logo-link">
             <img src="LOGO AUTOMATECH.jpeg" alt="Automatech Logo" class="logo-img">
         </a>
-        <ul class="nav-links">
-            <li><a href="#chi-siamo">Chi Siamo</a></li>
-            <li><a href="#servizi">Servizi</a></li>
-            <li><a href="#tecnologie">Tecnologie</a></li>
-            <li><a href="#contatti">Contatti</a></li>
+               <ul class="nav-links">
+            <li>
+                <a href="#chi-siamo">Chi Siamo
+                    <svg class="nav-chip-circuit" viewBox="0 0 110 16">
+                        <path d="M5 8 H46 M64 8 H105 M14 13 H46 M64 13 H96" stroke="#d1d5db" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                        <path class="pcb-trace" d="M46 8 L30 8 L24 3 L6 3" />
+                        <path class="pcb-trace" d="M64 8 L80 8 L86 3 L104 3" />
+                        <path class="pcb-trace" d="M46 12 L34 12 L28 14 L14 14" />
+                        <path class="pcb-trace" d="M64 12 L76 12 L82 14 L96 14" />
+                        <circle class="pcb-pad" cx="6" cy="3" r="2" />
+                        <circle class="pcb-pad" cx="104" cy="3" r="2" />
+                        <circle class="pcb-pad" cx="14" cy="14" r="1.8" />
+                        <circle class="pcb-pad" cx="96" cy="14" r="1.8" />
+                        <!-- Corpo del Microchip con piedini -->
+                        <rect x="47" y="3" width="16" height="11" rx="2" fill="#141414" stroke="#16A34A" stroke-width="1"/>
+                        <circle cx="55" cy="8.5" r="2" fill="#22C55E"/>
+                        <line x1="45" y1="6" x2="47" y2="6" stroke="#9ca3af" stroke-width="1.2"/>
+                        <line x1="45" y1="11" x2="47" y2="11" stroke="#9ca3af" stroke-width="1.2"/>
+                        <line x1="63" y1="6" x2="65" y2="6" stroke="#9ca3af" stroke-width="1.2"/>
+                        <line x1="63" y1="11" x2="65" y2="11" stroke="#9ca3af" stroke-width="1.2"/>
+                    </svg>
+                </a>
+            </li>
+            <li>
+                <a href="#servizi">Servizi
+                    <svg class="nav-chip-circuit" viewBox="0 0 110 16">
+                        <path d="M5 8 H46 M64 8 H105 M14 13 H46 M64 13 H96" stroke="#d1d5db" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                        <path class="pcb-trace" d="M46 8 L30 8 L24 3 L6 3" />
+                        <path class="pcb-trace" d="M64 8 L80 8 L86 3 L104 3" />
+                        <path class="pcb-trace" d="M46 12 L34 12 L28 14 L14 14" />
+                        <path class="pcb-trace" d="M64 12 L76 12 L82 14 L96 14" />
+                        <circle class="pcb-pad" cx="6" cy="3" r="2" />
+                        <circle class="pcb-pad" cx="104" cy="3" r="2" />
+                        <circle class="pcb-pad" cx="14" cy="14" r="1.8" />
+                        <circle class="pcb-pad" cx="96" cy="14" r="1.8" />
+                        <rect x="47" y="3" width="16" height="11" rx="2" fill="#141414" stroke="#16A34A" stroke-width="1"/>
+                        <circle cx="55" cy="8.5" r="2" fill="#22C55E"/>
+                        <line x1="45" y1="6" x2="47" y2="6" stroke="#9ca3af" stroke-width="1.2"/>
+                        <line x1="45" y1="11" x2="47" y2="11" stroke="#9ca3af" stroke-width="1.2"/>
+                        <line x1="63" y1="6" x2="65" y2="6" stroke="#9ca3af" stroke-width="1.2"/>
+                        <line x1="63" y1="11" x2="65" y2="11" stroke="#9ca3af" stroke-width="1.2"/>
+                    </svg>
+                </a>
+            </li>
+            <li>
+                <a href="#tecnologie">Tecnologie
+                    <svg class="nav-chip-circuit" viewBox="0 0 110 16">
+                        <path d="M5 8 H46 M64 8 H105 M14 13 H46 M64 13 H96" stroke="#d1d5db" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                        <path class="pcb-trace" d="M46 8 L30 8 L24 3 L6 3" />
+                        <path class="pcb-trace" d="M64 8 L80 8 L86 3 L104 3" />
+                        <path class="pcb-trace" d="M46 12 L34 12 L28 14 L14 14" />
+                        <path class="pcb-trace" d="M64 12 L76 12 L82 14 L96 14" />
+                        <circle class="pcb-pad" cx="6" cy="3" r="2" />
+                        <circle class="pcb-pad" cx="104" cy="3" r="2" />
+                        <circle class="pcb-pad" cx="14" cy="14" r="1.8" />
+                        <circle class="pcb-pad" cx="96" cy="14" r="1.8" />
+                        <rect x="47" y="3" width="16" height="11" rx="2" fill="#141414" stroke="#16A34A" stroke-width="1"/>
+                        <circle cx="55" cy="8.5" r="2" fill="#22C55E"/>
+                        <line x1="45" y1="6" x2="47" y2="6" stroke="#9ca3af" stroke-width="1.2"/>
+                        <line x1="45" y1="11" x2="47" y2="11" stroke="#9ca3af" stroke-width="1.2"/>
+                        <line x1="63" y1="6" x2="65" y2="6" stroke="#9ca3af" stroke-width="1.2"/>
+                        <line x1="63" y1="11" x2="65" y2="11" stroke="#9ca3af" stroke-width="1.2"/>
+                    </svg>
+                </a>
+            </li>
+            <li>
+                <a href="#contatti">Contatti
+                    <svg class="nav-chip-circuit" viewBox="0 0 110 16">
+                        <path d="M5 8 H46 M64 8 H105 M14 13 H46 M64 13 H96" stroke="#d1d5db" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                        <path class="pcb-trace" d="M46 8 L30 8 L24 3 L6 3" />
+                        <path class="pcb-trace" d="M64 8 L80 8 L86 3 L104 3" />
+                        <path class="pcb-trace" d="M46 12 L34 12 L28 14 L14 14" />
+                        <path class="pcb-trace" d="M64 12 L76 12 L82 14 L96 14" />
+                        <circle class="pcb-pad" cx="6" cy="3" r="2" />
+                        <circle class="pcb-pad" cx="104" cy="3" r="2" />
+                        <circle class="pcb-pad" cx="14" cy="14" r="1.8" />
+                        <circle class="pcb-pad" cx="96" cy="14" r="1.8" />
+                        <rect x="47" y="3" width="16" height="11" rx="2" fill="#141414" stroke="#16A34A" stroke-width="1"/>
+                        <circle cx="55" cy="8.5" r="2" fill="#22C55E"/>
+                        <line x1="45" y1="6" x2="47" y2="6" stroke="#9ca3af" stroke-width="1.2"/>
+                        <line x1="45" y1="11" x2="47" y2="11" stroke="#9ca3af" stroke-width="1.2"/>
+                        <line x1="63" y1="6" x2="65" y2="6" stroke="#9ca3af" stroke-width="1.2"/>
+                        <line x1="63" y1="11" x2="65" y2="11" stroke="#9ca3af" stroke-width="1.2"/>
+                    </svg>
+                </a>
+            </li>
         </ul>
+
             <div class="lang-box">
                 <div id="google_translate_element"></div>
             </div>
