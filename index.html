@@ -13,7 +13,22 @@
 
     <style>
         * { box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; margin: 0; padding: 0; color: #1a1a1a; background-color: #ffffff; }
+                /* Sfondo Tecnico Quadro Elettrico con Canalina e Cablaggi Colorati 3D */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #1a1a1a;
+            background-color: #f8fafc;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://w3.org' width='240' height='240' viewBox='0 0 240 240'%3E%3Cg opacity='0.26'%3E%3C!-- Piastra e Canalina Verticale / Orizzontale --%3E%3Crect x='16' y='0' width='26' height='240' fill='%23e2e8f0' stroke='%23cbd5e1' stroke-width='1'/%3E%3Crect x='0' y='190' width='240' height='26' fill='%23e2e8f0' stroke='%23cbd5e1' stroke-width='1'/%3E%3C!-- Feritoie canalina --%3E%3Cpath d='M21 15h6v18h-6zM31 15h6v18h-6zM21 55h6v18h-6zM31 55h6v18h-6zM21 95h6v18h-6zM31 95h6v18h-6zM21 135h6v18h-6zM31 135h6v18h-6zM60 195h18v6H60zM60 205h18v6H60zM110 195h18v6h-18zM110 205h18v6h-18zM160 195h18v6h-18zM160 205h18v6h-18z' fill='%2394a3b8'/%3E%3C!-- Cavo Blu 24V DC --%3E%3Cpath d='M36 64 H110 Q130 64 130 84 V196' fill='none' stroke='%232563eb' stroke-width='4.5' stroke-linecap='round'/%3E%3Cpath d='M36 63 H110 Q130 63 130 84 V196' fill='none' stroke='%2393c5fd' stroke-width='1.2'/%3E%3C!-- Cavo Rosso Emergenza --%3E%3Cpath d='M36 72 H102 Q122 72 122 92 V196' fill='none' stroke='%23dc2626' stroke-width='4.5' stroke-linecap='round'/%3E%3Cpath d='M36 71 H102 Q122 71 122 92 V196' fill='none' stroke='%23fca5a5' stroke-width='1.2'/%3E%3C!-- Cavo Verde Profinet --%3E%3Cpath d='M36 80 H94 Q114 80 114 100 V196' fill='none' stroke='%2316a34a' stroke-width='4.5' stroke-linecap='round'/%3E%3Cpath d='M36 79 H94 Q114 79 114 100 V196' fill='none' stroke='%2386efac' stroke-width='1.2'/%3E%3C!-- Cavo Ambra Segnale --%3E%3Cpath d='M36 144 H168 Q188 144 188 164 V196' fill='none' stroke='%23d97706' stroke-width='4' stroke-linecap='round'/%3E%3Cpath d='M36 143 H168 Q188 143 188 164 V196' fill='none' stroke='%23fcd34d' stroke-width='1'/%3E%3C!-- Fascette di cablaggio nere e morsetti --%3E%3Crect x='74' y='60' width='4' height='24' rx='1.5' fill='%23141414'/%3E%3Crect x='110' y='138' width='24' height='4' rx='1.5' fill='%23141414'/%3E%3Ccircle cx='188' cy='164' r='4' fill='%23141414'/%3E%3C/g%3E%3C/svg%3E");
+            top: 0px !important;
+            position: static !important;
+        }
+        @media (max-width: 768px) {
+            body { background-image: none; background-color: #ffffff; }
+        }
+
         
         /* Navbar stile Squarespace */
         nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 60px; background-color: #ffffff; width: 100%; position: relative; z-index: 10; border-bottom: 1px solid #eeeeee; }
