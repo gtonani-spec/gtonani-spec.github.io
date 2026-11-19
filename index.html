@@ -372,7 +372,7 @@
         .hmi-top { width: 130px; height: 24px; left: 7.5px; top: 43px; background: #374151; transform: rotateX(90deg) translateZ(46px); border-radius: 2px; }
         .hmi-bottom { width: 130px; height: 24px; left: 7.5px; top: 43px; background: #0f172a; transform: rotateX(-90deg) translateZ(46px); border-radius: 2px; }
 
-                /* Contenitore e Scena Braccio Robotico KUKA 3D sotto la 3a scheda */
+         /* Contenitore e Scena Braccio Robotico KUKA 3D Volumetrico */
         #servizi .card:nth-child(3) {
             position: relative;
             overflow: visible !important;
@@ -392,7 +392,6 @@
             transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        /* Mostra il Robot KUKA 3D al passaggio del cursore sulla 3a scheda */
         #servizi .card:nth-child(3):hover .robot-3d-wrapper {
             opacity: 1;
             transform: translateX(-50%) scale(0.75);
@@ -406,147 +405,77 @@
             animation: ruotaPLC 5.5s linear infinite;
         }
 
-        /* Basamento circolare 3D antracite */
-        .kuka-base {
-            position: absolute;
-            bottom: 8px;
-            left: 41px;
-            width: 48px;
-            height: 22px;
-            transform-style: preserve-3d;
-        }
-        .kuka-base-front { position: absolute; width: 48px; height: 22px; background: linear-gradient(180deg, #2d3748, #141414); border: 1.5px solid #0a0a0a; border-radius: 4px 4px 2px 2px; transform: translateZ(16px); }
-        .kuka-base-back { position: absolute; width: 48px; height: 22px; background: #141414; border: 1.5px solid #0a0a0a; border-radius: 4px 4px 2px 2px; transform: rotateY(180deg) translateZ(16px); }
-        .kuka-base-right { position: absolute; width: 32px; height: 22px; left: 8px; background: #1f2937; border: 1.5px solid #0a0a0a; transform: rotateY(90deg) translateZ(24px); }
-        .kuka-base-left { position: absolute; width: 32px; height: 22px; left: 8px; background: #1f2937; border: 1.5px solid #0a0a0a; transform: rotateY(-90deg) translateZ(24px); }
-        .kuka-base-top { position: absolute; width: 48px; height: 32px; top: -5px; background: #374151; border: 1.5px solid #0a0a0a; transform: rotateX(90deg) translateZ(11px); }
+        /* Helper generico per ogni faccia 3D */
+        .kuka-box { position: absolute; transform-style: preserve-3d; }
+        .kuka-face { position: absolute; box-sizing: border-box; border: 1.2px solid #141414; }
 
-        /* Torretta girevole Arancione KUKA */
-        .kuka-turret {
-            position: absolute;
-            bottom: 28px;
-            left: 48px;
-            width: 34px;
-            height: 20px;
-            background: linear-gradient(180deg, #f97316, #ea580c);
-            border: 1.5px solid #141414;
-            border-radius: 5px;
-            transform-style: preserve-3d;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-        }
-        .kuka-turret::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: #c2410c;
-            border: 1.5px solid #141414;
-            border-radius: 5px;
-            transform: translateZ(-8px);
-        }
+        /* 1. Basamento 3D Antracite (48x20x36) */
+        .kuka-base { bottom: 6px; left: 41px; width: 48px; height: 20px; }
+        .kuka-base .f-front { width: 48px; height: 20px; background: linear-gradient(180deg, #2d3748, #141414); transform: translateZ(18px); border-radius: 3px 3px 0 0; }
+        .kuka-base .f-back  { width: 48px; height: 20px; background: #141414; transform: rotateY(180deg) translateZ(18px); border-radius: 3px 3px 0 0; }
+        .kuka-base .f-right { width: 36px; height: 20px; left: 6px; background: #1f2937; transform: rotateY(90deg) translateZ(24px); }
+        .kuka-base .f-left  { width: 36px; height: 20px; left: 6px; background: #1f2937; transform: rotateY(-90deg) translateZ(24px); }
+        .kuka-base .f-top   { width: 48px; height: 36px; top: -8px; background: #374151; transform: rotateX(90deg) translateZ(10px); }
 
-        /* Primo Braccio Principale (spalla -> gomito) */
+        /* 2. Torretta Girevole 3D Arancione KUKA (28x18x24) */
+        .kuka-turret { bottom: 26px; left: 51px; width: 28px; height: 18px; }
+        .kuka-turret .f-front { width: 28px; height: 18px; background: linear-gradient(180deg, #f97316, #ea580c); transform: translateZ(12px); border-radius: 3px; }
+        .kuka-turret .f-back  { width: 28px; height: 18px; background: #c2410c; transform: rotateY(180deg) translateZ(12px); border-radius: 3px; }
+        .kuka-turret .f-right { width: 24px; height: 18px; left: 2px; background: #ea580c; transform: rotateY(90deg) translateZ(14px); }
+        .kuka-turret .f-left  { width: 24px; height: 18px; left: 2px; background: #ea580c; transform: rotateY(-90deg) translateZ(14px); }
+        .kuka-turret .f-top   { width: 28px; height: 24px; top: -3px; background: #fb923c; transform: rotateX(90deg) translateZ(9px); }
+
+        /* 3. Primo Braccio Solido 3D (16x42x16) */
         .kuka-arm-lower {
-            position: absolute;
-            bottom: 42px;
-            left: 57px;
-            width: 16px;
-            height: 44px;
-            background: linear-gradient(90deg, #fb923c, #ea580c);
-            border: 1.5px solid #141414;
-            border-radius: 8px;
+            bottom: 40px; left: 57px; width: 16px; height: 42px;
             transform-origin: bottom center;
-            transform: rotate(-28deg);
-            transform-style: preserve-3d;
             animation: moveLowerArm 2.6s ease-in-out infinite alternate;
         }
-        .kuka-arm-lower::before {
-            content: '';
-            position: absolute;
-            bottom: 3px; left: 3px;
-            width: 8px; height: 8px;
-            border-radius: 50%;
-            background: #141414;
-        }
+        .kuka-arm-lower > .f-front { width: 16px; height: 42px; background: linear-gradient(90deg, #fb923c, #ea580c); transform: translateZ(8px); border-radius: 6px; }
+        .kuka-arm-lower > .f-back  { width: 16px; height: 42px; background: #c2410c; transform: rotateY(180deg) translateZ(8px); border-radius: 6px; }
+        .kuka-arm-lower > .f-right { width: 16px; height: 42px; background: #ea580c; transform: rotateY(90deg) translateZ(8px); border-radius: 4px; }
+        .kuka-arm-lower > .f-left  { width: 16px; height: 42px; background: #f97316; transform: rotateY(-90deg) translateZ(8px); border-radius: 4px; }
+        .kuka-arm-lower > .f-top   { width: 16px; height: 16px; background: #fb923c; transform: rotateX(90deg) translateZ(8px); border-radius: 50%; }
 
-        /* Secondo Braccio / Avambraccio (gomito -> polso) */
+        /* 4. Avambraccio Superiore Solido 3D (40x13x14) */
         .kuka-arm-upper {
-            position: absolute;
-            top: -4px;
-            left: 1px;
-            width: 44px;
-            height: 13px;
-            background: linear-gradient(180deg, #f97316, #c2410c);
-            border: 1.5px solid #141414;
-            border-radius: 6px;
+            top: -3px; left: 2px; width: 40px; height: 13px;
             transform-origin: 6px center;
-            transform: rotate(45deg);
-            transform-style: preserve-3d;
             animation: moveUpperArm 2.6s ease-in-out infinite alternate;
         }
-        /* Giunto del gomito */
-        .kuka-arm-upper::before {
-            content: '';
-            position: absolute;
-            top: 1px; left: 1px;
-            width: 8px; height: 8px;
-            border-radius: 50%;
-            background: #141414;
-            border: 1px solid #9ca3af;
-        }
+        .kuka-arm-upper > .f-front { width: 40px; height: 13px; background: linear-gradient(180deg, #f97316, #c2410c); transform: translateZ(7px); border-radius: 5px; }
+        .kuka-arm-upper > .f-back  { width: 40px; height: 13px; background: #9a3412; transform: rotateY(180deg) translateZ(7px); border-radius: 5px; }
+        .kuka-arm-upper > .f-top   { width: 40px; height: 14px; top: -0.5px; background: #fb923c; transform: rotateX(90deg) translateZ(6.5px); border-radius: 4px; }
+        .kuka-arm-upper > .f-bot   { width: 40px; height: 14px; top: -0.5px; background: #9a3412; transform: rotateX(-90deg) translateZ(6.5px); border-radius: 4px; }
+        .kuka-arm-upper > .f-left  { width: 14px; height: 13px; left: -1px; background: #141414; transform: rotateY(-90deg) translateZ(6px); border-radius: 50%; }
 
-        /* Polso nero e Pinza Meccanica con LED Verde */
-        .kuka-wrist {
-            position: absolute;
-            right: -12px;
-            top: -1px;
-            width: 14px;
-            height: 12px;
-            background: #141414;
-            border-radius: 3px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+        /* 5. Polso 3D Antracite (12x11x12) e Pinza con Spessore */
+        .kuka-wrist { right: -10px; top: 1px; width: 12px; height: 11px; }
+        .kuka-wrist > .f-front { width: 12px; height: 11px; background: #1f2937; transform: translateZ(6px); border-radius: 2px; }
+        .kuka-wrist > .f-back  { width: 12px; height: 11px; background: #111827; transform: rotateY(180deg) translateZ(6px); border-radius: 2px; }
+        .kuka-wrist > .f-top   { width: 12px; height: 12px; top: -0.5px; background: #374151; transform: rotateX(90deg) translateZ(5.5px); }
+        .kuka-wrist > .f-bot   { width: 12px; height: 12px; top: -0.5px; background: #0a0a0a; transform: rotateX(-90deg) translateZ(5.5px); }
+        .kuka-wrist > .f-right { width: 12px; height: 11px; background: #141414; transform: rotateY(90deg) translateZ(6px); }
+
+        .kuka-finger-top, .kuka-finger-bot {
+            position: absolute; right: -10px; width: 11px; height: 3.5px;
+            background: #9ca3af; border: 1px solid #141414; border-radius: 1px;
+            transform-style: preserve-3d;
         }
-        .kuka-finger-top {
-            position: absolute;
-            right: -10px;
-            top: -2px;
-            width: 11px;
-            height: 3.5px;
-            background: #9ca3af;
-            border: 1px solid #141414;
-            border-radius: 1px;
-            animation: pinzaTop 1.3s ease-in-out infinite alternate;
-        }
-        .kuka-finger-bot {
-            position: absolute;
-            right: -10px;
-            bottom: -2px;
-            width: 11px;
-            height: 3.5px;
-            background: #9ca3af;
-            border: 1px solid #141414;
-            border-radius: 1px;
-            animation: pinzaBot 1.3s ease-in-out infinite alternate;
-        }
+        .kuka-finger-top { top: -1px; animation: pinzaTop 1.3s ease-in-out infinite alternate; }
+        .kuka-finger-bot { bottom: -1px; animation: pinzaBot 1.3s ease-in-out infinite alternate; }
         .kuka-laser-dot {
-            position: absolute;
-            right: -14px;
-            top: 4px;
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-            background: #22C55E;
-            box-shadow: 0 0 6px #22C55E;
+            position: absolute; right: -13px; top: 3.5px; width: 4px; height: 4px;
+            border-radius: 50%; background: #22C55E; box-shadow: 0 0 6px #22C55E;
         }
 
         @keyframes moveLowerArm {
-            from { transform: rotate(-34deg); }
-            to { transform: rotate(-18deg); }
+            from { transform: rotate(-32deg); }
+            to { transform: rotate(-16deg); }
         }
         @keyframes moveUpperArm {
-            from { transform: rotate(55deg); }
-            to { transform: rotate(28deg); }
+            from { transform: rotate(52deg); }
+            to { transform: rotate(26deg); }
         }
         @keyframes pinzaTop {
             from { transform: translateY(-2px); }
@@ -556,6 +485,7 @@
             from { transform: translateY(2px); }
             to { transform: translateY(-1px); }
         }
+
 
 
 
@@ -801,19 +731,46 @@
                 <h3>Robotica Industriale</h3>
                 <p>Integrazione e sviluppo software per Robot antropomorfi e isole robotizzate destinate a ottimizzare i cicli di fabbrica complessi.</p>
                            <!-- Modulo Braccio Robotico KUKA 3D -->
+                               <!-- Modulo Braccio Robotico KUKA 3D Volumetrico -->
                 <div class="robot-3d-wrapper">
                     <div class="robot-3d-stage">
-                        <div class="kuka-base">
-                            <div class="kuka-base-front"></div>
-                            <div class="kuka-base-back"></div>
-                            <div class="kuka-base-right"></div>
-                            <div class="kuka-base-left"></div>
-                            <div class="kuka-base-top"></div>
+                        <!-- Basamento 3D -->
+                        <div class="kuka-box kuka-base">
+                            <div class="kuka-face f-front"></div>
+                            <div class="kuka-face f-back"></div>
+                            <div class="kuka-face f-right"></div>
+                            <div class="kuka-face f-left"></div>
+                            <div class="kuka-face f-top"></div>
                         </div>
-                        <div class="kuka-turret"></div>
-                        <div class="kuka-arm-lower">
-                            <div class="kuka-arm-upper">
-                                <div class="kuka-wrist">
+                        <!-- Torretta Girevole 3D -->
+                        <div class="kuka-box kuka-turret">
+                            <div class="kuka-face f-front"></div>
+                            <div class="kuka-face f-back"></div>
+                            <div class="kuka-face f-right"></div>
+                            <div class="kuka-face f-left"></div>
+                            <div class="kuka-face f-top"></div>
+                        </div>
+                        <!-- Braccio Principale 3D -->
+                        <div class="kuka-box kuka-arm-lower">
+                            <div class="kuka-face f-front"></div>
+                            <div class="kuka-face f-back"></div>
+                            <div class="kuka-face f-right"></div>
+                            <div class="kuka-face f-left"></div>
+                            <div class="kuka-face f-top"></div>
+                            <!-- Avambraccio 3D -->
+                            <div class="kuka-box kuka-arm-upper">
+                                <div class="kuka-face f-front"></div>
+                                <div class="kuka-face f-back"></div>
+                                <div class="kuka-face f-top"></div>
+                                <div class="kuka-face f-bot"></div>
+                                <div class="kuka-face f-left"></div>
+                                <!-- Polso 3D e Pinza -->
+                                <div class="kuka-box kuka-wrist">
+                                    <div class="kuka-face f-front"></div>
+                                    <div class="kuka-face f-back"></div>
+                                    <div class="kuka-face f-top"></div>
+                                    <div class="kuka-face f-bot"></div>
+                                    <div class="kuka-face f-right"></div>
                                     <div class="kuka-finger-top"></div>
                                     <div class="kuka-finger-bot"></div>
                                     <div class="kuka-laser-dot"></div>
@@ -822,9 +779,7 @@
                         </div>
                     </div>
                 </div>
- 
-            </div>
-        </div>
+
 
     </div>
 
