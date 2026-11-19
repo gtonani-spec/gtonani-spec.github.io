@@ -14,20 +14,39 @@
     <style>
         * { box-sizing: border-box; }
                 /* Sfondo Tecnico Quadro Elettrico con Canalina e Cablaggi Colorati 3D */
-        body {
+                body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             line-height: 1.6;
             margin: 0;
             padding: 0;
             color: #1a1a1a;
             background-color: #f8fafc;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://w3.org' width='240' height='240' viewBox='0 0 240 240'%3E%3Cg opacity='0.26'%3E%3C!-- Piastra e Canalina Verticale / Orizzontale --%3E%3Crect x='16' y='0' width='26' height='240' fill='%23e2e8f0' stroke='%23cbd5e1' stroke-width='1'/%3E%3Crect x='0' y='190' width='240' height='26' fill='%23e2e8f0' stroke='%23cbd5e1' stroke-width='1'/%3E%3C!-- Feritoie canalina --%3E%3Cpath d='M21 15h6v18h-6zM31 15h6v18h-6zM21 55h6v18h-6zM31 55h6v18h-6zM21 95h6v18h-6zM31 95h6v18h-6zM21 135h6v18h-6zM31 135h6v18h-6zM60 195h18v6H60zM60 205h18v6H60zM110 195h18v6h-18zM110 205h18v6h-18zM160 195h18v6h-18zM160 205h18v6h-18z' fill='%2394a3b8'/%3E%3C!-- Cavo Blu 24V DC --%3E%3Cpath d='M36 64 H110 Q130 64 130 84 V196' fill='none' stroke='%232563eb' stroke-width='4.5' stroke-linecap='round'/%3E%3Cpath d='M36 63 H110 Q130 63 130 84 V196' fill='none' stroke='%2393c5fd' stroke-width='1.2'/%3E%3C!-- Cavo Rosso Emergenza --%3E%3Cpath d='M36 72 H102 Q122 72 122 92 V196' fill='none' stroke='%23dc2626' stroke-width='4.5' stroke-linecap='round'/%3E%3Cpath d='M36 71 H102 Q122 71 122 92 V196' fill='none' stroke='%23fca5a5' stroke-width='1.2'/%3E%3C!-- Cavo Verde Profinet --%3E%3Cpath d='M36 80 H94 Q114 80 114 100 V196' fill='none' stroke='%2316a34a' stroke-width='4.5' stroke-linecap='round'/%3E%3Cpath d='M36 79 H94 Q114 79 114 100 V196' fill='none' stroke='%2386efac' stroke-width='1.2'/%3E%3C!-- Cavo Ambra Segnale --%3E%3Cpath d='M36 144 H168 Q188 144 188 164 V196' fill='none' stroke='%23d97706' stroke-width='4' stroke-linecap='round'/%3E%3Cpath d='M36 143 H168 Q188 143 188 164 V196' fill='none' stroke='%23fcd34d' stroke-width='1'/%3E%3C!-- Fascette di cablaggio nere e morsetti --%3E%3Crect x='74' y='60' width='4' height='24' rx='1.5' fill='%23141414'/%3E%3Crect x='110' y='138' width='24' height='4' rx='1.5' fill='%23141414'/%3E%3Ccircle cx='188' cy='164' r='4' fill='%23141414'/%3E%3C/g%3E%3C/svg%3E");
             top: 0px !important;
             position: static !important;
         }
-        @media (max-width: 768px) {
-            body { background-image: none; background-color: #ffffff; }
+
+        /* Livello Sfondo Quadro Elettrico con Canalina e Fili Colorati */
+        #electric-panel-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background-color: #f8fafc;
+            background-repeat: repeat;
+            background-size: 260px 260px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://w3.org' width='260' height='260' viewBox='0 0 260 260'%3E%3Cg opacity='0.42'%3E%3Crect x='18' y='0' width='28' height='260' fill='%23e2e8f0' stroke='%23cbd5e1' stroke-width='1.5'/%3E%3Crect x='0' y='205' width='260' height='28' fill='%23e2e8f0' stroke='%23cbd5e1' stroke-width='1.5'/%3E%3Cpath d='M23 16h6v20h-6zM34 16h6v20h-6zM23 58h6v20h-6zM34 58h6v20h-6zM23 100h6v20h-6zM34 100h6v20h-6zM23 142h6v20h-6zM34 142h6v20h-6zM65 210h20v6H65zM65 221h20v6H65zM120 210h20v6h-20zM120 221h20v6h-20zM175 210h20v6h-20zM175 221h20v6h-20z' fill='%2394a3b8'/%3E%3Cpath d='M40 68 H120 Q142 68 142 90 V212' fill='none' stroke='%232563eb' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M40 67 H120 Q142 67 142 90 V212' fill='none' stroke='%2393c5fd' stroke-width='1.5'/%3E%3Cpath d='M40 77 H111 Q133 77 133 99 V212' fill='none' stroke='%23dc2626' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M40 76 H111 Q133 76 133 99 V212' fill='none' stroke='%23fca5a5' stroke-width='1.5'/%3E%3Cpath d='M40 86 H102 Q124 86 124 108 V212' fill='none' stroke='%2316a34a' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M40 85 H102 Q124 85 124 108 V212' fill='none' stroke='%2386efac' stroke-width='1.5'/%3E%3Cpath d='M40 152 H182 Q204 152 204 174 V212' fill='none' stroke='%23d97706' stroke-width='4.5' stroke-linecap='round'/%3E%3Cpath d='M40 151 H182 Q204 151 204 174 V212' fill='none' stroke='%23fcd34d' stroke-width='1.3'/%3E%3Crect x='82' y='63' width='5' height='28' rx='2' fill='%23141414'/%3E%3Crect x='119' y='146' width='28' height='5' rx='2' fill='%23141414'/%3E%3Ccircle cx='204' cy='174' r='4.5' fill='%23141414'/%3E%3C/g%3E%3C/svg%3E");
         }
+
+        /* Rende trasparente la fascia centrale così i fili si vedono lungo tutta la pagina */
+        .tech-section {
+            background-color: rgba(248, 250, 252, 0.65) !important;
+        }
+
+        @media (max-width: 768px) {
+            #electric-panel-bg { display: none; }
+            body { background-color: #ffffff; }
+        }
+
 
         
         /* Navbar stile Squarespace */
