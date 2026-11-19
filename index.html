@@ -372,7 +372,194 @@
         .hmi-top { width: 130px; height: 24px; left: 7.5px; top: 43px; background: #374151; transform: rotateX(90deg) translateZ(46px); border-radius: 2px; }
         .hmi-bottom { width: 130px; height: 24px; left: 7.5px; top: 43px; background: #0f172a; transform: rotateX(-90deg) translateZ(46px); border-radius: 2px; }
 
-        
+                /* Contenitore e Scena Braccio Robotico KUKA 3D sotto la 3a scheda */
+        #servizi .card:nth-child(3) {
+            position: relative;
+            overflow: visible !important;
+        }
+        .robot-3d-wrapper {
+            position: absolute;
+            top: calc(100% + 5px);
+            left: 50%;
+            width: 130px;
+            height: 120px;
+            transform: translateX(-50%) scale(0.45);
+            transform-origin: top center;
+            perspective: 750px;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 30;
+            transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* Mostra il Robot KUKA 3D al passaggio del cursore sulla 3a scheda */
+        #servizi .card:nth-child(3):hover .robot-3d-wrapper {
+            opacity: 1;
+            transform: translateX(-50%) scale(0.75);
+        }
+
+        .robot-3d-stage {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: ruotaPLC 5.5s linear infinite;
+        }
+
+        /* Basamento circolare 3D antracite */
+        .kuka-base {
+            position: absolute;
+            bottom: 8px;
+            left: 41px;
+            width: 48px;
+            height: 22px;
+            transform-style: preserve-3d;
+        }
+        .kuka-base-front { position: absolute; width: 48px; height: 22px; background: linear-gradient(180deg, #2d3748, #141414); border: 1.5px solid #0a0a0a; border-radius: 4px 4px 2px 2px; transform: translateZ(16px); }
+        .kuka-base-back { position: absolute; width: 48px; height: 22px; background: #141414; border: 1.5px solid #0a0a0a; border-radius: 4px 4px 2px 2px; transform: rotateY(180deg) translateZ(16px); }
+        .kuka-base-right { position: absolute; width: 32px; height: 22px; left: 8px; background: #1f2937; border: 1.5px solid #0a0a0a; transform: rotateY(90deg) translateZ(24px); }
+        .kuka-base-left { position: absolute; width: 32px; height: 22px; left: 8px; background: #1f2937; border: 1.5px solid #0a0a0a; transform: rotateY(-90deg) translateZ(24px); }
+        .kuka-base-top { position: absolute; width: 48px; height: 32px; top: -5px; background: #374151; border: 1.5px solid #0a0a0a; transform: rotateX(90deg) translateZ(11px); }
+
+        /* Torretta girevole Arancione KUKA */
+        .kuka-turret {
+            position: absolute;
+            bottom: 28px;
+            left: 48px;
+            width: 34px;
+            height: 20px;
+            background: linear-gradient(180deg, #f97316, #ea580c);
+            border: 1.5px solid #141414;
+            border-radius: 5px;
+            transform-style: preserve-3d;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+        }
+        .kuka-turret::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: #c2410c;
+            border: 1.5px solid #141414;
+            border-radius: 5px;
+            transform: translateZ(-8px);
+        }
+
+        /* Primo Braccio Principale (spalla -> gomito) */
+        .kuka-arm-lower {
+            position: absolute;
+            bottom: 42px;
+            left: 57px;
+            width: 16px;
+            height: 44px;
+            background: linear-gradient(90deg, #fb923c, #ea580c);
+            border: 1.5px solid #141414;
+            border-radius: 8px;
+            transform-origin: bottom center;
+            transform: rotate(-28deg);
+            transform-style: preserve-3d;
+            animation: moveLowerArm 2.6s ease-in-out infinite alternate;
+        }
+        .kuka-arm-lower::before {
+            content: '';
+            position: absolute;
+            bottom: 3px; left: 3px;
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: #141414;
+        }
+
+        /* Secondo Braccio / Avambraccio (gomito -> polso) */
+        .kuka-arm-upper {
+            position: absolute;
+            top: -4px;
+            left: 1px;
+            width: 44px;
+            height: 13px;
+            background: linear-gradient(180deg, #f97316, #c2410c);
+            border: 1.5px solid #141414;
+            border-radius: 6px;
+            transform-origin: 6px center;
+            transform: rotate(45deg);
+            transform-style: preserve-3d;
+            animation: moveUpperArm 2.6s ease-in-out infinite alternate;
+        }
+        /* Giunto del gomito */
+        .kuka-arm-upper::before {
+            content: '';
+            position: absolute;
+            top: 1px; left: 1px;
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: #141414;
+            border: 1px solid #9ca3af;
+        }
+
+        /* Polso nero e Pinza Meccanica con LED Verde */
+        .kuka-wrist {
+            position: absolute;
+            right: -12px;
+            top: -1px;
+            width: 14px;
+            height: 12px;
+            background: #141414;
+            border-radius: 3px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .kuka-finger-top {
+            position: absolute;
+            right: -10px;
+            top: -2px;
+            width: 11px;
+            height: 3.5px;
+            background: #9ca3af;
+            border: 1px solid #141414;
+            border-radius: 1px;
+            animation: pinzaTop 1.3s ease-in-out infinite alternate;
+        }
+        .kuka-finger-bot {
+            position: absolute;
+            right: -10px;
+            bottom: -2px;
+            width: 11px;
+            height: 3.5px;
+            background: #9ca3af;
+            border: 1px solid #141414;
+            border-radius: 1px;
+            animation: pinzaBot 1.3s ease-in-out infinite alternate;
+        }
+        .kuka-laser-dot {
+            position: absolute;
+            right: -14px;
+            top: 4px;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #22C55E;
+            box-shadow: 0 0 6px #22C55E;
+        }
+
+        @keyframes moveLowerArm {
+            from { transform: rotate(-34deg); }
+            to { transform: rotate(-18deg); }
+        }
+        @keyframes moveUpperArm {
+            from { transform: rotate(55deg); }
+            to { transform: rotate(28deg); }
+        }
+        @keyframes pinzaTop {
+            from { transform: translateY(-2px); }
+            to { transform: translateY(1px); }
+        }
+        @keyframes pinzaBot {
+            from { transform: translateY(2px); }
+            to { transform: translateY(-1px); }
+        }
+
+
+
+
         
         
         
@@ -613,6 +800,29 @@
             <div class="card card-robot">
                 <h3>Robotica Industriale</h3>
                 <p>Integrazione e sviluppo software per Robot antropomorfi e isole robotizzate destinate a ottimizzare i cicli di fabbrica complessi.</p>
+                           <!-- Modulo Braccio Robotico KUKA 3D -->
+                <div class="robot-3d-wrapper">
+                    <div class="robot-3d-stage">
+                        <div class="kuka-base">
+                            <div class="kuka-base-front"></div>
+                            <div class="kuka-base-back"></div>
+                            <div class="kuka-base-right"></div>
+                            <div class="kuka-base-left"></div>
+                            <div class="kuka-base-top"></div>
+                        </div>
+                        <div class="kuka-turret"></div>
+                        <div class="kuka-arm-lower">
+                            <div class="kuka-arm-upper">
+                                <div class="kuka-wrist">
+                                    <div class="kuka-finger-top"></div>
+                                    <div class="kuka-finger-bot"></div>
+                                    <div class="kuka-laser-dot"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+ 
             </div>
         </div>
 
