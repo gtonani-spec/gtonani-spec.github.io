@@ -1412,9 +1412,7 @@ function inserisciChiavettaProgetti() {
     if (!usbInserita) {
         usbInserita = true;
         usb.classList.add('inserted');
-         const notif = document.getElementById('hmiNotifBadge');
-        if (notif) notif.style.display = 'none';
-        if (ultimoTimestampProgetti) localStorage.setItem('automatech_seen_ts', String(ultimoTimestampProgetti));
+            
 
         txt.innerHTML = `
             <svg viewBox="0 0 82 64" width="36" height="28" style="display:block; margin: 0 6px; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.45));" aria-label="Automatech">
@@ -1443,8 +1441,12 @@ function inserisciChiavettaProgetti() {
 
 function apriPannelloProgetti() {
     if (!usbInserita) return;
+    const notif = document.getElementById('hmiNotifBadge');
+    if (notif) notif.style.display = 'none';
+    if (ultimoTimestampProgetti) localStorage.setItem('automatech_seen_ts', String(ultimoTimestampProgetti));
     document.getElementById('hmiModal').classList.add('active');
 }
+
 
 function chiudiPannelloProgetti() {
     document.getElementById('hmiModal').classList.remove('active');
