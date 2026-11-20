@@ -119,14 +119,19 @@
 
                 /* Riquadro Chi Siamo a 2 colonne: Testo a sinistra + Pannello Monitor 3D a destra */
                  /* Fascia Introduttiva Larga e Fissa (Nessun bordo verde, nessun sollevamento) */
-        #chi-siamo {
-            max-width: 1280px;
-            width: 94%;
+                /* Fascia Introduttiva a Tutta Larghezza (100% dello schermo) */
+        #chi-siamo.container {
+            max-width: 100% !important;
+            width: 100% !important;
+            padding-left: 3% !important;
+            padding-right: 3% !important;
+            margin: 0 !important;
         }
 
         .chi-siamo-box {
+            width: 100%;
             background: rgba(255, 255, 255, 0.96);
-            padding: 38px 48px;
+            padding: 40px 6%;
             border-radius: 8px;
             border: 1px solid #e5e7eb !important;
             border-top: 1px solid #e5e7eb !important;
@@ -135,11 +140,12 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 48px;
+            gap: 60px;
             animation: none !important;
             transition: none !important;
             transform: none !important;
         }
+
 
         .chi-siamo-box:hover {
             transform: none !important;
