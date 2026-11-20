@@ -117,7 +117,130 @@
        #chi-siamo h2::after, #servizi h2::after, #tecnologie h2::after { background-color: #141414; width: 44px; height: 3.5px; }
        #chi-siamo h2::before, #servizi h2::before, #tecnologie h2::before { content: ''; position: absolute; bottom: 0; left: 0; width: 0px; height: 3.5px; background-color: #16A34A; box-shadow: 0 0 6px rgba(34, 197, 94, 0.8); z-index: 2; animation: riempiTitolo 3.2s ease-in-out infinite; }
 
-        .chi-siamo-box { background: #f9f9f9; padding: 30px; border-radius: 6px; border-top: 4px solid #141414; box-shadow: 0 4px 6px rgba(0,0,0,0.03); margin-top: -2px; animation: accendiChiSiamo 3.2s ease-in-out infinite; transition: transform 0.2s ease; }
+                /* Riquadro Chi Siamo a 2 colonne: Testo a sinistra + Pannello Monitor 3D a destra */
+        .chi-siamo-box {
+            background: #f9f9f9;
+            padding: 32px 36px;
+            border-radius: 6px;
+            border: 1px solid #eaeaea;
+            border-top: 4px solid #141414;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-top: -2px;
+            position: relative;
+            overflow: visible !important;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 36px;
+            transition: transform 0.2s ease;
+        }
+
+        .chi-siamo-text {
+            flex: 1;
+        }
+
+        /* Pannello Monitor Industriale 3D dentro Chi Siamo */
+        .chisiamo-3d-panel-scene {
+            flex-shrink: 0;
+            perspective: 800px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chisiamo-3d-monitor {
+            position: relative;
+            width: 270px;
+            background: linear-gradient(145deg, #27272a 0%, #141414 100%);
+            border: 2px solid #3f3f46;
+            border-radius: 9px;
+            padding: 9px 9px 22px 9px;
+            transform: rotateY(-12deg) rotateX(3deg);
+            transform-style: preserve-3d;
+            box-shadow: 
+                8px 8px 0px #09090b,
+                12px 14px 24px rgba(0, 0, 0, 0.28),
+                inset 0 1px 1px rgba(255, 255, 255, 0.15);
+            transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.35s ease;
+        }
+
+        .chisiamo-3d-panel-scene:hover .chisiamo-3d-monitor {
+            transform: rotateY(-3deg) rotateX(1deg) scale(1.03);
+            box-shadow: 
+                4px 5px 0px #09090b,
+                0 0 20px rgba(34, 197, 94, 0.35),
+                0 12px 26px rgba(0, 0, 0, 0.35);
+        }
+
+        .chisiamo-3d-screen {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            background: #081826;
+            border: 1.5px solid #16A34A;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9);
+        }
+
+        .chisiamo-3d-screen::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(125deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0) 45%);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .chisiamo-3d-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            filter: contrast(1.18) brightness(1.12);
+        }
+
+        .chisiamo-3d-footer {
+            position: absolute;
+            bottom: 5px;
+            left: 12px;
+            right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-family: monospace;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            color: #a1a1aa;
+        }
+
+        .chisiamo-3d-led {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #22C55E;
+            box-shadow: 0 0 6px #22C55E;
+            animation: ledPulsePanel 1.2s infinite alternate;
+        }
+
+        @keyframes ledPulsePanel {
+            from { opacity: 0.5; }
+            to { opacity: 1; }
+        }
+
+        @media (max-width: 850px) {
+            .chi-siamo-box {
+                flex-direction: column;
+                padding: 25px 22px;
+                gap: 24px;
+            }
+            .chisiamo-3d-monitor {
+                width: 240px;
+                transform: rotateY(0deg) rotateX(0deg);
+            }
+        }
+
         .chi-siamo-box:hover { transform: translateY(-5px); }
 
 
@@ -523,21 +646,28 @@
 </section>
 
     <!-- Sezione Chi Siamo -->
-    <div class="container" id="chi-siamo">
-     <h2>Chi Siamo</h2>
+            <div class="chi-siamo-box">
+            <div class="chi-siamo-text">
+                <p><strong>Automatech nasce dall'unione di tecnici specializzati con un’esperienza ventennale nel settore dell’automazione industriale.</strong> Siamo un punto di riferimento per le aziende che cercano affidabilità, innovazione e soluzioni su misura per ottimizzare i propri processi produttivi.</p>
+                <p style="margin-bottom: 0;">Il nostro approccio è completo e "chiavi in mano": seguiamo l'intero ciclo di vita del progetto, dalla definizione iniziale e condivisione degli obiettivi fino allo sviluppo hardware e software, collaudo e messa in servizio finale.</p>
+            </div>
 
-                <!-- Ramo Digitale Chi Siamo Stile TIA Portal -->
-     <svg class="chi-siamo-connector" viewBox="0 0 1000 45" preserveAspectRatio="none">
-        <path class="circuit-line" vector-effect="non-scaling-stroke" d="M 22 0 L 22 45" />
-        <path class="circuit-pulse" vector-effect="non-scaling-stroke" d="M 22 0 L 22 45" />
-    </svg>
-
-        <div class="chi-siamo-box">
-            <p><strong>Automatech nasce dall'unione di tecnici specializzati con un’esperienza ventennale nel settore dell’automazione industriale.</strong> Siamo un punto di riferimento all'avanguardia per la fornitura e l'integrazione di sistemi di automazione, robotica e supervisione.</p>
-            <p style="margin-bottom: 0;">Il nostro approccio è completo e "chiavi in mano": seguiamo l'intero ciclo di vita del progetto, dalla definizione iniziale e condivisione con il cliente fino allo startup finale del sistema. Ci occupiamo direttamente di dimensionamento hardware/software, sviluppo di sistemi e software, progettazione di schemi elettrici, installazione e test di qualifica IQ e OQ.</p>
+            <!-- Pannello Monitor Industriale 3D con Video Robotech -->
+            <div class="chisiamo-3d-panel-scene">
+                <div class="chisiamo-3d-monitor">
+                    <div class="chisiamo-3d-screen">
+                        <video autoplay muted playsinline preload="auto" class="chisiamo-3d-video" id="video-logo-a">
+                            <source src="Robotech.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="chisiamo-3d-footer">
+                        <span>AUTOMATECH // ROBO-01</span>
+                        <span class="chisiamo-3d-led"></span>
+                    </div>
+                </div>
+            </div>
         </div>
 
-    </div>
 
     <!-- Sezione Servizi -->
     <div class="container" style="border-top: 1px solid #f0f0f0;" id="servizi">
