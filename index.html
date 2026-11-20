@@ -1390,52 +1390,7 @@ function selezionaProgetto(indice, btn) {
 }
 </script>
 
-const archivioProgetti = [
-    {
-        titolo: "Cella Robotizzata di Pallettizzazione",
-        descrizione: "Progettazione software, integrazione robot antropomorfo 6 assi e gestione sicurezze per linea automatizzata ad alta cadenza produttiva, completa di interfacciamento con fine-linea esistente.",
-        mediaHtml: '<video autoplay loop muted playsinline src="Robotech.mp4"></video>',
-        badges: ["PLC Siemens S7-1500", "Robot 6 Assi", "Profinet Safety"]
-    },
-    {
-        titolo: "Automazione Linea Confezionamento",
-        descrizione: "Revamping completo quadro elettrico e logica PLC con sincronizzazione assi, gestione ricette operatore su pannello touch HMI e diagnostica allarmi in tempo reale.",
-        mediaHtml: '<video autoplay loop muted playsinline src="88231-602915804.mp4"></video>',
-        badges: ["TIA Portal", "HMI Comfort Panel", "Motion Control"]
-    },
-    {
-        titolo: "Supervisione Impianto di Processo",
-        descrizione: "Sviluppo sistema SCADA centralizzato per il monitoraggio continuo dei parametri di produzione, storicizzazione dati, reportistica consumi e teleassistenza remota.",
-        mediaHtml: '<video autoplay loop muted playsinline src="88231-602915804.mp4"></video>',
-        badges: ["WinCC / SCADA", "OPC-UA", "Industria 4.0"]
-    }
-];
 
-function apriPannelloProgetti() {
-    document.getElementById('hmiModal').classList.add('active');
-}
-
-function chiudiPannelloProgetti() {
-    document.getElementById('hmiModal').classList.remove('active');
-}
-
-function chiudiPannelloSeFuori(e) {
-    if (e.target.id === 'hmiModal') {
-        chiudiPannelloProgetti();
-    }
-}
-
-function selezionaProgetto(indice, btn) {
-    document.querySelectorAll('.hmi-proj-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-
-    const p = archivioProgetti[indice];
-    document.getElementById('hmiTitle').textContent = p.titolo;
-    document.getElementById('hmiDesc').textContent = p.descrizione;
-    document.getElementById('hmiMediaBox').innerHTML = p.mediaHtml;
-    document.getElementById('hmiBadges').innerHTML = p.badges.map(tag => `<span class="hmi-tech-badge">${tag}</span>`).join('');
-}
-</script>
 
 </body>
 </html>
