@@ -1,11 +1,13 @@
 [
   {
-    "codice": "PRJ-01 // SLOT LIBERO",
-    "titolo": "Non ancora aggiunto",
-    "descrizione": "Progetto in fase di caricamento nell'archivio digitale Automatech.",
+    "codice": "PROJ1.0",
+    "titolo": "DUMMYPROJECT",
+    "descrizione": "Progetto per testare la funzionalità dell'applicazione",
     "media": "Robotech.mp4",
     "tipoMedia": "video",
-    "tecnologie": ["PLC", "HMI", "Automazione"]
+    "tecnologie": [
+      "-"
+    ]
   },
   {
     "codice": "PRJ-02 // SLOT LIBERO",
@@ -13,7 +15,11 @@
     "descrizione": "Progetto in fase di caricamento nell'archivio digitale Automatech.",
     "media": "Robotech.mp4",
     "tipoMedia": "video",
-    "tecnologie": ["PLC", "HMI", "Automazione"]
+    "tecnologie": [
+      "PLC",
+      "HMI",
+      "Automazione"
+    ]
   },
   {
     "codice": "PRJ-03 // SLOT LIBERO",
@@ -21,6 +27,10 @@
     "descrizione": "Progetto in fase di caricamento nell'archivio digitale Automatech.",
     "media": "Robotech.mp4",
     "tipoMedia": "video",
-    "tecnologie": ["PLC", "HMI", "Automazione"]
+    "tecnologie": [
+      "PLC",
+      "HMI",
+      "Automazione"
+    ]
   }
 ]
