@@ -118,22 +118,45 @@
        #chi-siamo h2::before, #servizi h2::before, #tecnologie h2::before { content: ''; position: absolute; bottom: 0; left: 0; width: 0px; height: 3.5px; background-color: #16A34A; box-shadow: 0 0 6px rgba(34, 197, 94, 0.8); z-index: 2; animation: riempiTitolo 3.2s ease-in-out infinite; }
 
                 /* Riquadro Chi Siamo a 2 colonne: Testo a sinistra + Pannello Monitor 3D a destra */
-         .chi-siamo-box {
-            background: rgba(255, 255, 255, 0.94);
-            padding: 34px 40px;
+                 /* Fascia Introduttiva Larga e Fissa (Nessun bordo verde, nessun sollevamento) */
+        #chi-siamo {
+            max-width: 1280px;
+            width: 94%;
+        }
+
+        .chi-siamo-box {
+            background: rgba(255, 255, 255, 0.96);
+            padding: 38px 48px;
             border-radius: 8px;
-            border: 1px solid #e5e7eb;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+            border: 1px solid #e5e7eb !important;
+            border-top: 1px solid #e5e7eb !important;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04) !important;
             position: relative;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 36px;
+            gap: 48px;
+            animation: none !important;
+            transition: none !important;
+            transform: none !important;
         }
+
+        .chi-siamo-box:hover {
+            transform: none !important;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04) !important;
+            border-color: #e5e7eb !important;
+        }
+
         .chi-siamo-box::before,
         .chi-siamo-box::after {
+            content: none !important;
             display: none !important;
+            width: 0 !important;
+            height: 0 !important;
+            background: none !important;
+            box-shadow: none !important;
         }
+
 
 
         .chi-siamo-text {
