@@ -196,20 +196,23 @@
 
 
                 /* Contenitore Unico: Chiavetta USB 3D Azzurra + Pannello Monitor 3D */
-          .hmi-usb-station {
+                  /* Corpo Unico 3D: Pannello e Chiavetta ruotano insieme come un pezzo rigido */
+        .hmi-usb-station {
             display: flex;
             align-items: center;
             gap: 20px;
             position: relative;
-            perspective: 700px;
+            perspective: 800px;
             transform-style: preserve-3d;
-            transform: rotateY(-3deg) rotateX(1deg);
+            transform: rotateY(-10deg) rotateX(3deg);
             transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
+        /* Passando il cursore sul pannello o sulla chiavetta, entrambi diventano frontali insieme */
         .hmi-usb-station:hover {
-            transform: rotateY(0deg) rotateX(0deg) scale(1.03);
+            transform: rotateY(0deg) rotateX(0deg) scale(1.04);
         }
+
 
 
         /* Chiavetta USB 3D Azzurra con spessore e riflesso */
