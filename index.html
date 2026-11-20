@@ -210,28 +210,41 @@
 
         /* Passando il cursore sul pannello o sulla chiavetta, entrambi diventano frontali insieme */
                /* Passando il cursore, l'intero gruppo diventa completamente 2D (piatto e frontale) */
+               /* Passando il cursore, l'intero gruppo diventa completamente 2D (zero spessori, zero angoli) */
         .hmi-usb-station:hover {
-            transform: rotateY(0deg) rotateX(0deg) scale(1.03);
+            transform: rotateY(0deg) rotateX(0deg) scale(1.03) !important;
         }
 
-        /* Appiattisce lo spessore 3D del monitor in 2D */
+        /* Rimuove lo spessore nero 3D del monitor in 2D */
         .hmi-usb-station:hover .chisiamo-3d-monitor {
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+            transform: rotateY(0deg) rotateX(0deg) !important;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25) !important;
+        }
+
+        /* Mantiene il lampeggio giallo anche in modalità piatta 2D senza spessore nero */
+        .hmi-usb-station:hover .chisiamo-3d-monitor.usb-ready {
+            animation: monitorBlinkGiallo2D 0.7s ease-in-out infinite alternate !important;
+        }
+
+        @keyframes monitorBlinkGiallo2D {
+            0%   { box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25), 0 0 8px rgba(250, 204, 21, 0.35); }
+            100% { box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25), 0 0 26px rgba(250, 204, 21, 0.95); }
         }
 
         /* Appiattisce lo spessore 3D della chiavetta azzurra in 2D */
         .hmi-usb-station:hover .usb-drive-btn {
-            transform: translateZ(0px) translateX(4px);
-            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.45);
+            transform: translateZ(0px) translateX(4px) !important;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.45) !important;
         }
         .hmi-usb-station:hover .usb-drive-btn.inserted {
-            transform: translateZ(0px) translateX(22px);
-            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+            transform: translateZ(0px) translateX(22px) !important;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35) !important;
         }
         .hmi-usb-station:hover .usb-drive-btn::after {
-            transform: translateY(-50%) translateZ(0px);
-            box-shadow: inset 0 4px 0 -1px #1e293b, inset 0 -4px 0 -1px #1e293b;
+            transform: translateY(-50%) translateZ(0px) !important;
+            box-shadow: inset 0 4px 0 -1px #1e293b, inset 0 -4px 0 -1px #1e293b !important;
         }
+
 
 
 
