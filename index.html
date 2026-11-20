@@ -178,6 +178,34 @@
             justify-content: center;
         }
 
+                /* Cerchietto Notifica al lato destro del Monitor 3D */
+        .hmi-notif-badge {
+            position: absolute;
+            top: 50%;
+            right: -34px;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            background: #ef4444;
+            color: #ffffff;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            font-size: 11px;
+            font-weight: 800;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 14px rgba(239, 68, 68, 0.8);
+            animation: pulseNotifLato 1.4s infinite;
+            z-index: 20;
+        }
+        @keyframes pulseNotifLato {
+            0%   { transform: translateY(-50%) scale(1); }
+            50%  { transform: translateY(-50%) scale(1.18); }
+            100% { transform: translateY(-50%) scale(1); }
+        }
+
         .chisiamo-3d-monitor {
             position: relative;
             width: 270px;
@@ -1120,6 +1148,8 @@
 
                 <div class="chisiamo-3d-panel-scene locked" id="hmiPanelTrigger" onclick="apriPannelloProgetti()" title="Inserisci prima la chiavetta USB azzurra">
                     <div class="chisiamo-3d-monitor" id="hmiMiniMonitor">
+                         <span class="hmi-notif-badge" id="hmiNotifBadge" title="Nuovo progetto disponibile!">1</span>
+
                         <div class="chisiamo-3d-screen">
                             <span class="hmi-click-hint" id="hmiHintBadge">ATTESA USB...</span>
                             <video autoplay muted playsinline preload="auto" class="chisiamo-3d-video" id="video-logo-a">
@@ -1297,6 +1327,7 @@ setInterval(function() {
 <script>
 let archivioProgetti = [];
 let progettoCorrenteIdx = 0;
+let ultimoTimestampProgetti = 0;
 
 async function caricaArchivioProgetti() {
     try {
@@ -1319,7 +1350,21 @@ async function caricaArchivioProgetti() {
     if (archivioProgetti.length > 0) {
         mostraAnteprimaProgetto(0);
     }
+
+    const progettiReali = archivioProgetti.filter(p => p.titolo && p.titolo !== 'Non ancora aggiunto');
+    if (progettiReali.length > 0) {
+        ultimoTimestampProgetti = Math.max(...progettiReali.map(p => p.aggiornatoIl || 1));
+        const giaVisto = parseInt(localStorage.getItem('automatech_seen_ts') || '0');
+        if (ultimoTimestampProgetti > giaVisto) {
+            const notif = document.getElementById('hmiNotifBadge');
+            if (notif) {
+                notif.textContent = progettiReali.length;
+                notif.style.display = 'flex';
+            }
+        }
+    }
 }
+
 
 function mostraAnteprimaProgetto(indice) {
     progettoCorrenteIdx = indice;
@@ -1367,6 +1412,10 @@ function inserisciChiavettaProgetti() {
     if (!usbInserita) {
         usbInserita = true;
         usb.classList.add('inserted');
+         const notif = document.getElementById('hmiNotifBadge');
+        if (notif) notif.style.display = 'none';
+        if (ultimoTimestampProgetti) localStorage.setItem('automatech_seen_ts', String(ultimoTimestampProgetti));
+
         txt.innerHTML = `
             <svg viewBox="0 0 82 64" width="36" height="28" style="display:block; margin: 0 6px; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.45));" aria-label="Automatech">
                 <rect x="20" y="53" width="18" height="6" rx="2" fill="#ffffff"/>
