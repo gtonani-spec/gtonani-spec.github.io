@@ -151,35 +151,6 @@
         .logo-grid { display: flex; justify-content: center; align-items: center; gap: 35px; flex-wrap: wrap; margin-top: 40px; }
         .partner-logo { height: 60px; width: auto; object-fit: contain; opacity: 0.75; transition: all 0.3s ease; }
         .partner-logo:hover { opacity: 1; transform: scale(1.15); cursor: pointer; }
-         /* Colonna Video "Robotech" Unificata con lo Sfondo Bianco a Sinistra */
-        .side-robot-panel {
-            position: fixed;
-            left: 2%;
-            top: 54%;
-            transform: translateY(-50%);
-            width: 310px;
-            z-index: 2;
-            pointer-events: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .side-robot-video {
-            width: 100%;
-            height: auto;
-            display: block;
-            filter: invert(1) contrast(1.45) brightness(1.05);
-            mix-blend-mode: multiply;
-            -webkit-mask-image: radial-gradient(ellipse at center, black 62%, transparent 96%);
-            mask-image: radial-gradient(ellipse at center, black 62%, transparent 96%);
-        }
-
-        @media (max-width: 1380px) {
-            .side-robot-panel {
-                display: none !important;
-            }
-        }
 
         /* Footer con contatti disposti in tre colonne */
         footer { background-color: #ffffff; border-top: 1px solid #eeeeee; padding: 60px 40px 40px 40px; }
@@ -550,12 +521,6 @@
     </video>
     <img src="Slogan.png" alt="Automazione intelligente per la tua fabbrica" class="hero-banner-img">
 </section>
-    <!-- Video Laterale "Robotech" Unificato con lo Sfondo -->
-    <div class="side-robot-panel">
-        <video autoplay muted playsinline preload="auto" class="side-robot-video" id="video-logo-a">
-            <source src="Robotech.mp4" type="video/mp4">
-        </video>
-    </div>
 
     <!-- Sezione Chi Siamo -->
     <div class="container" id="chi-siamo">
