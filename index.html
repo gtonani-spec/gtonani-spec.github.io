@@ -209,9 +209,30 @@
         }
 
         /* Passando il cursore sul pannello o sulla chiavetta, entrambi diventano frontali insieme */
+               /* Passando il cursore, l'intero gruppo diventa completamente 2D (piatto e frontale) */
         .hmi-usb-station:hover {
-            transform: rotateY(0deg) rotateX(0deg) scale(1.04);
+            transform: rotateY(0deg) rotateX(0deg) scale(1.03);
         }
+
+        /* Appiattisce lo spessore 3D del monitor in 2D */
+        .hmi-usb-station:hover .chisiamo-3d-monitor {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Appiattisce lo spessore 3D della chiavetta azzurra in 2D */
+        .hmi-usb-station:hover .usb-drive-btn {
+            transform: translateZ(0px) translateX(4px);
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.45);
+        }
+        .hmi-usb-station:hover .usb-drive-btn.inserted {
+            transform: translateZ(0px) translateX(22px);
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+        }
+        .hmi-usb-station:hover .usb-drive-btn::after {
+            transform: translateY(-50%) translateZ(0px);
+            box-shadow: inset 0 4px 0 -1px #1e293b, inset 0 -4px 0 -1px #1e293b;
+        }
+
 
 
 
