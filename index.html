@@ -1294,16 +1294,26 @@ function inserisciChiavettaProgetti() {
         usbInserita = true;
         usb.classList.add('inserted');
         // Sostituisce la scritta con l'icona della "A" robotica del logo Automatech
-        txt.innerHTML = `
-            <svg viewBox="0 0 64 58" width="28" height="25" style="display:block; margin: 0 8px; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4));" aria-label="Automatech">
-                <line x1="32" y1="10" x2="14" y2="48" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round"/>
-                <line x1="32" y1="10" x2="50" y2="48" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round"/>
-                <line x1="21" y1="35" x2="43" y2="35" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round"/>
-                <circle cx="32" cy="10" r="5" fill="#0284c7" stroke="#ffffff" stroke-width="3"/>
-                <circle cx="14" cy="48" r="5" fill="#0284c7" stroke="#ffffff" stroke-width="3"/>
-                <circle cx="50" cy="48" r="5" fill="#0284c7" stroke="#ffffff" stroke-width="3"/>
+                txt.innerHTML = `
+            <svg viewBox="0 0 92 64" width="38" height="27" style="display:block; margin: 0 6px; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4));" aria-label="Automatech">
+                <!-- Gambe della A e traversa -->
+                <line x1="26" y1="16" x2="10" y2="54" stroke="#ffffff" stroke-width="5" stroke-linecap="round"/>
+                <line x1="26" y1="16" x2="42" y2="54" stroke="#ffffff" stroke-width="5" stroke-linecap="round"/>
+                <line x1="16" y1="41" x2="36" y2="41" stroke="#ffffff" stroke-width="4.2" stroke-linecap="round"/>
+                <!-- Braccio di estensione verso destra e polso della pinza -->
+                <line x1="26" y1="16" x2="56" y2="10" stroke="#ffffff" stroke-width="5" stroke-linecap="round"/>
+                <line x1="56" y1="10" x2="72" y2="18" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round"/>
+                <!-- Gancio / Pinza di presa inferiore -->
+                <path d="M 65 25 L 72 19 L 79 25 M 65 25 L 67 32 M 79 25 L 77 32" fill="none" stroke="#ffffff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <!-- Snodi circolari del braccio robotico -->
+                <circle cx="26" cy="16" r="4.5" fill="#0284c7" stroke="#ffffff" stroke-width="2.8"/>
+                <circle cx="10" cy="54" r="4.5" fill="#0284c7" stroke="#ffffff" stroke-width="2.8"/>
+                <circle cx="42" cy="54" r="4.5" fill="#0284c7" stroke="#ffffff" stroke-width="2.8"/>
+                <circle cx="56" cy="10" r="4.2" fill="#0284c7" stroke="#ffffff" stroke-width="2.6"/>
+                <circle cx="72" cy="18" r="3.6" fill="#0284c7" stroke="#ffffff" stroke-width="2.4"/>
             </svg>
         `;
+
         setTimeout(() => {
             trigger.classList.remove('locked');
             trigger.title = 'Clicca per aprire l\'archivio progetti';
