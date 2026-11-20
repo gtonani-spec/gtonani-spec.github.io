@@ -1,482 +1,973 @@
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#141414">
-    <link rel="apple-touch-icon" href="Favicon.png">
-    <link rel="icon" href="Favicon.png">
-    <title>Automatech App | Gestione Progetti</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #0f172a;
-            color: #f8fafc;
-            min-height: 100vh;
-            padding-bottom: 50px;
-        }
-        /* Barra App in alto */
-        header {
-            background: #141414;
-            border-bottom: 3px solid #16A34A;
-            padding: 14px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 50;
-        }
-        .app-brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 800;
-            font-size: 16px;
-            letter-spacing: 0.5px;
-        }
-        .app-brand img {
-            height: 36px;
-            border-radius: 6px;
-            background: #ffffff;
-            padding: 2px;
-        }
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #22C55E;
-            box-shadow: 0 0 8px #22C55E;
-        }
-        .logout-btn {
-            background: transparent;
-            border: 1px solid #475569;
-            color: #cbd5e1;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            cursor: pointer;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#141414">
 
-        .container {
-            max-width: 720px;
-            margin: 24px auto;
-            padding: 0 16px;
-        }
+<link rel="apple-touch-icon" href="Favicon.png">
+<link rel="icon" href="Favicon.png">
 
-        /* Card Generale */
-        .card {
-            background: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 12px;
-            padding: 22px;
-            margin-bottom: 22px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.35);
-        }
-        .card-title {
-            font-size: 17px;
-            font-weight: 700;
-            color: #4ade80;
-            margin-bottom: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+<title>Automatech App | Gestione Progetti</title>
 
-        /* Form e Input */
-        label {
-            display: block;
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #94a3b8;
-            margin: 14px 0 6px 0;
-        }
-        input[type="text"], input[type="password"], textarea, select {
-            width: 100%;
-            background: #0f172a;
-            border: 1.5px solid #334155;
-            border-radius: 8px;
-            padding: 12px;
-            color: #ffffff;
-            font-size: 15px;
-            font-family: inherit;
-            outline: none;
-        }
-        input:focus, textarea:focus, select:focus {
-            border-color: #22C55E;
-        }
-        textarea { min-height: 110px; resize: vertical; }
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-        /* Pulsante Foto/Video */
-        .file-upload-box {
-            border: 2px dashed #16A34A;
-            background: rgba(22, 163, 74, 0.08);
-            border-radius: 10px;
-            padding: 18px;
-            text-align: center;
-            cursor: pointer;
-            margin-top: 6px;
-        }
-        .file-upload-box input { display: none; }
-        .file-label-text {
-            font-weight: 700;
-            color: #4ade80;
-            font-size: 14px;
-        }
-        .file-sub-text {
-            font-size: 12px;
-            color: #94a3b8;
-            margin-top: 4px;
-        }
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #0f172a;
+    color: #f8fafc;
+    min-height: 100vh;
+    padding-bottom: 50px;
+}
 
-        /* Pulsanti Azione */
-        .btn-primary {
-            width: 100%;
-            background: #16A34A;
-            color: #ffffff;
-            border: none;
-            border-radius: 8px;
-            padding: 14px;
-            font-size: 15px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: background 0.2s;
-        }
-        .btn-primary:hover { background: #15803d; }
-        .btn-primary:disabled { background: #475569; cursor: not-allowed; }
+header {
+    background: #141414;
+    border-bottom: 3px solid #16A34A;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
 
-        /* Lista Progetti Esistenti */
-        .proj-item {
-            background: #0f172a;
-            border: 1px solid #334155;
-            border-left: 4px solid #16A34A;
-            border-radius: 8px;
-            padding: 14px;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-        }
-        .proj-info-code {
-            font-family: monospace;
-            font-size: 11px;
-            color: #4ade80;
-        }
-        .proj-info-title {
-            font-weight: 700;
-            font-size: 15px;
-            margin-top: 2px;
-        }
-        .proj-actions {
-            display: flex;
-            gap: 8px;
-            flex-shrink: 0;
-        }
-        .btn-edit {
-            background: #0284c7;
-            color: #fff;
-            border: none;
-            padding: 7px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-        .btn-del {
-            background: #dc2626;
-            color: #fff;
-            border: none;
-            padding: 7px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 700;
-            cursor: pointer;
-        }
+.app-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 800;
+    font-size: 16px;
+}
 
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #16A34A;
-            color: #fff;
-            padding: 12px 22px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 14px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            display: none;
-            z-index: 999;
-        }
-    </style>
+.app-brand img {
+    height: 36px;
+    border-radius: 6px;
+    background: #fff;
+    padding: 2px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #22C55E;
+    box-shadow: 0 0 8px #22C55E;
+}
+
+.logout-btn {
+    background: transparent;
+    border: 1px solid #475569;
+    color: #cbd5e1;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.container {
+    max-width: 720px;
+    margin: 24px auto;
+    padding: 0 16px;
+}
+
+.card {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    padding: 22px;
+    margin-bottom: 22px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+}
+
+.card-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #4ade80;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #94a3b8;
+    margin: 14px 0 6px;
+}
+
+input[type="text"],
+input[type="password"],
+textarea,
+select {
+    width: 100%;
+    background: #0f172a;
+    border: 1.5px solid #334155;
+    border-radius: 8px;
+    padding: 12px;
+    color: #fff;
+    font-size: 15px;
+    font-family: inherit;
+    outline: none;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: #22C55E;
+}
+
+textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+.file-upload-box {
+    border: 2px dashed #16A34A;
+    background: rgba(22, 163, 74, 0.08);
+    border-radius: 10px;
+    padding: 18px;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 6px;
+}
+
+.file-upload-box input {
+    display: none;
+}
+
+.file-label-text {
+    font-weight: 700;
+    color: #4ade80;
+    font-size: 14px;
+}
+
+.file-sub-text {
+    font-size: 12px;
+    color: #94a3b8;
+    margin-top: 4px;
+}
+
+.btn-primary {
+    width: 100%;
+    background: #16A34A;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 800;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.btn-primary:hover {
+    background: #15803d;
+}
+
+.btn-primary:disabled {
+    background: #475569;
+    cursor: not-allowed;
+}
+
+.proj-item {
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-left: 4px solid #16A34A;
+    border-radius: 8px;
+    padding: 14px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.proj-info-code {
+    font-family: monospace;
+    font-size: 11px;
+    color: #4ade80;
+    word-break: break-word;
+}
+
+.proj-info-title {
+    font-weight: 700;
+    font-size: 15px;
+    margin-top: 4px;
+}
+
+.proj-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.btn-edit,
+.btn-del {
+    color: #fff;
+    border: none;
+    padding: 7px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.btn-edit {
+    background: #0284c7;
+}
+
+.btn-del {
+    background: #dc2626;
+}
+
+.toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #16A34A;
+    color: #fff;
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    display: none;
+    z-index: 999;
+    width: max-content;
+    max-width: 90%;
+    text-align: center;
+}
+
+@media (max-width: 500px) {
+    .proj-item {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .proj-actions {
+        width: 100%;
+    }
+
+    .proj-actions button {
+        flex: 1;
+    }
+
+    .app-brand {
+        font-size: 13px;
+    }
+}
+</style>
 </head>
+
 <body>
 
-    <header>
-        <div class="app-brand">
-            <img src="LOGO AUTOMATECH.jpeg" alt="Automatech">
-            <span>AUTOMATECH APP</span>
-            <span class="status-dot"></span>
-        </div>
-        <button class="logout-btn" id="logoutBtn" style="display:none;" onclick="esciApp()">Esci</button>
-    </header>
-
-    <div class="container">
-
-        <!-- Schermata 1: Accesso con Codice Aziendale -->
-        <div class="card" id="loginCard">
-            <div class="card-title">Accesso Riservato Tecnici Automatech</div>
-            <p style="font-size: 13px; color: #cbd5e1; margin-bottom: 12px;">
-                Inserisci il Codice di Accesso Aziendale (Token GitHub) per gestire i progetti pubblicati sul sito. Viene salvato automaticamente su questo dispositivo.
-            </p>
-            <label>Codice Accesso Aziendale</label>
-            <input type="password" id="tokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
-            <button class="btn-primary" onclick="salvaToken()">Accedi all'App</button>
-        </div>
-
-        <!-- Schermata 2: Pannello Gestione Progetti -->
-        <div id="adminPanel" style="display:none;">
-
-            <div class="card">
-                <div class="card-title">
-                    <span id="formHeading">+ Aggiungi Nuovo Progetto</span>
-                    <button id="cancelEditBtn" style="display:none; background:#475569; color:#fff; border:none; padding:5px 10px; border-radius:5px; font-size:12px; cursor:pointer;" onclick="resetForm()">Annulla Modifica</button>
-                </div>
-
-                <input type="hidden" id="editIndex" value="-1">
-
-                <label>Codice & Categoria (es. PRJ-01 // ROBOTICA)</label>
-                <input type="text" id="pCodice" placeholder="PRJ-01 // ROBOTICA">
-
-                <label>Titolo del Progetto</label>
-                <input type="text" id="pTitolo" placeholder="Es. Cella Robotizzata di Pallettizzazione">
-
-                <label>Descrizione Tecnica e Intervento Svolto</label>
-                <textarea id="pDesc" placeholder="Descrivi l'impianto, le soluzioni adottate e i risultati ottenuti..."></textarea>
-
-                <label>Tecnologie Utilizzate (separate da virgola)</label>
-                <input type="text" id="pTech" placeholder="PLC Siemens S7-1500, TIA Portal, Robot KUKA, Profinet">
-
-                <label>Foto o Video dell'Impianto (dal telefono o PC)</label>
-                <label class="file-upload-box">
-                    <input type="file" id="pFile" accept="image/*,video/mp4" onchange="mostraNomeFile()">
-                    <div class="file-label-text" id="fileLabel">📷 Tocca qui per scattare foto o scegliere file</div>
-                    <div class="file-sub-text">Supporta JPG, PNG, WEBP e video MP4</div>
-                </label>
-
-                <button class="btn-primary" id="publishBtn" onclick="pubblicaProgetto()">Pubblica sul Sito</button>
-            </div>
-
-            <div class="card">
-                <div class="card-title">Progetti Attualmente Online</div>
-                <div id="projectsListContainer">Caricamento in corso...</div>
-            </div>
-
-        </div>
+<header>
+    <div class="app-brand">
+        <img src="LOGO AUTOMATECH.jpeg" alt="Automatech">
+        <span>AUTOMATECH APP</span>
+        <span class="status-dot"></span>
     </div>
 
-    <div class="toast" id="toastMsg"></div>
+    <button class="logout-btn" id="logoutBtn"
+            style="display:none;" onclick="esciApp()">
+        Esci
+    </button>
+</header>
 
-    <script>
-        const REPO_OWNER = 'gtonani-spec';
-        const REPO_NAME = 'gtonani-spec.github.io';
-        let progettiCache = [];
-        let jsonSha = '';
+<div class="container">
 
-        function mostraToast(msg, isError = false) {
-            const t = document.getElementById('toastMsg');
-            t.textContent = msg;
-            t.style.background = isError ? '#dc2626' : '#16A34A';
-t.style.display = 'block';
-setTimeout(() => { t.style.display = 'none'; }, 3800);
+    <!-- LOGIN -->
+    <div class="card" id="loginCard">
+        <div class="card-title">
+            Accesso Riservato Tecnici Automatech
+        </div>
+
+        <p style="font-size:13px;color:#cbd5e1;margin-bottom:12px;">
+            Inserisci il Codice di Accesso Aziendale per gestire
+            i progetti pubblicati sul sito.
+        </p>
+
+        <label>Codice Accesso Aziendale</label>
+
+        <input type="password"
+               id="tokenInput"
+               placeholder="Inserisci token GitHub">
+
+        <button class="btn-primary" id="loginBtn" onclick="salvaToken()">
+            Accedi all'App
+        </button>
+    </div>
+
+    <!-- PANNELLO ADMIN -->
+    <div id="adminPanel" style="display:none;">
+
+        <div class="card">
+
+            <div class="card-title">
+                <span id="formHeading">+ Aggiungi Nuovo Progetto</span>
+
+                <button id="cancelEditBtn"
+                        style="display:none;background:#475569;color:#fff;border:none;padding:5px 10px;border-radius:5px;font-size:12px;cursor:pointer;"
+                        onclick="resetForm()">
+                    Annulla Modifica
+                </button>
+            </div>
+
+            <input type="hidden" id="editIndex" value="-1">
+
+            <label>Codice & Categoria</label>
+            <input type="text"
+                   id="pCodice"
+                   placeholder="PRJ-01 // ROBOTICA">
+
+            <label>Titolo del Progetto</label>
+            <input type="text"
+                   id="pTitolo"
+                   placeholder="Es. Cella Robotizzata di Pallettizzazione">
+
+            <label>Descrizione Tecnica</label>
+            <textarea id="pDesc"
+                      placeholder="Descrivi l'impianto, le soluzioni adottate e i risultati ottenuti..."></textarea>
+
+            <label>Tecnologie Utilizzate (separate da virgola)</label>
+            <input type="text"
+                   id="pTech"
+                   placeholder="PLC Siemens, TIA Portal, Robot KUKA">
+
+            <label>Foto o Video dell'Impianto</label>
+
+            <label class="file-upload-box">
+                <input type="file"
+                       id="pFile"
+                       accept="image/*,video/mp4"
+                       onchange="mostraNomeFile()">
+
+                <div class="file-label-text" id="fileLabel">
+                    📷 Tocca qui per scegliere foto o video
+                </div>
+
+                <div class="file-sub-text">
+                    JPG, PNG, WEBP e video MP4
+                </div>
+            </label>
+
+            <button class="btn-primary"
+                    id="publishBtn"
+                    onclick="pubblicaProgetto()">
+                Pubblica sul Sito
+            </button>
+        </div>
+
+        <div class="card">
+            <div class="card-title">
+                Progetti Attualmente Online
+            </div>
+
+            <div id="projectsListContainer">
+                Caricamento in corso...
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="toast" id="toastMsg"></div>
+
+<script>
+
+// ==========================================
+// CONFIGURAZIONE GITHUB
+// ==========================================
+
+const REPO_OWNER = 'gtonani-spec';
+const REPO_NAME = 'gtonani-spec.github.io';
+const JSON_FILE = 'progetti.json';
+
+let progettiCache = [];
+let jsonSha = '';
+
+
+// ==========================================
+// MESSAGGI
+// ==========================================
+
+function mostraToast(msg, isError = false) {
+    const t = document.getElementById('toastMsg');
+
+    t.textContent = msg;
+    t.style.background = isError ? '#dc2626' : '#16A34A';
+    t.style.display = 'block';
+
+    setTimeout(() => {
+        t.style.display = 'none';
+    }, 4000);
 }
+
+
+// ==========================================
+// TOKEN
+// ==========================================
+
 function getToken() {
-return localStorage.getItem('automatech_gh_token') || '';
+    return localStorage.getItem('automatech_gh_token') || '';
 }
-function salvaToken() {
-const val = document.getElementById('tokenInput').value.trim();
-if (!val) return mostraToast('Inserisci il codice di accesso', true);
-localStorage.setItem('automatech_gh_token', val);
-verificaAccesso();
-}
-function esciApp() {
-localStorage.removeItem('automatech_gh_token');
-location.reload();
-}
-async function verificaAccesso() {
-const token = getToken();
-if (!token) return;
-document.getElementById('loginCard').style.display = 'none';
-document.getElementById('adminPanel').style.display = 'block';
-document.getElementById('logoutBtn').style.display = 'inline-block';
-await caricaProgettiDaGitHub();
-}
-async function caricaProgettiDaGitHub() {
-const token = getToken();
-try {
-const res = await fetch(https://github.com{REPO_OWNER}/${REPO_NAME}/contents/progetti.json?t=${Date.now()}, {
-headers: { 'Authorization': token ${token} }
-});
-if (!res.ok) throw new Error('Codice non valido o errore rete');
-const data = await res.json();
-jsonSha = data.sha;
-const decoded = decodeURIComponent(escape(atob(data.content.replace(/\n/g, ''))));
-progettiCache = JSON.parse(decoded);
-renderListaProgetti();
-} catch (e) {
-mostraToast('Errore di connessione: verifica il codice di accesso', true);
-}
-}
-function renderListaProgetti() {
-const box = document.getElementById('projectsListContainer');
-if (!progettiCache.length) {
-box.innerHTML = 'Nessun progetto presente.';
-return;
-}
-box.innerHTML = progettiCache.map((p, idx) => <div class="proj-item"> <div> <div class="proj-info-code">${p.codice}</div> <div class="proj-info-title">${p.titolo}</div> </div> <div class="proj-actions"> <button class="btn-edit" onclick="preparaModifica(${idx})">Modifica</button> <button class="btn-del" onclick="eliminaProgetto(${idx})">Elimina</button> </div> </div>).join('');
-}
-function mostraNomeFile() {
-const file = document.getElementById('pFile').files;
-if (file) {
-document.getElementById('fileLabel').textContent = '✅ File selezionato: ' + file.name;
-}
-}
-function preparaModifica(idx) {
-const p = progettiCache[idx];
-document.getElementById('editIndex').value = idx;
-document.getElementById('formHeading').textContent = 'Modifica Progetto #' + (idx + 1);
-document.getElementById('cancelEditBtn').style.display = 'inline-block';
-document.getElementById('pCodice').value = p.codice;
-document.getElementById('pTitolo').value = p.titolo;
-document.getElementById('pDesc').value = p.descrizione;
-document.getElementById('pTech').value = (p.tecnologie || []).join(', ');
-document.getElementById('fileLabel').textContent = '📷 Lascia vuoto per mantenere il file attuale (' + p.media + ')';
-window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-function resetForm() {
-document.getElementById('editIndex').value = '-1';
-document.getElementById('formHeading').textContent = '+ Aggiungi Nuovo Progetto';
-document.getElementById('cancelEditBtn').style.display = 'none';
-document.getElementById('pCodice').value = '';
-document.getElementById('pTitolo').value = '';
-document.getElementById('pDesc').value = '';
-document.getElementById('pTech').value = '';
-document.getElementById('pFile').value = '';
-document.getElementById('fileLabel').textContent = '📷 Tocca qui per scattare foto o scegliere file';
-}
-function fileToBase64(file) {
-return new Promise((resolve, reject) => {
-const reader = new FileReader();
-reader.onload = () => resolve(reader.result.split(',')[1]);
-reader.onerror = reject;
-reader.readAsDataURL(file);
-});
-}
-async function pubblicaProgetto() {
-const token = getToken();
-const idx = parseInt(document.getElementById('editIndex').value);
-const codice = document.getElementById('pCodice').value.trim() || 'PRJ-NEW // AUTOMAZIONE';
-const titolo = document.getElementById('pTitolo').value.trim();
-const descrizione = document.getElementById('pDesc').value.trim();
-const techRaw = document.getElementById('pTech').value.trim();
-const file = document.getElementById('pFile').files;
-if (!titolo) return mostraToast('Inserisci almeno il titolo del progetto', true);
-const btn = document.getElementById('publishBtn');
-btn.disabled = true;
-btn.textContent = 'Caricamento su Automatech in corso...';
-try {
-let mediaName = idx >= 0 ? progettiCache[idx].media : 'Robotech.mp4';
-let tipoMedia = idx >= 0 ? progettiCache[idx].tipoMedia : 'video';
-// Se è stata scelta una foto o video, caricala prima sul repository
-if (file) {
-const ext = file.name.split('.').pop().toLowerCase();
-mediaName = 'proj_' + Date.now() + '.' + ext;
-tipoMedia = ext === 'mp4' ? 'video' : 'image';
-const b64 = await fileToBase64(file);
-const upRes = await fetch(https://github.com{REPO_OWNER}/${REPO_NAME}/contents/${mediaName}, {
-method: 'PUT',
-headers: {
-'Authorization': token ${token},
-'Content-Type': 'application/json'
-},
-body: JSON.stringify({
-message: Upload media progetto ${mediaName},
-content: b64
-})
-});
-if (!upRes.ok) throw new Error('Errore caricamento foto/video');
-}
-const nuovoObj = {
-codice,
-titolo,
-descrizione: descrizione || 'Intervento di automazione industriale realizzato da Automatech.',
-media: mediaName,
-tipoMedia,
-tecnologie: techRaw ? techRaw.split(',').map(s => s.trim()).filter(Boolean) : ['Automazione', 'PLC']
-};
-if (idx >= 0) {
-progettiCache[idx] = nuovoObj;
-} else {
-// Se ci sono ancora slot "Non ancora aggiunto", sostituisce il primo libero
-const freeIdx = progettiCache.findIndex(p => p.titolo === 'Non ancora aggiunto');
-if (freeIdx !== -1) {
-progettiCache[freeIdx] = nuovoObj;
-} else {
-progettiCache.push(nuovoObj);
-}
-}
-await salvaJsonSuGitHub('Aggiornamento progetti da Automatech App');
-resetForm();
-renderListaProgetti();
-mostraToast('✅ Pubblicato! Sarà visibile sul sito entro 60 secondi.');
-} catch (e) {
-mostraToast('Errore durante la pubblicazione: ' + e.message, true);
-} finally {
-btn.disabled = false;
-btn.textContent = 'Pubblica sul Sito';
-}
-}
-async function eliminaProgetto(idx) {
-if (!confirm('Vuoi davvero rimuovere questo progetto dal sito?')) return;
-progettiCache.splice(idx, 1);
-try {
-await salvaJsonSuGitHub('Rimozione progetto da Automatech App');
-renderListaProgetti();
-mostraToast('Progetto rimosso correttamente.');
-} catch (e) {
-mostraToast('Errore durante la rimozione', true);
-}
-}
-async function salvaJsonSuGitHub(commitMsg) {
-const token = getToken();
-const contentEncoded = btoa(unescape(encodeURIComponent(JSON.stringify(progettiCache, null, 2))));
-const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/progetti.json`, {
 
-method: 'PUT',
-headers: {
-'Authorization': token ${token},
-'Content-Type': 'application/json'
-},
-body: JSON.stringify({
-message: commitMsg,
-content: contentEncoded,
-sha: jsonSha
-})
-});
-if (!res.ok) throw new Error('Errore salvataggio archivio');
-const updated = await res.json();
-jsonSha = updated.content.sha;
+
+function salvaToken() {
+    const val = document.getElementById('tokenInput').value.trim();
+
+    if (!val) {
+        mostraToast('Inserisci il codice di accesso', true);
+        return;
+    }
+
+    // Verifica il token prima di salvarlo
+    verificaAccesso(val);
 }
-verificaAccesso();
+
+
+function esciApp() {
+    localStorage.removeItem('automatech_gh_token');
+    location.reload();
+}
+
+
+// ==========================================
+// VERIFICA ACCESSO
+// ==========================================
+
+async function verificaAccesso(tokenDaVerificare = getToken()) {
+
+    if (!tokenDaVerificare) return;
+
+    const btn = document.getElementById('loginBtn');
+
+    if (btn) {
+        btn.disabled = true;
+        btn.textContent = 'Verifica in corso...';
+    }
+
+    try {
+
+        const res = await fetch(
+            `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${JSON_FILE}?t=${Date.now()}`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${tokenDaVerificare}`,
+                    'Accept': 'application/vnd.github+json'
+                }
+            }
+        );
+
+        if (!res.ok) {
+            throw new Error(
+                res.status === 401 || res.status === 403
+                ? 'Codice non valido oppure permessi insufficienti'
+                : 'Impossibile collegarsi al repository GitHub'
+            );
+        }
+
+        const data = await res.json();
+
+        if (!data.content) {
+            throw new Error('Il file progetti.json è vuoto o non leggibile');
+        }
+
+        // Token valido: lo salviamo
+        localStorage.setItem('automatech_gh_token', tokenDaVerificare);
+
+        // Decodifica JSON GitHub
+        const decoded = decodeURIComponent(
+            escape(atob(data.content.replace(/\n/g, '')))
+        );
+
+        progettiCache = JSON.parse(decoded);
+        jsonSha = data.sha;
+
+        // Mostra pannello
+        document.getElementById('loginCard').style.display = 'none';
+        document.getElementById('adminPanel').style.display = 'block';
+        document.getElementById('logoutBtn').style.display = 'inline-block';
+
+        renderListaProgetti();
+
+        mostraToast('Accesso effettuato correttamente');
+
+    } catch (e) {
+
+        // Se il token era salvato ma non funziona, rimuovilo
+        localStorage.removeItem('automatech_gh_token');
+
+        document.getElementById('loginCard').style.display = 'block';
+        document.getElementById('adminPanel').style.display = 'none';
+
+        mostraToast(e.message || 'Errore di accesso GitHub', true);
+
+    } finally {
+
+        if (btn) {
+            btn.disabled = false;
+            btn.textContent = 'Accedi all\'App';
+        }
+    }
+}
+
+
+// ==========================================
+// CARICAMENTO PROGETTI
+// ==========================================
+
+async function caricaProgettiDaGitHub() {
+    await verificaAccesso(getToken());
+}
+
+
+// ==========================================
+// SICUREZZA HTML
+// ==========================================
+
+function escapeHtml(value) {
+    return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+
+// ==========================================
+// VISUALIZZA PROGETTI
+// ==========================================
+
+function renderListaProgetti() {
+
+    const box = document.getElementById('projectsListContainer');
+
+    if (!progettiCache || progettiCache.length === 0) {
+        box.innerHTML = 'Nessun progetto presente.';
+        return;
+    }
+
+    box.innerHTML = progettiCache.map((p, idx) => `
+
+        <div class="proj-item">
+
+            <div>
+                <div class="proj-info-code">
+                    ${escapeHtml(p.codice)}
+                </div>
+
+                <div class="proj-info-title">
+                    ${escapeHtml(p.titolo)}
+                </div>
+            </div>
+
+            <div class="proj-actions">
+
+                <button class="btn-edit"
+                        onclick="preparaModifica(${idx})">
+                    Modifica
+                </button>
+
+                <button class="btn-del"
+                        onclick="eliminaProgetto(${idx})">
+                    Elimina
+                </button>
+
+            </div>
+
+        </div>
+
+    `).join('');
+}
+
+
+// ==========================================
+// SELEZIONE FILE
+// ==========================================
+
+function mostraNomeFile() {
+
+    const file = document.getElementById('pFile').files[0];
+
+    if (file) {
+        document.getElementById('fileLabel').textContent =
+            '✅ File selezionato: ' + file.name;
+    }
+}
+
+
+// ==========================================
+// MODIFICA PROGETTO
+// ==========================================
+
+function preparaModifica(idx) {
+
+    const p = progettiCache[idx];
+
+    if (!p) return;
+
+    document.getElementById('editIndex').value = idx;
+
+    document.getElementById('formHeading').textContent =
+        'Modifica Progetto #' + (idx + 1);
+
+    document.getElementById('cancelEditBtn').style.display = 'inline-block';
+
+    document.getElementById('pCodice').value = p.codice || '';
+    document.getElementById('pTitolo').value = p.titolo || '';
+    document.getElementById('pDesc').value = p.descrizione || '';
+
+    document.getElementById('pTech').value =
+        (p.tecnologie || []).join(', ');
+
+    document.getElementById('fileLabel').textContent =
+        '📷 Lascia vuoto per mantenere il file attuale';
+
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
+
+
+// ==========================================
+// RESET FORM
+// ==========================================
+
+function resetForm() {
+
+    document.getElementById('editIndex').value = '-1';
+
+    document.getElementById('formHeading').textContent =
+        '+ Aggiungi Nuovo Progetto';
+
+    document.getElementById('cancelEditBtn').style.display = 'none';
+
+    document.getElementById('pCodice').value = '';
+    document.getElementById('pTitolo').value = '';
+    document.getElementById('pDesc').value = '';
+    document.getElementById('pTech').value = '';
+    document.getElementById('pFile').value = '';
+
+    document.getElementById('fileLabel').textContent =
+        '📷 Tocca qui per scegliere foto o video';
+}
+
+
+// ==========================================
+// FILE IN BASE64
+// ==========================================
+
+function fileToBase64(file) {
+
+    return new Promise((resolve, reject) => {
+
+        const reader = new FileReader();
+
+        reader.onload = () => {
+            resolve(reader.result.split(',')[1]);
+        };
+
+        reader.onerror = () => reject(
+            new Error('Errore nella lettura del file')
+        );
+
+        reader.readAsDataURL(file);
+    });
+}
+
+
+// ==========================================
+// UPLOAD FOTO / VIDEO SU GITHUB
+// ==========================================
+
+async function caricaMediaGitHub(file, token) {
+
+    const ext = file.name.split('.').pop().toLowerCase();
+
+    const mediaName = 'proj_' + Date.now() + '.' + ext;
+
+    const b64 = await fileToBase64(file);
+
+    const url =
+        `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${encodeURIComponent(mediaName)}`;
+
+    const upRes = await fetch(url, {
+
+        method: 'PUT',
+
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/vnd.github+json',
+            'Content-Type': 'application/json'
+        },
+
+        body: JSON.stringify({
+            message: 'Upload media progetto ' + mediaName,
+            content: b64
+        })
+    });
+
+    if (!upRes.ok) {
+        const err = await upRes.json().catch(() => ({}));
+        throw new Error(err.message || 'Errore caricamento foto/video');
+    }
+
+    return {
+        media: mediaName,
+        tipoMedia: ext === 'mp4' ? 'video' : 'image'
+    };
+}
+
+
+// ==========================================
+// PUBBLICA PROGETTO
+// ==========================================
+
+async function pubblicaProgetto() {
+
+    const token = getToken();
+
+    if (!token) {
+        mostraToast('Devi prima effettuare l accesso', true);
+        return;
+    }
+
+    const idx = parseInt(
+        document.getElementById('editIndex').value
+    );
+
+    const codice =
+        document.getElementById('pCodice').value.trim()
+        || 'PRJ-NEW // AUTOMAZIONE';
+
+    const titolo =
+        document.getElementById('pTitolo').value.trim();
+
+    const descrizione =
+        document.getElementById('pDesc').value.trim();
+
+    const techRaw =
+        document.getElementById('pTech').value.trim();
+
+    const file =
+        document.getElementById('pFile').files[0];
+
+    if (!titolo) {
+        mostraToast('Inserisci almeno il titolo del progetto', true);
+        return;
+    }
+
+    const btn = document.getElementById('publishBtn');
+
+    btn.disabled = true;
+    btn.textContent = 'Caricamento su GitHub in corso...';
+
+    // Backup per ripristino se il salvataggio fallisce
+    const backupCache = [...progettiCache];
+
+    try {
+
+        let mediaName =
+            idx >= 0 ? progettiCache[idx].media : 'Robotech.mp4';
+
+        let tipoMedia =
+            idx >= 0 ? progettiCache[idx].tipoMedia : 'video';
+
+        // Se è stata scelta una foto o un video
+        if (file) {
+
+            const uploaded = await caricaMediaGitHub(file, token);
+
+            mediaName = uploaded.media;
+            tipoMedia = uploaded.tipoMedia;
+        }
+
+        const nuovoObj = {
+
+            codice: codice,
+
+            titolo: titolo,
+
+            descrizione: descrizione
+                || 'Intervento di automazione industriale realizzato da Automatech.',
+
+            media: mediaName,
+
+            tipoMedia: tipoMedia,
+
+            tecnologie: techRaw
+                ? techRaw.split(',').map(s => s.trim()).filter(Boolean)
+                : ['Automazione', 'PLC']
+        };
+
+        if (idx >= 0) {
+
+            progettiCache[idx] = nuovoObj;
+
+        } else {
+
+            const freeIdx = progettiCache.findIndex(
+                p => p.titolo === 'Non ancora aggiunto'
+            );
+
+            if (freeIdx !== -1) {
+                progettiCache[freeIdx] = nuovoObj;
+            } else {
+                progettiCache.push(nuovoObj);
+            }
+        }
+
+        await salvaJsonSuGitHub(
+            'Aggiornamento progetti da Automatech App'
+        );
+
+        resetForm();
+        renderListaProgetti();
+
+        mostraToast('✅ Progetto pubblicato correttamente!');
+
+    } catch (e) {
+
+        // Ripristina i dati in caso di errore
+        progettiCache = backupCache;
+
+        renderListaProgetti();
+
+        mostraToast(
+            'Errore durante la pubblicazione: ' + e.message,
+            true
+        );
+
+    } finally {
+
+        btn.disabled = false;
+        btn.textContent = 'Pubblica sul Sito';
+    }
+}
+
+
+// ==========================================
+// ELIMINA PROGETTO
+// ==========================================
+
+async function eliminaProgetto(idx) {
+
+    if (!confirm('Vuoi davvero rimuovere questo progetto dal sito?')) {
+        return;
+    }
+
+    const backupCache = [...progettiCache];
+
+    progettiCache.splice(idx, 1);
+
+    try {
+
+        await salvaJsonSuGitHub(
+            'Rimozione progetto da Automatech App'
+        );
+
+        renderListaProgetti();
+
+        mostraToast('Progetto rimosso correttamente.');
+
+    } catch (e) {
+
+        progettiCache = backupCache;
+
+        renderListaProgetti();
+
+        mostraToast(
+            'Errore durante la rimozione: ' + e.message,
+            true
+        );
+    }
+}
+
+
+// ==========================================
+// SALVA JSON SU GITHUB
+// ==========================================
+
+async function salvaJsonSuGitHub(commitMsg) {
+
+    const token = getToken();
+
+    const contentEncoded = btoa(
+        unescape(
+            encodeURIComponent(
+                JSON.stringify(progettiCache, null, 2)
+            )
+        )
+    );
+
+    const res = await fetch(
+        `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${JSON_FILE}`,
+        {
+            method: 'PUT',
+
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/vnd.github+json',
+                'Content-Type': 'application/json'
+            },
+
+            body: JSON.stringify({
+                message: commitMsg,
+                content: contentEncoded,
+                sha: jsonSha
+            })
+        }
+    );
+
+    if (!res.ok) {
+
+        const err = await res.json().catch(() => ({}));
+
+        throw new Error(
+            err.message || 'Errore salvataggio archivio GitHub'
+        );
+    }
+
+    const updated = await res.json();
+
+    jsonSha = updated.content.sha;
+}
+
+
+// ==========================================
+// AVVIO APP
+// ==========================================
+
+window.addEventListener('DOMContentLoaded', () => {
+
+    const token = getToken();
+
+    if (token) {
+        verificaAccesso(token);
+    }
+
+});
+
 </script>
+
 </body>
 </html>
