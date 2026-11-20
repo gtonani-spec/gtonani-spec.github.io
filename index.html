@@ -263,13 +263,26 @@
         }
 
         /* Stato Inserito: la chiavetta entra nel fianco sinistro del monitor 3D */
+               /* Stato Inserito: la chiavetta entra fisicamente dietro il bordo del monitor 3D */
         .usb-drive-btn.inserted {
-            transform: rotateY(6deg) rotateX(2deg) translateX(30px) scale(0.96);
+            transform: rotateY(4deg) rotateX(2deg) translateX(35px) scale(0.96);
             box-shadow: 
                 -2px 3px 0px #0c4a6e,
                 0 0 16px rgba(56, 189, 248, 0.55);
+            z-index: 1;
             cursor: default;
         }
+        .usb-drive-btn.inserted::after {
+            opacity: 0;
+            transition: opacity 0.2s ease 0.25s;
+        }
+
+        /* Mantiene la cornice del monitor 3D sopra al connettore USB */
+        .chisiamo-3d-panel-scene {
+            position: relative;
+            z-index: 3;
+        }
+
 
         .usb-led-dot {
             width: 8px;
@@ -281,11 +294,37 @@
             flex-shrink: 0;
             transition: background 0.3s, box-shadow 0.3s;
         }
-        .usb-drive-btn.inserted .usb-led-dot {
-            background: #facc15;
-            border-color: #fef08a;
-            box-shadow: 0 0 10px #facc15;
+                /* Chiavetta USB 3D Azzurra Compatta a Due Piani */
+        .usb-drive-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(145deg, #38bdf8 0%, #0284c7 45%, #0369a1 100%);
+            border: 1.5px solid #7dd3fc;
+            border-left: 4px solid #e0f2fe;
+            border-radius: 6px 3px 3px 6px;
+            padding: 7px 11px;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 9.5px;
+            font-weight: 800;
+            line-height: 1.25;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+            text-align: left;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+            cursor: pointer;
+            transform: rotateY(14deg) rotateX(4deg);
+            transform-style: preserve-3d;
+            box-shadow: 
+                -5px 6px 0px #0c4a6e,
+                -8px 10px 18px rgba(2, 132, 199, 0.35),
+                inset 0 1px 1px rgba(255, 255, 255, 0.45);
+            transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease;
+            z-index: 3;
+            user-select: none;
         }
+
 
         /* Schermo Bloccato finché la USB non viene inserita */
         .chisiamo-3d-panel-scene.locked {
@@ -1021,7 +1060,7 @@
             <div class="hmi-usb-station">
                 <div class="usb-drive-btn" id="usbProjectKey" onclick="inserisciChiavettaProgetti()" title="Inserisci la chiavetta nel pannello HMI">
                     <span class="usb-led-dot"></span>
-                    <span id="usbBtnText">VISUALIZZA I NOSTRI PROGETTI</span>
+                    <span id="usbBtnText">VISUALIZZA I<br>NOSTRI PROGETTI</span>
                 </div>
 
                 <div class="chisiamo-3d-panel-scene locked" id="hmiPanelTrigger" onclick="apriPannelloProgetti()" title="Inserisci prima la chiavetta USB azzurra">
@@ -1236,7 +1275,7 @@ function inserisciChiavettaProgetti() {
     if (!usbInserita) {
         usbInserita = true;
         usb.classList.add('inserted');
-        txt.textContent = 'USB COLLEGATA';
+        txt.innerHTML = 'USB<br>COLLEGATA';
         setTimeout(() => {
             trigger.classList.remove('locked');
             trigger.title = 'Clicca per aprire l\'archivio progetti';
