@@ -1294,25 +1294,26 @@ function inserisciChiavettaProgetti() {
         usbInserita = true;
         usb.classList.add('inserted');
         // Sostituisce la scritta con l'icona della "A" robotica del logo Automatech
-                txt.innerHTML = `
-            <svg viewBox="0 0 92 64" width="38" height="27" style="display:block; margin: 0 6px; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4));" aria-label="Automatech">
-                <!-- Gambe della A e traversa -->
-                <line x1="26" y1="16" x2="10" y2="54" stroke="#ffffff" stroke-width="5" stroke-linecap="round"/>
-                <line x1="26" y1="16" x2="42" y2="54" stroke="#ffffff" stroke-width="5" stroke-linecap="round"/>
-                <line x1="16" y1="41" x2="36" y2="41" stroke="#ffffff" stroke-width="4.2" stroke-linecap="round"/>
-                <!-- Braccio di estensione verso destra e polso della pinza -->
-                <line x1="26" y1="16" x2="56" y2="10" stroke="#ffffff" stroke-width="5" stroke-linecap="round"/>
-                <line x1="56" y1="10" x2="72" y2="18" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round"/>
-                <!-- Gancio / Pinza di presa inferiore -->
-                <path d="M 65 25 L 72 19 L 79 25 M 65 25 L 67 32 M 79 25 L 77 32" fill="none" stroke="#ffffff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
-                <!-- Snodi circolari del braccio robotico -->
-                <circle cx="26" cy="16" r="4.5" fill="#0284c7" stroke="#ffffff" stroke-width="2.8"/>
-                <circle cx="10" cy="54" r="4.5" fill="#0284c7" stroke="#ffffff" stroke-width="2.8"/>
-                <circle cx="42" cy="54" r="4.5" fill="#0284c7" stroke="#ffffff" stroke-width="2.8"/>
-                <circle cx="56" cy="10" r="4.2" fill="#0284c7" stroke="#ffffff" stroke-width="2.6"/>
-                <circle cx="72" cy="18" r="3.6" fill="#0284c7" stroke="#ffffff" stroke-width="2.4"/>
+                       txt.innerHTML = `
+            <svg viewBox="0 0 82 64" width="36" height="28" style="display:block; margin: 0 6px; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.45));" aria-label="Automatech">
+                <!-- Base d'appoggio a terra -->
+                <rect x="20" y="53" width="18" height="6" rx="2" fill="#ffffff"/>
+                <!-- Braccio 1: dalla base al giunto superiore -->
+                <line x1="29" y1="54" x2="47" y2="12" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round"/>
+                <!-- Braccio 2: dal giunto superiore al giunto inferiore destro -->
+                <line x1="47" y1="12" x2="67" y2="49" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round"/>
+                <!-- Braccio 3 (traversa della A): dal giunto inferiore destro al polso sinistro -->
+                <line x1="67" y1="49" x2="21" y2="28" stroke="#ffffff" stroke-width="5.2" stroke-linecap="round"/>
+                <!-- Pinza a rombo chiusa sotto il polso sinistro -->
+                <line x1="21" y1="33" x2="21" y2="37" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+                <polygon points="21,37 16,44 21,51 26,44" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linejoin="round"/>
+                <!-- I 3 giunti circolari con foro interno -->
+                <circle cx="47" cy="12" r="5.2" fill="#0284c7" stroke="#ffffff" stroke-width="3"/>
+                <circle cx="67" cy="49" r="5.2" fill="#0284c7" stroke="#ffffff" stroke-width="3"/>
+                <circle cx="21" cy="28" r="4.8" fill="#0284c7" stroke="#ffffff" stroke-width="2.8"/>
             </svg>
         `;
+
 
         setTimeout(() => {
             trigger.classList.remove('locked');
