@@ -270,6 +270,224 @@
                 transform: rotateY(0deg) rotateX(0deg);
             }
         }
+        /* Invito al clic sul pannello piccolo */
+        .chisiamo-3d-panel-scene {
+            cursor: pointer;
+        }
+        .hmi-click-hint {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(20, 20, 20, 0.85);
+            color: #22C55E;
+            border: 1px solid #16A34A;
+            font-family: monospace;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 3px 7px;
+            border-radius: 4px;
+            z-index: 4;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+            transition: background 0.2s, color 0.2s;
+        }
+        .chisiamo-3d-panel-scene:hover .hmi-click-hint {
+            background: #16A34A;
+            color: #ffffff;
+        }
+
+        /* Overlay scuro e Finestra Pannello HMI Espanso */
+        .hmi-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 15, 22, 0.82);
+            backdrop-filter: blur(5px);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .hmi-modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .hmi-expanded-chassis {
+            width: 100%;
+            max-width: 980px;
+            background: linear-gradient(145deg, #27272a 0%, #141414 100%);
+            border: 2.5px solid #3f3f46;
+            border-radius: 12px;
+            padding: 16px 18px 20px 18px;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75), 0 0 30px rgba(22, 163, 74, 0.25);
+            transform: scale(0.92);
+            transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .hmi-modal-overlay.active .hmi-expanded-chassis {
+            transform: scale(1);
+        }
+
+        /* Barra superiore del terminale HMI */
+        .hmi-top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 12px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #3f3f46;
+            font-family: monospace;
+            color: #e4e4e7;
+            font-size: 13px;
+        }
+        .hmi-status-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            color: #22C55E;
+        }
+        .hmi-close-btn {
+            background: #dc2626;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            padding: 6px 14px;
+            font-family: monospace;
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .hmi-close-btn:hover {
+            background: #b91c1c;
+        }
+
+        /* Schermo interno diviso in Lista Progetti (sinistra) + Dettaglio (destra) */
+        .hmi-screen-workspace {
+            background: #081826;
+            border: 2px solid #16A34A;
+            border-radius: 7px;
+            display: grid;
+            grid-template-columns: 310px 1fr;
+            min-height: 430px;
+            overflow: hidden;
+        }
+
+        .hmi-project-list {
+            background: #0b2236;
+            border-right: 1px solid #1e3a5f;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .hmi-list-title {
+            font-family: monospace;
+            font-size: 11px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #1e3a5f;
+        }
+        .hmi-proj-btn {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid #1e3a5f;
+            border-left: 3px solid transparent;
+            color: #e2e8f0;
+            padding: 12px 14px;
+            border-radius: 5px;
+            text-align: left;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .hmi-proj-btn:hover {
+            background: rgba(22, 163, 74, 0.15);
+            border-color: #16A34A;
+        }
+        .hmi-proj-btn.active {
+            background: rgba(22, 163, 74, 0.25);
+            border-color: #22C55E;
+            border-left: 4px solid #22C55E;
+            color: #ffffff;
+        }
+        .hmi-proj-code {
+            display: block;
+            font-family: monospace;
+            font-size: 11px;
+            color: #22C55E;
+            margin-bottom: 3px;
+        }
+
+        /* Pannello Dettaglio Progetto a destra */
+        .hmi-project-viewer {
+            padding: 24px 28px;
+            color: #f8fafc;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .hmi-viewer-media {
+            width: 100%;
+            height: 220px;
+            background: #040d14;
+            border: 1px solid #1e3a5f;
+            border-radius: 6px;
+            margin-bottom: 18px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hmi-viewer-media img,
+        .hmi-viewer-media video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .hmi-viewer-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 0 0 8px 0;
+        }
+        .hmi-viewer-desc {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #cbd5e1;
+            margin: 0 0 16px 0;
+        }
+        .hmi-tech-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .hmi-tech-badge {
+            background: rgba(22, 163, 74, 0.2);
+            border: 1px solid #16A34A;
+            color: #4ade80;
+            font-family: monospace;
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .hmi-screen-workspace {
+                grid-template-columns: 1fr;
+            }
+            .hmi-project-list {
+                border-right: none;
+                border-bottom: 1px solid #1e3a5f;
+            }
+        }
 
         .chi-siamo-box:hover { transform: translateY(-5px); }
 
@@ -648,9 +866,10 @@
             </div>
 
             <!-- Pannello Monitor Industriale 3D con Video Robotech -->
-            <div class="chisiamo-3d-panel-scene">
+                        <div class="chisiamo-3d-panel-scene" onclick="apriPannelloProgetti()" title="Clicca per esplorare i nostri progetti">
                 <div class="chisiamo-3d-monitor">
                     <div class="chisiamo-3d-screen">
+                        <span class="hmi-click-hint">PROGETTI ↗</span>
                         <video autoplay muted playsinline preload="auto" class="chisiamo-3d-video" id="video-logo-a">
                             <source src="Robotech.mp4" type="video/mp4">
                         </video>
@@ -661,6 +880,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 
@@ -790,6 +1010,106 @@ setInterval(function() {
 
 <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
+<!-- Finestra Terminale HMI Espanso per Archivio Progetti -->
+<div class="hmi-modal-overlay" id="hmiModal" onclick="chiudiPannelloSeFuori(event)">
+    <div class="hmi-expanded-chassis">
+        <div class="hmi-top-bar">
+            <span class="hmi-status-tag">
+                <span class="chisiamo-3d-led"></span>
+                AUTOMATECH // ARCHIVIO PROGETTI HMI
+            </span>
+            <button class="hmi-close-btn" onclick="chiudiPannelloProgetti()">[ X ] CHIUDI</button>
+        </div>
+
+        <div class="hmi-screen-workspace">
+            <!-- Colonna Sinistra: Lista Progetti Selezionabili -->
+            <div class="hmi-project-list">
+                <div class="hmi-list-title">Seleziona Commessa</div>
+                
+                <button class="hmi-proj-btn active" onclick="selezionaProgetto(0, this)">
+                    <span class="hmi-proj-code">PRJ-01 // ROBOTICA</span>
+                    Cella Robotizzata di Pallettizzazione
+                </button>
+
+                <button class="hmi-proj-btn" onclick="selezionaProgetto(1, this)">
+                    <span class="hmi-proj-code">PRJ-02 // PLC & REVAMPING</span>
+                    Automazione Linea Confezionamento
+                </button>
+
+                <button class="hmi-proj-btn" onclick="selezionaProgetto(2, this)">
+                    <span class="hmi-proj-code">PRJ-03 // SCADA & TELECONTROLLO</span>
+                    Supervisione Impianto di Processo
+                </button>
+            </div>
+
+            <!-- Colonna Destra: Dettaglio Progetto Selezionato -->
+            <div class="hmi-project-viewer">
+                <div>
+                    <div class="hmi-viewer-media" id="hmiMediaBox">
+                        <video autoplay loop muted playsinline src="Robotech.mp4"></video>
+                    </div>
+                    <h3 class="hmi-viewer-title" id="hmiTitle">Cella Robotizzata di Pallettizzazione</h3>
+                    <p class="hmi-viewer-desc" id="hmiDesc">
+                        Progettazione software, integrazione robot antropomorfo 6 assi e gestione sicurezze per linea automatizzata ad alta cadenza produttiva, completa di interfacciamento con fine-linea esistente.
+                    </p>
+                </div>
+                <div class="hmi-tech-badges" id="hmiBadges">
+                    <span class="hmi-tech-badge">PLC Siemens S7-1500</span>
+                    <span class="hmi-tech-badge">Robot KUKA / Fanuc</span>
+                    <span class="hmi-tech-badge">Profinet Safety</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const archivioProgetti = [
+    {
+        titolo: "Cella Robotizzata di Pallettizzazione",
+        descrizione: "Progettazione software, integrazione robot antropomorfo 6 assi e gestione sicurezze per linea automatizzata ad alta cadenza produttiva, completa di interfacciamento con fine-linea esistente.",
+        mediaHtml: '<video autoplay loop muted playsinline src="Robotech.mp4"></video>',
+        badges: ["PLC Siemens S7-1500", "Robot 6 Assi", "Profinet Safety"]
+    },
+    {
+        titolo: "Automazione Linea Confezionamento",
+        descrizione: "Revamping completo quadro elettrico e logica PLC con sincronizzazione assi, gestione ricette operatore su pannello touch HMI e diagnostica allarmi in tempo reale.",
+        mediaHtml: '<video autoplay loop muted playsinline src="88231-602915804.mp4"></video>',
+        badges: ["TIA Portal", "HMI Comfort Panel", "Motion Control"]
+    },
+    {
+        titolo: "Supervisione Impianto di Processo",
+        descrizione: "Sviluppo sistema SCADA centralizzato per il monitoraggio continuo dei parametri di produzione, storicizzazione dati, reportistica consumi e teleassistenza remota.",
+        mediaHtml: '<video autoplay loop muted playsinline src="88231-602915804.mp4"></video>',
+        badges: ["WinCC / SCADA", "OPC-UA", "Industria 4.0"]
+    }
+];
+
+function apriPannelloProgetti() {
+    document.getElementById('hmiModal').classList.add('active');
+}
+
+function chiudiPannelloProgetti() {
+    document.getElementById('hmiModal').classList.remove('active');
+}
+
+function chiudiPannelloSeFuori(e) {
+    if (e.target.id === 'hmiModal') {
+        chiudiPannelloProgetti();
+    }
+}
+
+function selezionaProgetto(indice, btn) {
+    document.querySelectorAll('.hmi-proj-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const p = archivioProgetti[indice];
+    document.getElementById('hmiTitle').textContent = p.titolo;
+    document.getElementById('hmiDesc').textContent = p.descrizione;
+    document.getElementById('hmiMediaBox').innerHTML = p.mediaHtml;
+    document.getElementById('hmiBadges').innerHTML = p.badges.map(tag => `<span class="hmi-tech-badge">${tag}</span>`).join('');
+}
+</script>
 
 </body>
 </html>
