@@ -1022,41 +1022,30 @@ setInterval(function() {
         </div>
 
         <div class="hmi-screen-workspace">
-            <!-- Colonna Sinistra: Lista Progetti Selezionabili -->
+            <!-- Colonna Sinistra: Slot Progetti in attesa di caricamento -->
             <div class="hmi-project-list">
                 <div class="hmi-list-title">Seleziona Commessa</div>
                 
                 <button class="hmi-proj-btn active" onclick="selezionaProgetto(0, this)">
-                    <span class="hmi-proj-code">PRJ-01 // ROBOTICA</span>
-                    Cella Robotizzata di Pallettizzazione
+                    <span class="hmi-proj-code">PRJ-01 // SLOT LIBERO</span>
+                    Non ancora aggiunto
                 </button>
 
                 <button class="hmi-proj-btn" onclick="selezionaProgetto(1, this)">
-                    <span class="hmi-proj-code">PRJ-02 // PLC & REVAMPING</span>
-                    Automazione Linea Confezionamento
+                    <span class="hmi-proj-code">PRJ-02 // SLOT LIBERO</span>
+                    Non ancora aggiunto
                 </button>
 
                 <button class="hmi-proj-btn" onclick="selezionaProgetto(2, this)">
-                    <span class="hmi-proj-code">PRJ-03 // SCADA & TELECONTROLLO</span>
-                    Supervisione Impianto di Processo
+                    <span class="hmi-proj-code">PRJ-03 // SLOT LIBERO</span>
+                    Non ancora aggiunto
                 </button>
             </div>
 
-            <!-- Colonna Destra: Dettaglio Progetto Selezionato -->
-            <div class="hmi-project-viewer">
-                <div>
-                    <div class="hmi-viewer-media" id="hmiMediaBox">
-                        <video autoplay loop muted playsinline src="Robotech.mp4"></video>
-                    </div>
-                    <h3 class="hmi-viewer-title" id="hmiTitle">Cella Robotizzata di Pallettizzazione</h3>
-                    <p class="hmi-viewer-desc" id="hmiDesc">
-                        Progettazione software, integrazione robot antropomorfo 6 assi e gestione sicurezze per linea automatizzata ad alta cadenza produttiva, completa di interfacciamento con fine-linea esistente.
-                    </p>
-                </div>
-                <div class="hmi-tech-badges" id="hmiBadges">
-                    <span class="hmi-tech-badge">PLC Siemens S7-1500</span>
-                    <span class="hmi-tech-badge">Robot KUKA / Fanuc</span>
-                    <span class="hmi-tech-badge">Profinet Safety</span>
+            <!-- Colonna Destra: Video a schermo intero pulito senza scritte -->
+            <div class="hmi-project-viewer" style="padding: 18px;">
+                <div class="hmi-viewer-media" id="hmiMediaBox" style="height: 100%; min-height: 390px; margin-bottom: 0;">
+                    <video autoplay loop muted playsinline src="Robotech.mp4"></video>
                 </div>
             </div>
         </div>
@@ -1064,6 +1053,41 @@ setInterval(function() {
 </div>
 
 <script>
+const archivioProgetti = [
+    {
+        mediaHtml: '<video autoplay loop muted playsinline src="Robotech.mp4"></video>'
+    },
+    {
+        mediaHtml: '<video autoplay loop muted playsinline src="Robotech.mp4"></video>'
+    },
+    {
+        mediaHtml: '<video autoplay loop muted playsinline src="Robotech.mp4"></video>'
+    }
+];
+
+function apriPannelloProgetti() {
+    document.getElementById('hmiModal').classList.add('active');
+}
+
+function chiudiPannelloProgetti() {
+    document.getElementById('hmiModal').classList.remove('active');
+}
+
+function chiudiPannelloSeFuori(e) {
+    if (e.target.id === 'hmiModal') {
+        chiudiPannelloProgetti();
+    }
+}
+
+function selezionaProgetto(indice, btn) {
+    document.querySelectorAll('.hmi-proj-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const p = archivioProgetti[indice];
+    document.getElementById('hmiMediaBox').innerHTML = p.mediaHtml;
+}
+</script>
+
 const archivioProgetti = [
     {
         titolo: "Cella Robotizzata di Pallettizzazione",
