@@ -2,9 +2,10 @@
   {
     "codice": "PROJ1.0",
     "titolo": "DUMMYPROJECT",
-    "descrizione": "Progetto per testare la funzionalità dell'applicazione",
+    "descrizione": "Progetto per testare la funzionalità dell'applicazione,Ora funziona",
     "media": "proj_1795187632746.png",
     "tipoMedia": "image",
+    "aggiornatoIl": 1795188589931,
     "tecnologie": [
       "-"
     ]
