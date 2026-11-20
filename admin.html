@@ -816,6 +816,8 @@ async function pubblicaProgetto() {
 
             tipoMedia: tipoMedia,
 
+            aggiornatoIl: Date.now(),
+
             tecnologie: techRaw
                 ? techRaw.split(',').map(s => s.trim()).filter(Boolean)
                 : ['Automazione', 'PLC']
