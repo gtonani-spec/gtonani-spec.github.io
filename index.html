@@ -194,6 +194,116 @@
             transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.35s ease;
         }
 
+        
+        
+                /* Contenitore Unico: Chiavetta USB a sinistra + Pannello Monitor 3D a destra */
+        .hmi-usb-station {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            position: relative;
+        }
+
+        /* Riquadro Chiavetta USB Industriale */
+        .usb-drive-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(145deg, #27272a 0%, #141414 100%);
+            border: 1.5px solid #3f3f46;
+            border-left: 4px solid #16A34A;
+            border-radius: 6px 3px 3px 6px;
+            padding: 10px 14px;
+            color: #f4f4f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255,255,255,0.12);
+            transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+            z-index: 3;
+            user-select: none;
+        }
+
+        .usb-drive-btn:hover:not(.inserted) {
+            border-color: #22C55E;
+            box-shadow: 0 8px 18px rgba(22, 163, 74, 0.28);
+            transform: translateX(3px);
+        }
+
+        /* Connettore metallico USB che sporge a destra */
+        .usb-drive-btn::after {
+            content: '';
+            position: absolute;
+            right: -13px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 18px;
+            background: linear-gradient(90deg, #9ca3af 0%, #e5e7eb 50%, #9ca3af 100%);
+            border: 1px solid #6b7280;
+            border-left: none;
+            border-radius: 0 2px 2px 0;
+            box-shadow: inset 0 4px 0 -2px #374151, inset 0 -4px 0 -2px #374151;
+        }
+
+        /* Stato Inserito: la chiavetta entra nel fianco sinistro del monitor 3D */
+        .usb-drive-btn.inserted {
+            transform: translateX(28px) scale(0.95);
+            border-color: #22C55E;
+            box-shadow: 0 0 14px rgba(34, 197, 94, 0.45);
+            cursor: default;
+        }
+
+        .usb-led-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #52525b;
+            margin-right: 9px;
+            flex-shrink: 0;
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+        .usb-drive-btn.inserted .usb-led-dot {
+            background: #22C55E;
+            box-shadow: 0 0 8px #22C55E;
+        }
+
+        /* Stato Lampeggiante del Monitor 3D dopo l'inserimento della USB */
+        .chisiamo-3d-monitor.usb-ready {
+            animation: monitorLampeggia 0.95s ease-in-out infinite alternate;
+        }
+        .chisiamo-3d-monitor.usb-ready .chisiamo-3d-screen {
+            border-color: #4ade80;
+            box-shadow: inset 0 0 16px rgba(34, 197, 94, 0.55), 0 0 14px rgba(34, 197, 94, 0.65);
+        }
+
+        @keyframes monitorLampeggia {
+            0%   { box-shadow: 8px 8px 0px #09090b, 0 0 8px rgba(34, 197, 94, 0.3); }
+            100% { box-shadow: 8px 8px 0px #09090b, 0 0 26px rgba(34, 197, 94, 0.95); }
+        }
+
+        @media (max-width: 850px) {
+            .hmi-usb-station {
+                flex-direction: column;
+                gap: 16px;
+            }
+            .usb-drive-btn::after {
+                right: 50%;
+                top: auto;
+                bottom: -13px;
+                transform: translateX(50%);
+                width: 18px;
+                height: 12px;
+                border-radius: 0 0 2px 2px;
+            }
+            .usb-drive-btn.inserted {
+                transform: translateY(22px) scale(0.95);
+            }
+        }
+
         .chisiamo-3d-panel-scene:hover .chisiamo-3d-monitor {
             transform: rotateY(-3deg) rotateX(1deg) scale(1.03);
             box-shadow: 
@@ -865,18 +975,25 @@
                 <p style="margin-bottom: 0;">Il nostro approccio è completo e "chiavi in mano": seguiamo l'intero ciclo di vita del progetto, dalla definizione iniziale e condivisione degli obiettivi fino allo sviluppo hardware e software, collaudo e messa in servizio finale.</p>
             </div>
 
-            <!-- Pannello Monitor Industriale 3D con Video Robotech -->
-                        <div class="chisiamo-3d-panel-scene" onclick="apriPannelloProgetti()" title="Clicca per esplorare i nostri progetti">
-                <div class="chisiamo-3d-monitor">
-                    <div class="chisiamo-3d-screen">
-                        <span class="hmi-click-hint">PROGETTI ↗</span>
-                        <video autoplay muted playsinline preload="auto" class="chisiamo-3d-video" id="video-logo-a">
-                            <source src="Robotech.mp4" type="video/mp4">
-                        </video>
-                    </div>
-                    <div class="chisiamo-3d-footer">
-                        <span>AUTOMATECH // ROBO-01</span>
-                        <span class="chisiamo-3d-led"></span>
+           <!-- Stazione Interattiva: Chiavetta USB Dati + Pannello Monitor 3D -->
+            <div class="hmi-usb-station">
+                <div class="usb-drive-btn" id="usbProjectKey" onclick="inserisciChiavettaProgetti()" title="Inserisci la chiavetta nel pannello HMI">
+                    <span class="usb-led-dot"></span>
+                    <span id="usbBtnText">VISUALIZZA I NOSTRI PROGETTI</span>
+                </div>
+
+                <div class="chisiamo-3d-panel-scene" onclick="apriPannelloProgetti()" title="Clicca per aprire l'archivio progetti">
+                    <div class="chisiamo-3d-monitor" id="hmiMiniMonitor">
+                        <div class="chisiamo-3d-screen">
+                            <span class="hmi-click-hint" id="hmiHintBadge">ATTESA USB...</span>
+                            <video autoplay muted playsinline preload="auto" class="chisiamo-3d-video" id="video-logo-a">
+                                <source src="Robotech.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="chisiamo-3d-footer">
+                            <span>AUTOMATECH // ROBO-01</span>
+                            <span class="chisiamo-3d-led"></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1065,7 +1182,27 @@ const archivioProgetti = [
     }
 ];
 
-function apriPannelloProgetti() {
+function inserisciChiavettaProgetti() {
+    const usb = document.getElementById('usbProjectKey');
+    const monitor = document.getElementById('hmiMiniMonitor');
+    const badge = document.getElementById('hmiHintBadge');
+    const txt = document.getElementById('usbBtnText');
+
+    if (!usb.classList.contains('inserted')) {
+        usb.classList.add('inserted');
+        txt.textContent = 'USB COLLEGATA';
+        setTimeout(() => {
+            monitor.classList.add('usb-ready');
+            badge.textContent = 'CLICCA QUI ↗';
+            badge.style.background = '#16A34A';
+            badge.style.color = '#ffffff';
+        }, 450);
+    } else {
+        apriPannelloProgetti();
+    }
+}
+
+    function apriPannelloProgetti() {
     document.getElementById('hmiModal').classList.add('active');
 }
 
