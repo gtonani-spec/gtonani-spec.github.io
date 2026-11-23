@@ -1169,35 +1169,35 @@
 
 
    <!-- STILE PLC STUDIO PULITO -->
+<!-- STILE PLC STUDIO PULITO -->
 <link href="https://googleapis.com" rel="stylesheet">
 
 <style>
   .plc-section-wrapper { max-width: 1200px; margin: 3.5rem auto; padding: 0 1.5rem; font-family: 'Segoe UI', sans-serif; }
   .plc-net-box { background: #fff; border: 1px solid #b8c2ce; box-shadow: 0 12px 30px rgba(15,23,42,0.08); margin-bottom: 3.5rem; border-radius: 4px; overflow: hidden; scroll-margin-top: 100px; }
-  .plc-net-header { background: linear-gradient(180deg, #e2e8f0 0%, #cbd5e1 100%); border-bottom: 1px solid #94a3b8; padding: 9px 16px; display: flex; justify-content: space-between; align-items: center; font-weight: 700; color: #0f172a; font-size: 1.05rem; }
-  .plc-status-pill { display: inline-flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: #0f172a; background: rgba(255,255,255,0.75); padding: 3px 10px; border: 1px solid #94a3b8; border-radius: 3px; }
-  .plc-led { width: 8px; height: 8px; border-radius: 50%; background: #00b050; box-shadow: 0 0 8px #00b050; animation: ledBlink 1.2s infinite alternate; }
-  @keyframes ledBlink { 0% { opacity: 0.4; transform: scale(0.9); } 100% { opacity: 1; transform: scale(1.15); } }
-  .plc-net-comment { background: #f8fafc; padding: 6px 16px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #15803d; border-bottom: 1px dashed #cbd5e1; }
+  .plc-net-header { background: linear-gradient(180deg, #e2e8f0 0%, #cbd5e1 100%); border-bottom: 1px solid #94a3b8; padding: 10px 18px; display: flex; align-items: center; font-weight: 700; color: #0f172a; font-size: 1.05rem; }
+  .plc-net-comment { background: #f8fafc; padding: 6px 18px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #15803d; border-bottom: 1px dashed #cbd5e1; }
   .plc-circuit-area { padding: 26px 22px 34px 22px; position: relative; background-image: radial-gradient(#cbd5e1 1px, transparent 1px); background-size: 20px 20px; }
   
-  /* RUNG SENZA CONTATTO */
-  .plc-rung-start { display: flex; align-items: center; margin-bottom: 20px; position: relative; }
-  .plc-rail-dot { width: 4px; height: 26px; background: #00b050; box-shadow: 0 0 8px rgba(0,176,80,0.5); }
-  .plc-bus-track { flex: 1; height: 3px; background: #cbd5e1; position: relative; border-radius: 2px; }
-  .plc-bus-active { position: absolute; top: 0; left: 0; height: 100%; width: 4%; background: #00b050; box-shadow: 0 0 10px rgba(0,176,80,0.7); transition: width 0.45s cubic-bezier(0.25,1,0.5,1); overflow: hidden; }
+  /* BUS CONTINUO SENZA INTERRUZIONI */
+  .plc-rung-start { display: flex; align-items: center; margin-bottom: 22px; position: relative; }
+  .plc-rail-dot { width: 4px; height: 26px; background: #00b050; box-shadow: 0 0 8px rgba(0,176,80,0.5); flex-shrink: 0; }
+  .plc-bus-track { flex: 1; height: 3px; background: #cbd5e1; position: relative; }
+  .plc-bus-active { position: absolute; top: 0; left: 0; height: 100%; width: 31px; background: #00b050; box-shadow: 0 0 10px rgba(0,176,80,0.7); transition: width 0.45s cubic-bezier(0.25,1,0.5,1); overflow: hidden; }
   .plc-bus-active::after { content: ""; position: absolute; top: 0; left: -40%; width: 40%; height: 100%; background: linear-gradient(90deg, transparent, #a7f3d0, #fff, transparent); animation: signalPulse 1.6s linear infinite; }
   @keyframes signalPulse { 0% { left: -40%; } 100% { left: 100%; } }
   
   .plc-fb-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; perspective: 1000px; }
-  .plc-fb-card { background: #f1f5f9; border: 1.5px solid #94a3b8; border-radius: 3px; position: relative; transition: all 0.35s ease; transform-style: preserve-3d; display: flex; flex-direction: column; cursor: pointer; }
-  .plc-fb-card::before { content: ""; position: absolute; top: -21px; left: 28px; width: 3px; height: 21px; background: #cbd5e1; transition: all 0.3s ease; }
-  .plc-fb-card.is-energized::after { content: ""; position: absolute; top: -21px; left: 27px; width: 5px; height: 6px; border-radius: 50%; background: #fff; box-shadow: 0 0 8px #00ff73; animation: dropPulse 0.9s infinite linear; }
-  @keyframes dropPulse { 0% { top: -21px; opacity: 1; } 100% { top: -2px; opacity: 0; } }
-  .plc-fb-card.is-energized { border-color: #00b050; box-shadow: 0 16px 32px rgba(0,176,80,0.16), 0 0 0 1.5px #00b050; transform: translateY(-6px) rotateX(2.5deg); }
+  .plc-fb-card { background: #f1f5f9; border: 1.5px solid #94a3b8; border-radius: 3px; position: relative; transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.3s ease; transform-style: preserve-3d; display: flex; flex-direction: column; cursor: pointer; }
+  
+  /* STELO VERTICALE UNITI AL MILLIMETRO AL BUS (22px + 11.5px centro = 33.5px) */
+  .plc-fb-card::before { content: ""; position: absolute; top: -35px; left: 28px; width: 3px; height: 35px; background: #cbd5e1; transition: background 0.3s ease, box-shadow 0.3s ease; z-index: 1; }
+  .plc-fb-card.is-energized::after { content: ""; position: absolute; top: -35px; left: 27px; width: 5px; height: 6px; border-radius: 50%; background: #fff; box-shadow: 0 0 8px #00ff73; animation: dropPulse 0.9s infinite linear; z-index: 2; }
+  @keyframes dropPulse { 0% { top: -35px; opacity: 1; } 100% { top: -2px; opacity: 0; } }
+  
+  .plc-fb-card.is-energized { border-color: #00b050; box-shadow: 0 16px 32px rgba(0,176,80,0.16), 0 0 0 1.5px #00b050; transform: translateY(-4px) rotateX(2deg); }
   .plc-fb-card.is-energized::before { background: #00b050; box-shadow: 0 0 10px rgba(0,176,80,0.7); }
   
-  /* TESTATA DEL BLOCCO CON IL TITOLO PRINCIPALE */
   .plc-fb-head { background: linear-gradient(180deg, #cbd5e1 0%, #94a3b8 100%); border-bottom: 1.5px solid #64748b; padding: 11px 14px; text-align: center; font-family: 'Segoe UI', sans-serif; font-size: 1.08rem; font-weight: 700; color: #1e293b; transition: all 0.3s ease; }
   .plc-fb-card.is-energized .plc-fb-head { background: linear-gradient(180deg, #9ec5eb 0%, #6ba5e7 100%); border-bottom-color: #3b82f6; color: #0f172a; }
   
@@ -1211,7 +1211,6 @@
   <section id="servizi" class="plc-net-box" data-network="services">
     <div class="plc-net-header">
       <span>▼ Network 1: SERVIZI</span>
-      <span class="plc-status-pill"><span class="plc-led"></span> OB1 // ONLINE</span>
     </div>
     <div class="plc-net-comment">// Soluzioni chiavi in mano per l'automazione e il revamping industriale</div>
     
@@ -1219,26 +1218,26 @@
       <div class="plc-rung-start">
         <div class="plc-rail-dot"></div>
         <div class="plc-bus-track">
-          <div class="plc-bus-active" style="width: 4%;"></div>
+          <div class="plc-bus-active"></div>
         </div>
       </div>
 
       <div class="plc-fb-grid">
-        <div class="plc-fb-card is-energized" data-bus="4%">
+        <div class="plc-fb-card is-energized">
           <div class="plc-fb-head">PLC</div>
           <div class="plc-fb-body">
             <p>Progettazione e sviluppo di sistemi di automazione basati su hardware PLC per nuove installazioni o revamping completi di impianti industriali.</p>
           </div>
         </div>
 
-        <div class="plc-fb-card" data-bus="38%">
+        <div class="plc-fb-card">
           <div class="plc-fb-head">Software HMI &amp; SCADA</div>
           <div class="plc-fb-body">
             <p>Implementazione di applicazioni software dedicate alla supervisione dei flussi di lavoro, controllo dati e telecontrollo avanzato d'impianto.</p>
           </div>
         </div>
 
-        <div class="plc-fb-card" data-bus="72%">
+        <div class="plc-fb-card">
           <div class="plc-fb-head">Robotica Industriale</div>
           <div class="plc-fb-body">
             <p>Integrazione e sviluppo software per Robot antropomorfi e isole robotizzate destinate a ottimizzare i cicli di fabbrica complessi.</p>
@@ -1252,7 +1251,6 @@
   <section id="tecnologie" class="plc-net-box" data-network="tech">
     <div class="plc-net-header">
       <span>▼ Network 2: LE NOSTRE TECNOLOGIE</span>
-      <span class="plc-status-pill"><span class="plc-led"></span> DB100 // SYNCED</span>
     </div>
     <div class="plc-net-comment">// Piattaforme hardware e software certificate supportate dal team tecnico</div>
     
@@ -1260,26 +1258,26 @@
       <div class="plc-rung-start">
         <div class="plc-rail-dot"></div>
         <div class="plc-bus-track">
-          <div class="plc-bus-active" style="width: 4%;"></div>
+          <div class="plc-bus-active"></div>
         </div>
       </div>
 
       <div class="plc-fb-grid">
-        <div class="plc-fb-card is-energized" data-bus="4%">
+        <div class="plc-fb-card is-energized">
           <div class="plc-fb-head">PLC &amp; Hardware</div>
           <div class="plc-fb-body">
             <p>Siemens, Omron, Schneider, Allen Bradley, Fanuc</p>
           </div>
         </div>
 
-        <div class="plc-fb-card" data-bus="38%">
+        <div class="plc-fb-card">
           <div class="plc-fb-head">SCADA / HMI</div>
           <div class="plc-fb-body">
             <p>Proficy iFix, Progea Movicon, Siemens WINCC</p>
           </div>
         </div>
 
-        <div class="plc-fb-card" data-bus="72%">
+        <div class="plc-fb-card">
           <div class="plc-fb-head">Robotica</div>
           <div class="plc-fb-body">
             <p>Denso, Adept / Omron, Kuka, Hyundai</p>
@@ -1301,12 +1299,18 @@
       cards.forEach((card, i) => {
         if (i === index) {
           card.classList.add('is-energized');
-          activeBus.style.width = card.getAttribute('data-bus');
+          // Calcola la posizione esatta al pixel fino allo stelo verticale della scheda
+          const exactWidth = card.offsetLeft + 27;
+          activeBus.style.width = exactWidth + 'px';
         } else {
           card.classList.remove('is-energized');
         }
       });
     }
+
+    // Allinea subito all'avvio e al ridimensionamento finestra
+    activateCard(0);
+    window.addEventListener('resize', () => activateCard(currentIndex));
 
     cards.forEach((card, idx) => {
       card.addEventListener('mouseenter', () => {
@@ -1327,6 +1331,7 @@
     }, 3500);
   });
 </script>
+
 
 
 
