@@ -951,7 +951,7 @@ async function pubblicaProgetto() {
 
             aggiornatoIl: Date.now(),
            
-            blocchi: blocchiFinali,
+         blocchi: typeof raccogliBlocchi === 'function' ? await raccogliBlocchi(token) : [],
 
 
             tecnologie: techRaw
