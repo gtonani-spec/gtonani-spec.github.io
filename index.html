@@ -1473,29 +1473,36 @@ function mostraAnteprimaProgetto(indice) {
   const mediaBox = document.getElementById('hmiMediaBox');
   const detailsBtn = document.getElementById('hmiOpenDetailsBtn');
 
-  // Ferma eventuale animazione 3D precedente
   if (factoryAnimId) {
     cancelAnimationFrame(factoryAnimId);
     factoryAnimId = null;
   }
 
-  const isSlotLibero = !p.titolo || p.titolo === 'Non ancora aggiunto';
+  const isSlotLibero = !p || !p.titolo || p.titolo === 'Non ancora aggiunto';
 
   if (isSlotLibero) {
-    // Avvia la simulazione 3D Factory I/O in loop sullo slot libero
     avviaSimulazioneFactory3D(mediaBox);
-    detailsBtn.style.display = 'none';
+    if (detailsBtn) detailsBtn.style.display = 'none';
   } else {
-    // Mostra immagine o video reale del progetto
-    if (p.tipoMedia === 'image') {
-      mediaBox.innerHTML = `<img src="${p.media}" alt="${p.titolo}" style="width:100%; height:100%; object-fit:cover;">`;
-    } else {
-      mediaBox.innerHTML = `<video autoplay loop muted playsinline src="${p.media}" style="width:100%; height:100%; object-fit:cover;"></video>`;
+    const mediaHtml = (p.tipoMedia === 'image')
+      ? `<img src="${p.media}" alt="${p.titolo}" style="width:100%; height:100%; object-fit:cover;">`
+      : `<video autoplay loop muted playsinline src="${p.media}" style="width:100%; height:100%; object-fit:cover;"></video>`;
+
+    mediaBox.innerHTML = `
+      <div style="position:relative; width:100%; height:100%; min-height:280px;">
+        ${mediaHtml}
+        <a href="progetto.html?id=${indice}" style="position:absolute; bottom:16px; right:16px; background:#00b050; color:#fff; padding:10px 18px; border-radius:6px; font-weight:bold; text-decoration:none; box-shadow:0 4px 15px rgba(0,0,0,0.5); z-index:10;">
+          🔍 APRI SCHEDA PROGETTO ↗
+        </a>
+      </div>
+    `;
+    if (detailsBtn) {
+      detailsBtn.href = `progetto.html?id=${indice}`;
+      detailsBtn.style.display = 'inline-block';
     }
-    detailsBtn.href = `progetto.html?id=${indice}`;
-    detailsBtn.style.display = 'inline-block';
   }
 }
+
    function avviaSimulazioneFactory3D(container) {
   container.innerHTML = `
     <div style="position:relative; width:100%; height:100%; min-height:300px; background:#090d16; overflow:hidden; pointer-events:none; border-radius:4px;">
