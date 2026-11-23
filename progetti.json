@@ -35,5 +35,18 @@
       "Automazione",
       "PLC"
     ]
+  },
+  {
+    "codice": "PRJ-04 // AUTOMAZIONE",
+    "titolo": "Non ancora aggiunto",
+    "descrizione": "Intervento di automazione industriale realizzato da Automatech.",
+    "media": "videoTest.mp4",
+    "tipoMedia": "video",
+    "aggiornatoIl": 1795440694557,
+    "blocchi": [],
+    "tecnologie": [
+      "Automazione",
+      "PLC"
+    ]
   }
 ]
