@@ -1168,7 +1168,7 @@
     </div>
 
 
-   <!-- PARTE 1: STILE PLC STUDIO -->
+   <!-- STILE PLC STUDIO PULITO -->
 <link href="https://googleapis.com" rel="stylesheet">
 
 <style>
@@ -1180,16 +1180,15 @@
   @keyframes ledBlink { 0% { opacity: 0.4; transform: scale(0.9); } 100% { opacity: 1; transform: scale(1.15); } }
   .plc-net-comment { background: #f8fafc; padding: 6px 16px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #15803d; border-bottom: 1px dashed #cbd5e1; }
   .plc-circuit-area { padding: 26px 22px 34px 22px; position: relative; background-image: radial-gradient(#cbd5e1 1px, transparent 1px); background-size: 20px 20px; }
-  .plc-rung-start { display: flex; align-items: center; margin-bottom: 20px; font-family: 'JetBrains Mono', monospace; position: relative; }
+  
+  /* RUNG SENZA CONTATTO */
+  .plc-rung-start { display: flex; align-items: center; margin-bottom: 20px; position: relative; }
   .plc-rail-dot { width: 4px; height: 26px; background: #00b050; box-shadow: 0 0 8px rgba(0,176,80,0.5); }
-  .plc-wire-entry { height: 3px; width: 28px; background: #00b050; }
-  .plc-contact-box { display: flex; flex-direction: column; align-items: center; margin: 0 6px; }
-  .plc-contact-label { font-size: 0.72rem; color: #0369a1; font-weight: 700; }
-  .plc-contact-sym { color: #00b050; font-weight: 700; font-size: 1rem; letter-spacing: -2px; }
   .plc-bus-track { flex: 1; height: 3px; background: #cbd5e1; position: relative; border-radius: 2px; }
-  .plc-bus-active { position: absolute; top: 0; left: 0; height: 100%; width: 14%; background: #00b050; box-shadow: 0 0 10px rgba(0,176,80,0.7); transition: width 0.45s cubic-bezier(0.25,1,0.5,1); overflow: hidden; }
+  .plc-bus-active { position: absolute; top: 0; left: 0; height: 100%; width: 4%; background: #00b050; box-shadow: 0 0 10px rgba(0,176,80,0.7); transition: width 0.45s cubic-bezier(0.25,1,0.5,1); overflow: hidden; }
   .plc-bus-active::after { content: ""; position: absolute; top: 0; left: -40%; width: 40%; height: 100%; background: linear-gradient(90deg, transparent, #a7f3d0, #fff, transparent); animation: signalPulse 1.6s linear infinite; }
   @keyframes signalPulse { 0% { left: -40%; } 100% { left: 100%; } }
+  
   .plc-fb-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; perspective: 1000px; }
   .plc-fb-card { background: #f1f5f9; border: 1.5px solid #94a3b8; border-radius: 3px; position: relative; transition: all 0.35s ease; transform-style: preserve-3d; display: flex; flex-direction: column; cursor: pointer; }
   .plc-fb-card::before { content: ""; position: absolute; top: -21px; left: 28px; width: 3px; height: 21px; background: #cbd5e1; transition: all 0.3s ease; }
@@ -1197,18 +1196,18 @@
   @keyframes dropPulse { 0% { top: -21px; opacity: 1; } 100% { top: -2px; opacity: 0; } }
   .plc-fb-card.is-energized { border-color: #00b050; box-shadow: 0 16px 32px rgba(0,176,80,0.16), 0 0 0 1.5px #00b050; transform: translateY(-6px) rotateX(2.5deg); }
   .plc-fb-card.is-energized::before { background: #00b050; box-shadow: 0 0 10px rgba(0,176,80,0.7); }
-  .plc-fb-head { background: linear-gradient(180deg, #cbd5e1 0%, #94a3b8 100%); border-bottom: 1.5px solid #64748b; padding: 7px 12px; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; font-weight: 700; color: #1e293b; transition: all 0.3s ease; }
+  
+  /* TESTATA DEL BLOCCO CON IL TITOLO PRINCIPALE */
+  .plc-fb-head { background: linear-gradient(180deg, #cbd5e1 0%, #94a3b8 100%); border-bottom: 1.5px solid #64748b; padding: 11px 14px; text-align: center; font-family: 'Segoe UI', sans-serif; font-size: 1.08rem; font-weight: 700; color: #1e293b; transition: all 0.3s ease; }
   .plc-fb-card.is-energized .plc-fb-head { background: linear-gradient(180deg, #9ec5eb 0%, #6ba5e7 100%); border-bottom-color: #3b82f6; color: #0f172a; }
-  .plc-fb-pins { display: flex; justify-content: space-between; padding: 6px 12px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: #64748b; background: #e8eef5; border-bottom: 1px solid #cbd5e1; }
-  .plc-pin-state { font-weight: 700; color: #94a3b8; transition: color 0.3s ease; }
-  .plc-fb-card.is-energized .plc-pin-state { color: #00b050; }
-  .plc-fb-body { padding: 20px; background: #fff; flex: 1; }
-  .plc-fb-body h3 { font-size: 1.15rem; color: #0f172a; margin-bottom: 10px; font-weight: 700; }
-  .plc-fb-body p { font-size: 0.94rem; color: #475569; line-height: 1.6; }
+  
+  .plc-fb-body { padding: 22px 20px; background: #fff; flex: 1; display: flex; align-items: center; }
+  .plc-fb-body p { font-size: 0.96rem; color: #475569; line-height: 1.6; margin: 0; }
   @media (max-width: 900px) { .plc-fb-grid { grid-template-columns: 1fr; } .plc-fb-card::before, .plc-fb-card::after, .plc-rung-start { display: none; } }
 </style>
-<!-- PARTE 2: NETWORK 1 SERVIZI -->
+
 <div class="plc-section-wrapper">
+  <!-- NETWORK 1: SERVIZI -->
   <section id="servizi" class="plc-net-box" data-network="services">
     <div class="plc-net-header">
       <span>▼ Network 1: SERVIZI</span>
@@ -1219,56 +1218,37 @@
     <div class="plc-circuit-area">
       <div class="plc-rung-start">
         <div class="plc-rail-dot"></div>
-        <div class="plc-wire-entry"></div>
-        <div class="plc-contact-box">
-          <span class="plc-contact-label">"System_Ready"</span>
-          <span class="plc-contact-sym">──| |──</span>
-        </div>
         <div class="plc-bus-track">
-          <div class="plc-bus-active" style="width: 14%;"></div>
+          <div class="plc-bus-active" style="width: 4%;"></div>
         </div>
       </div>
 
       <div class="plc-fb-grid">
-        <div class="plc-fb-card is-energized" data-bus="14%">
-          <div class="plc-fb-head">"FB_PLC_Systems" [FB10]</div>
-          <div class="plc-fb-pins">
-            <span>─ EN <span class="plc-pin-state">[TRUE]</span></span>
-            <span>ENO <span class="plc-pin-state">●</span> ─</span>
-          </div>
+        <div class="plc-fb-card is-energized" data-bus="4%">
+          <div class="plc-fb-head">PLC</div>
           <div class="plc-fb-body">
-            <h3>PLC</h3>
             <p>Progettazione e sviluppo di sistemi di automazione basati su hardware PLC per nuove installazioni o revamping completi di impianti industriali.</p>
           </div>
         </div>
 
-        <div class="plc-fb-card" data-bus="50%">
-          <div class="plc-fb-head">"FB_HMI_SCADA" [FB20]</div>
-          <div class="plc-fb-pins">
-            <span>─ EN <span class="plc-pin-state">[FALSE]</span></span>
-            <span>ENO <span class="plc-pin-state">○</span> ─</span>
-          </div>
+        <div class="plc-fb-card" data-bus="38%">
+          <div class="plc-fb-head">Software HMI &amp; SCADA</div>
           <div class="plc-fb-body">
-            <h3>Software HMI &amp; SCADA</h3>
             <p>Implementazione di applicazioni software dedicate alla supervisione dei flussi di lavoro, controllo dati e telecontrollo avanzato d'impianto.</p>
           </div>
         </div>
 
-        <div class="plc-fb-card" data-bus="86%">
-          <div class="plc-fb-head">"FB_Robotica" [FB30]</div>
-          <div class="plc-fb-pins">
-            <span>─ EN <span class="plc-pin-state">[FALSE]</span></span>
-            <span>ENO <span class="plc-pin-state">○</span> ─</span>
-          </div>
+        <div class="plc-fb-card" data-bus="72%">
+          <div class="plc-fb-head">Robotica Industriale</div>
           <div class="plc-fb-body">
-            <h3>Robotica Industriale</h3>
             <p>Integrazione e sviluppo software per Robot antropomorfi e isole robotizzate destinate a ottimizzare i cicli di fabbrica complessi.</p>
           </div>
         </div>
       </div>
     </div>
   </section>
-<!-- PARTE 3: NETWORK 2 TECNOLOGIE + ANIMAZIONE -->
+
+  <!-- NETWORK 2: LE NOSTRE TECNOLOGIE -->
   <section id="tecnologie" class="plc-net-box" data-network="tech">
     <div class="plc-net-header">
       <span>▼ Network 2: LE NOSTRE TECNOLOGIE</span>
@@ -1279,49 +1259,29 @@
     <div class="plc-circuit-area">
       <div class="plc-rung-start">
         <div class="plc-rail-dot"></div>
-        <div class="plc-wire-entry"></div>
-        <div class="plc-contact-box">
-          <span class="plc-contact-label">"HW_Online"</span>
-          <span class="plc-contact-sym">──| |──</span>
-        </div>
         <div class="plc-bus-track">
-          <div class="plc-bus-active" style="width: 14%;"></div>
+          <div class="plc-bus-active" style="width: 4%;"></div>
         </div>
       </div>
 
       <div class="plc-fb-grid">
-        <div class="plc-fb-card is-energized" data-bus="14%">
-          <div class="plc-fb-head">"DB_PLC_Hardware" [DB1]</div>
-          <div class="plc-fb-pins">
-            <span>─ REQ <span class="plc-pin-state">[TRUE]</span></span>
-            <span>DONE <span class="plc-pin-state">●</span> ─</span>
-          </div>
+        <div class="plc-fb-card is-energized" data-bus="4%">
+          <div class="plc-fb-head">PLC &amp; Hardware</div>
           <div class="plc-fb-body">
-            <h3>PLC &amp; Hardware</h3>
             <p>Siemens, Omron, Schneider, Allen Bradley, Fanuc</p>
           </div>
         </div>
 
-        <div class="plc-fb-card" data-bus="50%">
-          <div class="plc-fb-head">"DB_SCADA_HMI" [DB2]</div>
-          <div class="plc-fb-pins">
-            <span>─ REQ <span class="plc-pin-state">[FALSE]</span></span>
-            <span>DONE <span class="plc-pin-state">○</span> ─</span>
-          </div>
+        <div class="plc-fb-card" data-bus="38%">
+          <div class="plc-fb-head">SCADA / HMI</div>
           <div class="plc-fb-body">
-            <h3>SCADA / HMI</h3>
             <p>Proficy iFix, Progea Movicon, Siemens WINCC</p>
           </div>
         </div>
 
-        <div class="plc-fb-card" data-bus="86%">
-          <div class="plc-fb-head">"DB_Robotica" [DB3]</div>
-          <div class="plc-fb-pins">
-            <span>─ REQ <span class="plc-pin-state">[FALSE]</span></span>
-            <span>DONE <span class="plc-pin-state">○</span> ─</span>
-          </div>
+        <div class="plc-fb-card" data-bus="72%">
+          <div class="plc-fb-head">Robotica</div>
           <div class="plc-fb-body">
-            <h3>Robotica</h3>
             <p>Denso, Adept / Omron, Kuka, Hyundai</p>
           </div>
         </div>
@@ -1339,16 +1299,11 @@
 
     function activateCard(index) {
       cards.forEach((card, i) => {
-        const states = card.querySelectorAll('.plc-pin-state');
         if (i === index) {
           card.classList.add('is-energized');
           activeBus.style.width = card.getAttribute('data-bus');
-          if (states) states.textContent = '[TRUE]';
-          if (states) states.textContent = '●';
         } else {
           card.classList.remove('is-energized');
-          if (states) states.textContent = '[FALSE]';
-          if (states) states.textContent = '○';
         }
       });
     }
@@ -1372,6 +1327,7 @@
     }, 3500);
   });
 </script>
+
 
 
 
