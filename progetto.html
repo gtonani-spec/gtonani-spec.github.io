@@ -139,6 +139,51 @@
             .project-header, .project-body { padding: 24px 20px; }
             .project-title { font-size: 22px; }
         }
+            .render-block {
+            margin-bottom: 32px;
+            padding-top: 22px;
+            border-top: 1px solid #e5e7eb;
+        }
+        .render-subtitle {
+            font-size: 20px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 10px;
+            border-left: 4px solid #16A34A;
+            padding-left: 12px;
+        }
+        .render-text {
+            font-size: 15.5px;
+            color: #374151;
+            white-space: pre-line;
+        }
+        .render-media {
+            border-radius: 8px;
+            overflow: hidden;
+            background: #081826;
+            margin-top: 12px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+        }
+        .render-media img,
+        .render-media video {
+            width: 100%;
+            max-height: 500px;
+            object-fit: contain;
+            display: block;
+        }
+        .render-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            align-items: center;
+        }
+        @media (max-width: 750px) {
+            .render-split { grid-template-columns: 1fr; }
+        }
+
+    
+  
+    
     </style>
 </head>
 <body>
@@ -162,6 +207,8 @@
             <div class="project-body">
                 <div class="section-label">Descrizione dell'intervento e specifiche tecniche</div>
                 <p class="project-desc" id="pDesc"></p>
+                <div id="pDynamicBlocks"></div>
+
 
                 <div class="section-label">Tecnologie e piattaforme impiegate</div>
                 <div class="tech-list" id="pTechList"></div>
@@ -170,36 +217,52 @@
     </div>
 
     <script>
-        async function caricaDettaglioProgetto() {
-            const params = new URLSearchParams(window.location.search);
-            const id = parseInt(params.get('id')) || 0;
+        function creaTagMedia(src, tipo, alt) {
+    if (!src) return '';
+    if (tipo === 'image') {
+        return '<img src="' + src + '" alt="' + (alt || 'Automatech') + '">';
+    }
+    return '<video autoplay loop muted controls playsinline src="' + src + '"></video>';
+}
 
-            try {
-                const res = await fetch('progetti.json?t=' + Date.now());
-                const lista = await res.json();
-                const proj = lista[id] || lista[0];
+async function caricaDettaglioProgetto() {
+    const params = new URLSearchParams(window.location.search);
+    const id = parseInt(params.get('id')) || 0;
 
-                document.title = proj.titolo + ' | Automatech';
-                document.getElementById('pCode').textContent = proj.codice;
-                document.getElementById('pTitle').textContent = proj.titolo;
-                document.getElementById('pDesc').textContent = proj.descrizione;
+    try {
+        const res = await fetch('progetti.json?t=' + Date.now());
+        const lista = await res.json();
+        const proj = lista[id] || lista[0];
 
-                const mediaBox = document.getElementById('pMediaBox');
-                if (proj.tipoMedia === 'image') {
-                    mediaBox.innerHTML = `<img src="${proj.media}" alt="${proj.titolo}">`;
-                } else {
-                    mediaBox.innerHTML = `<video autoplay loop muted controls playsinline src="${proj.media}"></video>`;
+        document.title = proj.titolo + ' | Automatech';
+        document.getElementById('pCode').textContent = proj.codice;
+        document.getElementById('pTitle').textContent = proj.titolo;
+        document.getElementById('pDesc').textContent = proj.descrizione || '';
+        document.getElementById('pMediaBox').innerHTML = creaTagMedia(proj.media, proj.tipoMedia, proj.titolo);
+
+        const blocksBox = document.getElementById('pDynamicBlocks');
+        if (proj.blocchi && proj.blocchi.length > 0) {
+            blocksBox.innerHTML = proj.blocchi.map(b => {
+                const sub = b.sottotitolo ? '<h3 class="render-subtitle">' + b.sottotitolo + '</h3>' : '';
+                const txt = b.testo ? '<p class="render-text">' + b.testo + '</p>' : '';
+                const med = b.media ? '<div class="render-media">' + creaTagMedia(b.media, b.tipoMedia, b.sottotitolo) + '</div>' : '';
+
+                if (b.tipo === 'affiancato') {
+                    return '<div class="render-block"><div class="render-split"><div>' + med + '</div><div>' + sub + txt + '</div></div></div>';
                 }
-
-                const techList = document.getElementById('pTechList');
-                techList.innerHTML = (proj.tecnologie || [])
-                    .map(t => `<span class="tech-pill">${t}</span>`)
-                    .join('');
-            } catch (e) {
-                document.getElementById('pTitle').textContent = 'Progetto non trovato';
-            }
+                return '<div class="render-block">' + sub + txt + med + '</div>';
+            }).join('');
         }
-        caricaDettaglioProgetto();
+
+        document.getElementById('pTechList').innerHTML = (proj.tecnologie || [])
+            .map(t => '<span class="tech-pill">' + t + '</span>')
+            .join('');
+    } catch (e) {
+        document.getElementById('pTitle').textContent = 'Progetto non trovato';
+    }
+}
+caricaDettaglioProgetto();
+
     </script>
 
 </body>
