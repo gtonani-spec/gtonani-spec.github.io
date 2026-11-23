@@ -273,6 +273,66 @@ textarea {
         font-size: 13px;
     }
 }
+        .builder-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 18px 0 12px 0;
+            padding: 12px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 10px;
+        }
+        .btn-add-block {
+            flex: 1;
+            min-width: 140px;
+            background: #1e293b;
+            color: #4ade80;
+            border: 1px solid #16A34A;
+            border-radius: 7px;
+            padding: 10px 12px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .dynamic-block {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-left: 4px solid #0284c7;
+            border-radius: 9px;
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+        .block-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #1e293b;
+        }
+        .block-badge {
+            font-family: monospace;
+            font-size: 11px;
+            font-weight: 700;
+            color: #38bdf8;
+        }
+        .block-controls { display: flex; gap: 6px; }
+        .btn-mini {
+            background: #1e293b;
+            color: #e2e8f0;
+            border: 1px solid #475569;
+            border-radius: 5px;
+            padding: 4px 8px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .btn-mini.del { border-color: #dc2626; color: #f87171; }
+
+
+
+
 </style>
 </head>
 
@@ -342,9 +402,17 @@ textarea {
                    id="pTitolo"
                    placeholder="Es. Cella Robotizzata di Pallettizzazione">
 
-            <label>Descrizione Tecnica</label>
+            </label>
             <textarea id="pDesc"
-                      placeholder="Descrivi l'impianto, le soluzioni adottate e i risultati ottenuti..."></textarea>
+                      
+                placeholder="Descrivi l'impianto, le soluzioni adottate e i risultati ottenuti..."></textarea>
+            <label style="color:#4ade80; margin-top:20px;">Componi la Pagina (Aggiungi Foto e Descrizioni dove vuoi)</label>
+<div class="builder-toolbar">
+    <button type="button" class="btn-add-block" onclick="aggiungiBlocco('testo')">+ Aggiungi Testo</button>
+    <button type="button" class="btn-add-block" onclick="aggiungiBlocco('media')">+ Aggiungi Foto / Video</button>
+    <button type="button" class="btn-add-block" onclick="aggiungiBlocco('affiancato')">+ Foto + Testo Affiancati</button>
+</div>
+<div id="blocchiContainer"></div>
 
             <label>Tecnologie Utilizzate (separate da virgola)</label>
             <input type="text"
@@ -392,6 +460,59 @@ textarea {
 <div class="toast" id="toastMsg"></div>
 
 <script>
+let blocchiCorrenti = [];
+function aggiungiBlocco(tipo) {
+    blocchiCorrenti.push({ tipo: tipo, sottotitolo: '', testo: '', media: '', tipoMedia: 'image', nuovoFile: null });
+    renderBlocchi();
+}
+
+function spostaBlocco(idx, dir) {
+    const target = idx + dir;
+    if (target < 0 || target >= blocchiCorrenti.length) return;
+    const temp = blocchiCorrenti[idx];
+    blocchiCorrenti[idx] = blocchiCorrenti[target];
+    blocchiCorrenti[target] = temp;
+    renderBlocchi();
+}
+
+function rimuoviBlocco(idx) {
+    blocchiCorrenti.splice(idx, 1);
+    renderBlocchi();
+}
+
+function aggiornaCampoBlocco(idx, campo, valore) {
+    blocchiCorrenti[idx][campo] = valore;
+}
+
+function selezionaFileBlocco(idx, inputEl) {
+    const f = inputEl.files;
+    if (f) {
+        blocchiCorrenti[idx].nuovoFile = f;
+        document.getElementById('blkFileLabel_' + idx).textContent = '✅ Selezionato: ' + f.name;
+    }
+}
+
+function renderBlocchi() {
+    const box = document.getElementById('blocchiContainer');
+    if (!box) return;
+    if (!blocchiCorrenti.length) {
+        box.innerHTML = '<p style="font-size:12px; color:#64748b; text-align:center; padding:8px;">Nessun blocco extra aggiunto.</p>';
+        return;
+    }
+    box.innerHTML = blocchiCorrenti.map((b, idx) => {
+        const labelTipo = b.tipo === 'testo' ? 'Blocco Testo' : (b.tipo === 'media' ? 'Blocco Foto / Video' : 'Blocco Foto + Testo');
+        let campiHtml = '';
+        if (b.tipo === 'testo' || b.tipo === 'affiancato') {
+            campiHtml += '<label>Titolo Sezione (Opzionale)</label><input type="text" value="' + (b.sottotitolo || '').replace(/"/g, '&quot;') + '" oninput="aggiornaCampoBlocco(' + idx + ', \'sottotitolo\', this.value)" placeholder="Es. Architettura PLC"><label>Descrizione</label><textarea oninput="aggiornaCampoBlocco(' + idx + ', \'testo\', this.value)" placeholder="Scrivi qui il testo...">' + (b.testo || '') + '</textarea>';
+        }
+        if (b.tipo === 'media' || b.tipo === 'affiancato') {
+            const statoFile = b.nuovoFile ? ('✅ Selezionato: ' + b.nuovoFile.name) : (b.media ? ('📎 Attuale: ' + b.media) : '📷 Tocca per scegliere Foto o Video MP4');
+            campiHtml += '<label>Immagine o Video</label><label class="file-upload-box"><input type="file" accept="image/*,video/mp4" onchange="selezionaFileBlocco(' + idx + ', this)"><div class="file-label-text" id="blkFileLabel_' + idx + '">' + statoFile + '</div></label>';
+        }
+        return '<div class="dynamic-block"><div class="block-header"><span class="block-badge">#' + (idx + 1) + ' // ' + labelTipo + '</span><div class="block-controls"><button type="button" class="btn-mini" onclick="spostaBlocco(' + idx + ', -1)">↑</button><button type="button" class="btn-mini" onclick="spostaBlocco(' + idx + ', 1)">↓</button><button type="button" class="btn-mini del" onclick="rimuoviBlocco(' + idx + ')">✕</button></div></div>' + campiHtml + '</div>';
+    }).join('');
+}
+
 
 // ==========================================
 // CONFIGURAZIONE GITHUB
@@ -647,7 +768,10 @@ function preparaModifica(idx) {
         top: 0,
         behavior: 'smooth'
     });
-}
+
+        blocchiCorrenti = (p.blocchi || []).map(b => ({ ...b, nuovoFile: null }));
+    renderBlocchi();
+    }
 
 
 // ==========================================
@@ -671,6 +795,11 @@ function resetForm() {
 
     document.getElementById('fileLabel').textContent =
         '📷 Tocca qui per scegliere foto o video';
+blocchiCorrenti = [];
+renderBlocchi();
+
+
+
 }
 
 
@@ -817,6 +946,9 @@ async function pubblicaProgetto() {
             tipoMedia: tipoMedia,
 
             aggiornatoIl: Date.now(),
+           
+            blocchi: blocchiFinali,
+
 
             tecnologie: techRaw
                 ? techRaw.split(',').map(s => s.trim()).filter(Boolean)
