@@ -1168,74 +1168,211 @@
     </div>
 
 
-    <!-- Sezione Servizi -->
-    <div class="container" style="border-top: 1px solid #f0f0f0;" id="servizi">
-        <h2>Servizi</h2>
-                <!-- Ramificazione Digitale Animata -->
-                <!-- Ramificazione Digitale Stile TIA Portal Online -->
-    <svg class="circuit-connector" viewBox="0 0 1000 65" preserveAspectRatio="none">
-        <path class="circuit-line" d="M 22 0 L 22 25 L 840 25" />
-        <path class="circuit-line" d="M 160 25 L 160 65" />
-        <path class="circuit-line" d="M 500 25 L 500 65" />
-        <path class="circuit-line" d="M 840 25 L 840 65" />
-    
-        <path class="circuit-pulse" d="M 22 0 L 22 25 L 160 25 L 160 65" />
-        <path class="circuit-pulse" d="M 22 0 L 22 25 L 500 25 L 500 65" />
-        <path class="circuit-pulse" d="M 22 0 L 22 25 L 840 25 L 840 65" />
-     </svg>
+   <!-- PARTE 1: STILE PLC STUDIO -->
+<link href="https://googleapis.com" rel="stylesheet">
 
-
-        <div class="grid">
-            <div class="card card-plc">
-                <h3>PLC</h3>
-                <p>Progettazione e sviluppo di sistemi di automazione basati su hardware PLC per nuove installazioni o revamping completi di impianti industriali.</p>
-            </div>
-            <div class="card card-hmi">
-                <h3>Software HMI & SCADA</h3>
-                <p>Implementazione di applicazioni software dedicate alla supervisione dei flussi di lavoro, controllo dati e telecontrollo avanzato d'impianto.</p>
-            </div>
-            <div class="card card-robot">
-                <h3>Robotica Industriale</h3>
-                <p>Integrazione e sviluppo software per Robot antropomorfi e isole robotizzate destinate a ottimizzare i cicli di fabbrica complessi.</p>
-            </div>
-        </div>
-
+<style>
+  .plc-section-wrapper { max-width: 1200px; margin: 3.5rem auto; padding: 0 1.5rem; font-family: 'Segoe UI', sans-serif; }
+  .plc-net-box { background: #fff; border: 1px solid #b8c2ce; box-shadow: 0 12px 30px rgba(15,23,42,0.08); margin-bottom: 3.5rem; border-radius: 4px; overflow: hidden; scroll-margin-top: 100px; }
+  .plc-net-header { background: linear-gradient(180deg, #e2e8f0 0%, #cbd5e1 100%); border-bottom: 1px solid #94a3b8; padding: 9px 16px; display: flex; justify-content: space-between; align-items: center; font-weight: 700; color: #0f172a; font-size: 1.05rem; }
+  .plc-status-pill { display: inline-flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: #0f172a; background: rgba(255,255,255,0.75); padding: 3px 10px; border: 1px solid #94a3b8; border-radius: 3px; }
+  .plc-led { width: 8px; height: 8px; border-radius: 50%; background: #00b050; box-shadow: 0 0 8px #00b050; animation: ledBlink 1.2s infinite alternate; }
+  @keyframes ledBlink { 0% { opacity: 0.4; transform: scale(0.9); } 100% { opacity: 1; transform: scale(1.15); } }
+  .plc-net-comment { background: #f8fafc; padding: 6px 16px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #15803d; border-bottom: 1px dashed #cbd5e1; }
+  .plc-circuit-area { padding: 26px 22px 34px 22px; position: relative; background-image: radial-gradient(#cbd5e1 1px, transparent 1px); background-size: 20px 20px; }
+  .plc-rung-start { display: flex; align-items: center; margin-bottom: 20px; font-family: 'JetBrains Mono', monospace; position: relative; }
+  .plc-rail-dot { width: 4px; height: 26px; background: #00b050; box-shadow: 0 0 8px rgba(0,176,80,0.5); }
+  .plc-wire-entry { height: 3px; width: 28px; background: #00b050; }
+  .plc-contact-box { display: flex; flex-direction: column; align-items: center; margin: 0 6px; }
+  .plc-contact-label { font-size: 0.72rem; color: #0369a1; font-weight: 700; }
+  .plc-contact-sym { color: #00b050; font-weight: 700; font-size: 1rem; letter-spacing: -2px; }
+  .plc-bus-track { flex: 1; height: 3px; background: #cbd5e1; position: relative; border-radius: 2px; }
+  .plc-bus-active { position: absolute; top: 0; left: 0; height: 100%; width: 14%; background: #00b050; box-shadow: 0 0 10px rgba(0,176,80,0.7); transition: width 0.45s cubic-bezier(0.25,1,0.5,1); overflow: hidden; }
+  .plc-bus-active::after { content: ""; position: absolute; top: 0; left: -40%; width: 40%; height: 100%; background: linear-gradient(90deg, transparent, #a7f3d0, #fff, transparent); animation: signalPulse 1.6s linear infinite; }
+  @keyframes signalPulse { 0% { left: -40%; } 100% { left: 100%; } }
+  .plc-fb-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; perspective: 1000px; }
+  .plc-fb-card { background: #f1f5f9; border: 1.5px solid #94a3b8; border-radius: 3px; position: relative; transition: all 0.35s ease; transform-style: preserve-3d; display: flex; flex-direction: column; cursor: pointer; }
+  .plc-fb-card::before { content: ""; position: absolute; top: -21px; left: 28px; width: 3px; height: 21px; background: #cbd5e1; transition: all 0.3s ease; }
+  .plc-fb-card.is-energized::after { content: ""; position: absolute; top: -21px; left: 27px; width: 5px; height: 6px; border-radius: 50%; background: #fff; box-shadow: 0 0 8px #00ff73; animation: dropPulse 0.9s infinite linear; }
+  @keyframes dropPulse { 0% { top: -21px; opacity: 1; } 100% { top: -2px; opacity: 0; } }
+  .plc-fb-card.is-energized { border-color: #00b050; box-shadow: 0 16px 32px rgba(0,176,80,0.16), 0 0 0 1.5px #00b050; transform: translateY(-6px) rotateX(2.5deg); }
+  .plc-fb-card.is-energized::before { background: #00b050; box-shadow: 0 0 10px rgba(0,176,80,0.7); }
+  .plc-fb-head { background: linear-gradient(180deg, #cbd5e1 0%, #94a3b8 100%); border-bottom: 1.5px solid #64748b; padding: 7px 12px; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; font-weight: 700; color: #1e293b; transition: all 0.3s ease; }
+  .plc-fb-card.is-energized .plc-fb-head { background: linear-gradient(180deg, #9ec5eb 0%, #6ba5e7 100%); border-bottom-color: #3b82f6; color: #0f172a; }
+  .plc-fb-pins { display: flex; justify-content: space-between; padding: 6px 12px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: #64748b; background: #e8eef5; border-bottom: 1px solid #cbd5e1; }
+  .plc-pin-state { font-weight: 700; color: #94a3b8; transition: color 0.3s ease; }
+  .plc-fb-card.is-energized .plc-pin-state { color: #00b050; }
+  .plc-fb-body { padding: 20px; background: #fff; flex: 1; }
+  .plc-fb-body h3 { font-size: 1.15rem; color: #0f172a; margin-bottom: 10px; font-weight: 700; }
+  .plc-fb-body p { font-size: 0.94rem; color: #475569; line-height: 1.6; }
+  @media (max-width: 900px) { .plc-fb-grid { grid-template-columns: 1fr; } .plc-fb-card::before, .plc-fb-card::after, .plc-rung-start { display: none; } }
+</style>
+<!-- PARTE 2: NETWORK 1 SERVIZI -->
+<div class="plc-section-wrapper">
+  <section id="servizi" class="plc-net-box" data-network="services">
+    <div class="plc-net-header">
+      <span>▼ Network 1: SERVIZI</span>
+      <span class="plc-status-pill"><span class="plc-led"></span> OB1 // ONLINE</span>
     </div>
-
-    <!-- Sezione Tecnologie con Box Testuali Minimali -->
-    <section class="tech-section" id="tecnologie">
-        <div class="tech-container">
-                    <h2>Le Nostre Tecnologie</h2>
-
-        <!-- Ramificazione Digitale Tecnologie Stile TIA Portal -->
-        <svg class="circuit-connector" viewBox="0 0 1000 65" preserveAspectRatio="none">
-            <path class="circuit-line" d="M 22 0 L 22 25 L 840 25" />
-            <path class="circuit-line" d="M 160 25 L 160 65" />
-            <path class="circuit-line" d="M 500 25 L 500 65" />
-            <path class="circuit-line" d="M 840 25 L 840 65" />
-
-            <path class="circuit-pulse" d="M 22 0 L 22 25 L 160 25 L 160 65" />
-            <path class="circuit-pulse" d="M 22 0 L 22 25 L 500 25 L 500 65" />
-            <path class="circuit-pulse" d="M 22 0 L 22 25 L 840 25 L 840 65" />
-        </svg>
-
-        <ul class="tech-list">
-            <li class="tech-1">
-                <strong>PLC & Hardware</strong>
-                Siemens, Omron, Schneider, Allen Bradley, Fanuc
-            </li>
-            <li class="tech-2">
-                <strong>SCADA / HMI</strong>
-                Proficy iFix, Progea Movicon, Siemens WINCC
-            </li>
-            <li class="tech-3">
-                <strong>Robotica</strong>
-                Denso, Adept / Omron, Kuka, Hyundai
-            </li>
-        </ul>
-
+    <div class="plc-net-comment">// Soluzioni chiavi in mano per l'automazione e il revamping industriale</div>
+    
+    <div class="plc-circuit-area">
+      <div class="plc-rung-start">
+        <div class="plc-rail-dot"></div>
+        <div class="plc-wire-entry"></div>
+        <div class="plc-contact-box">
+          <span class="plc-contact-label">"System_Ready"</span>
+          <span class="plc-contact-sym">──| |──</span>
         </div>
-    </section>
+        <div class="plc-bus-track">
+          <div class="plc-bus-active" style="width: 14%;"></div>
+        </div>
+      </div>
+
+      <div class="plc-fb-grid">
+        <div class="plc-fb-card is-energized" data-bus="14%">
+          <div class="plc-fb-head">"FB_PLC_Systems" [FB10]</div>
+          <div class="plc-fb-pins">
+            <span>─ EN <span class="plc-pin-state">[TRUE]</span></span>
+            <span>ENO <span class="plc-pin-state">●</span> ─</span>
+          </div>
+          <div class="plc-fb-body">
+            <h3>PLC</h3>
+            <p>Progettazione e sviluppo di sistemi di automazione basati su hardware PLC per nuove installazioni o revamping completi di impianti industriali.</p>
+          </div>
+        </div>
+
+        <div class="plc-fb-card" data-bus="50%">
+          <div class="plc-fb-head">"FB_HMI_SCADA" [FB20]</div>
+          <div class="plc-fb-pins">
+            <span>─ EN <span class="plc-pin-state">[FALSE]</span></span>
+            <span>ENO <span class="plc-pin-state">○</span> ─</span>
+          </div>
+          <div class="plc-fb-body">
+            <h3>Software HMI &amp; SCADA</h3>
+            <p>Implementazione di applicazioni software dedicate alla supervisione dei flussi di lavoro, controllo dati e telecontrollo avanzato d'impianto.</p>
+          </div>
+        </div>
+
+        <div class="plc-fb-card" data-bus="86%">
+          <div class="plc-fb-head">"FB_Robotica" [FB30]</div>
+          <div class="plc-fb-pins">
+            <span>─ EN <span class="plc-pin-state">[FALSE]</span></span>
+            <span>ENO <span class="plc-pin-state">○</span> ─</span>
+          </div>
+          <div class="plc-fb-body">
+            <h3>Robotica Industriale</h3>
+            <p>Integrazione e sviluppo software per Robot antropomorfi e isole robotizzate destinate a ottimizzare i cicli di fabbrica complessi.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<!-- PARTE 3: NETWORK 2 TECNOLOGIE + ANIMAZIONE -->
+  <section id="tecnologie" class="plc-net-box" data-network="tech">
+    <div class="plc-net-header">
+      <span>▼ Network 2: LE NOSTRE TECNOLOGIE</span>
+      <span class="plc-status-pill"><span class="plc-led"></span> DB100 // SYNCED</span>
+    </div>
+    <div class="plc-net-comment">// Piattaforme hardware e software certificate supportate dal team tecnico</div>
+    
+    <div class="plc-circuit-area">
+      <div class="plc-rung-start">
+        <div class="plc-rail-dot"></div>
+        <div class="plc-wire-entry"></div>
+        <div class="plc-contact-box">
+          <span class="plc-contact-label">"HW_Online"</span>
+          <span class="plc-contact-sym">──| |──</span>
+        </div>
+        <div class="plc-bus-track">
+          <div class="plc-bus-active" style="width: 14%;"></div>
+        </div>
+      </div>
+
+      <div class="plc-fb-grid">
+        <div class="plc-fb-card is-energized" data-bus="14%">
+          <div class="plc-fb-head">"DB_PLC_Hardware" [DB1]</div>
+          <div class="plc-fb-pins">
+            <span>─ REQ <span class="plc-pin-state">[TRUE]</span></span>
+            <span>DONE <span class="plc-pin-state">●</span> ─</span>
+          </div>
+          <div class="plc-fb-body">
+            <h3>PLC &amp; Hardware</h3>
+            <p>Siemens, Omron, Schneider, Allen Bradley, Fanuc</p>
+          </div>
+        </div>
+
+        <div class="plc-fb-card" data-bus="50%">
+          <div class="plc-fb-head">"DB_SCADA_HMI" [DB2]</div>
+          <div class="plc-fb-pins">
+            <span>─ REQ <span class="plc-pin-state">[FALSE]</span></span>
+            <span>DONE <span class="plc-pin-state">○</span> ─</span>
+          </div>
+          <div class="plc-fb-body">
+            <h3>SCADA / HMI</h3>
+            <p>Proficy iFix, Progea Movicon, Siemens WINCC</p>
+          </div>
+        </div>
+
+        <div class="plc-fb-card" data-bus="86%">
+          <div class="plc-fb-head">"DB_Robotica" [DB3]</div>
+          <div class="plc-fb-pins">
+            <span>─ REQ <span class="plc-pin-state">[FALSE]</span></span>
+            <span>DONE <span class="plc-pin-state">○</span> ─</span>
+          </div>
+          <div class="plc-fb-body">
+            <h3>Robotica</h3>
+            <p>Denso, Adept / Omron, Kuka, Hyundai</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+  document.querySelectorAll('.plc-net-box').forEach(network => {
+    const cards = network.querySelectorAll('.plc-fb-card');
+    const activeBus = network.querySelector('.plc-bus-active');
+    let currentIndex = 0;
+    let isHovered = false;
+
+    function activateCard(index) {
+      cards.forEach((card, i) => {
+        const states = card.querySelectorAll('.plc-pin-state');
+        if (i === index) {
+          card.classList.add('is-energized');
+          activeBus.style.width = card.getAttribute('data-bus');
+          if (states) states.textContent = '[TRUE]';
+          if (states) states.textContent = '●';
+        } else {
+          card.classList.remove('is-energized');
+          if (states) states.textContent = '[FALSE]';
+          if (states) states.textContent = '○';
+        }
+      });
+    }
+
+    cards.forEach((card, idx) => {
+      card.addEventListener('mouseenter', () => {
+        isHovered = true;
+        currentIndex = idx;
+        activateCard(idx);
+      });
+      card.addEventListener('mouseleave', () => {
+        isHovered = false;
+      });
+    });
+
+    setInterval(() => {
+      if (!isHovered) {
+        currentIndex = (currentIndex + 1) % cards.length;
+        activateCard(currentIndex);
+      }
+    }, 3500);
+  });
+</script>
+
 
 
     <!-- Piè di pagina / Contatti -->
