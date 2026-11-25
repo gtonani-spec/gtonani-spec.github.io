@@ -1350,8 +1350,6 @@
             </div>
            <div class="footer-col">
   <h4>Contatti</h4>
-  <p>Email: <a href="mailto:info@automatech.org" style="color: #e05328; text-decoration: none; font-weight: 500;">info@automatech.org</a></p>
-
   <style>
     .auto-phone-widget {
       margin-top: 14px;
@@ -1503,7 +1501,7 @@
       flex-shrink: 0;
     }
   </style>
-                 <div class="auto-phone-widget">
+      <div class="auto-phone-widget">
     <div class="phone-speaker"></div>
     <div class="phone-screen">
       
@@ -1511,10 +1509,10 @@
       <div id="phoneStandby" class="phone-standby" onclick="apriRubricaTelefono()">
         <div class="phone-icon-ring">📱</div>
         <div class="phone-standby-title">RUBRICA DIRETTA</div>
-        <div class="phone-standby-sub">Tocca lo schermo per chiamare</div>
+        <div class="phone-standby-sub">Tocca lo schermo per contattarci</div>
       </div>
 
-      <!-- Schermata 2: Rubrica Reale -->
+      <!-- Schermata 2: Rubrica Reale + Email -->
       <div id="phoneContacts" class="phone-contacts-view">
         <div class="phone-header-bar">
           <span>● LINEA ATTIVA</span>
@@ -1538,11 +1536,20 @@
           </div>
           <span class="call-badge">📞</span>
         </a>
+
+        <!-- Email Aziendale -->
+        <a href="mailto:info@automatech.org" class="contact-card-btn">
+          <div class="contact-info">
+            <span class="contact-name">Email Ufficio</span>
+            <span class="contact-num">info@automatech.org</span>
+          </div>
+          <span class="call-badge" style="background: #00e5ff; color: #090d16; box-shadow: 0 0 8px rgba(0, 229, 255, 0.5);">✉️</span>
+        </a>
       </div>
 
     </div>
   </div>
-</div>
+
 
 <script>
   function apriRubricaTelefono() {
