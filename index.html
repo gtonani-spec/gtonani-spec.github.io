@@ -1454,12 +1454,59 @@
   </a>
 </div>
 
-<!-- COLONNA 2: ORARI (Testo semplice originale) -->
+<!-- COLONNA 2: ORARI (Display Sempre Visibile 250x235px) -->
 <div class="footer-col">
   <h4>Orari</h4>
-  <p>Lunedì - Venerdì</p>
-  <p>08:30 - 17:30</p>
+  <div class="footer-widget-card">
+    <div style="width:100%; height:100%; background:#070b14; border:1px solid #1e293b; border-radius:10px; padding:14px 10px; display:flex; flex-direction:column; align-items:center; justify-content:space-between; text-align:center;">
+      
+      <span id="officeStatusPill" style="font-size:0.68rem; font-weight:bold; padding:4px 10px; border-radius:4px; letter-spacing:0.5px;">
+        VERIFICA...
+      </span>
+
+      <div>
+        <div style="font-size:0.75rem; color:#94a3b8; margin-bottom:4px;">APERTURA UFFICI</div>
+        <div style="font-size:0.88rem; font-weight:bold; color:#00e5ff;">Lunedì - Venerdì</div>
+        <div style="font-size:1.15rem; font-weight:bold; color:#ffffff; margin-top:4px; letter-spacing:0.5px;">08:30 - 17:30</div>
+      </div>
+
+      <div id="liveClockSmall" style="font-size:0.72rem; color:#64748b; border-top:1px dashed #334155; padding-top:6px; width:100%;">
+        Ora locale: 00:00
+      </div>
+
+    </div>
+  </div>
 </div>
+
+<script>
+  function aggiornaStatoUfficio() {
+    const now = new Date();
+    const pill = document.getElementById('officeStatusPill');
+    const clock = document.getElementById('liveClockSmall');
+    if (!pill || !clock) return;
+
+    clock.textContent = 'Ora locale: ' + now.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
+
+    const day = now.getDay(); // 1 = Lunedì ... 5 = Venerdì
+    const mins = now.getHours() * 60 + now.getMinutes();
+    const isOpen = (day >= 1 && day <= 5) && (mins >= 510 && mins <= 1050); // 08:30 - 17:30
+
+    if (isOpen) {
+      pill.textContent = '● APERTO ORA';
+      pill.style.background = 'rgba(0, 176, 80, 0.2)';
+      pill.style.color = '#00ff88';
+      pill.style.border = '1px solid #00b050';
+    } else {
+      pill.textContent = '● CHIUSO ORA';
+      pill.style.background = 'rgba(239, 68, 68, 0.2)';
+      pill.style.color = '#f87171';
+      pill.style.border = '1px solid #ef4444';
+    }
+  }
+  aggiornaStatoUfficio();
+  setInterval(aggiornaStatoUfficio, 30000);
+</script>
+
 <!-- COLONNA 3: CONTATTI (Telefono 250x235px) -->
 <div class="footer-col">
   <h4>Contatti</h4>
